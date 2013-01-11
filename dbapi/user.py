@@ -38,6 +38,11 @@ class User(object):
         self.update('password', self.password)
         #User name and id can't change
 
+    def delete(username):
+        cur = conn.cursor()
+        cur.execute('''DELETE FROM users
+                    WHERE username = ?''', (username,))
+
 if __name__ == "__main__":
     #the test code
     s = User.get('sdfko')
@@ -46,3 +51,4 @@ if __name__ == "__main__":
     s.put()
     s2 = User.get('sdfko')
     assert s2.fname != previous_name, "Name didn't change :("
+    

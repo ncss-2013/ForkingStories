@@ -1,4 +1,5 @@
-from __init__ import *
+
+from .__init__ import *
 
 def nuke():
     conn.execute("DROP TABLE IF EXISTS users;")

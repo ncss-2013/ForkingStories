@@ -1,4 +1,5 @@
 from tornado import Server
+import profile
 
 ###### change this to use database ######
 
@@ -183,6 +184,7 @@ server.register('/authenticate', authenticate)
 server.register('/logout', logout)
 server.register('/changepassword', changepassword)
 server.register('/user', user)
+server.register('/profile/(\w[\w\d]+)', profile.profile)
 server.run()
 
 

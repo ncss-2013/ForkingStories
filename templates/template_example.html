@@ -1,0 +1,18 @@
+{{ user }}'s Page:
+
+I have {{ len(friends) }}:
+<ul>
+	{% for friend in friends %}
+	<li>
+		{{friend}}
+		{% if len(friend) > (1000//160) %}
+			(that's a really long name!)
+		{% else %}
+			(poor effort of a name)
+		{% endif %}
+	</li>
+	{% endfor %}
+</ul>
+
+{# this is a comment! #}
+{# I could {% include "footer.html" %} if I wanted to! #}

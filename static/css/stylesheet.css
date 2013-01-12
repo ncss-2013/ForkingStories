@@ -8,7 +8,7 @@ body {
 	font-family: 'Arimo', sans-serif;  
 	line-height: 1.88889;
 	color: #3A3A3A; 
-	background: #E9FFE1; 
+	background: #E8E6E6; 
 	margin: 0; 
 	padding: 0;
 	}
@@ -60,7 +60,7 @@ a:hover, a:active {
 	border: 0px solid green;
     margin-top: 0px;
 	padding: 5px 5px 5px 15px;
-    background: #3A3A3A;
+	background: #3a3a3a;
 }
 
 #header h1{
@@ -74,12 +74,25 @@ a:hover, a:active {
 #nav {
 	border: 0px solid black;
 	padding: 5px;
-    background: #006633;
     letter-spacing: 1px; 
 	margin-bottom: 0; 
     color: #DDDDDD;
+		background-image: linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
+	background-image: -o-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
+	background-image: -moz-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
+	background-image: -webkit-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
+	background-image: -ms-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.39, rgb(0,102,51)),
+		color-stop(0.7, rgb(58,58,58)),
+		color-stop(0.85, rgb(58,58,58))
+);
 }
-#nav  a{
+#navvv  a{
 	font-weight: bold;
 	text-decoration: none;
     border-radius:6px;
@@ -91,11 +104,70 @@ a:hover, a:active {
     margin: 3px 10px 3px 10px;
 }
 
+#nav  a{
+	border: 1px solid rgba(0,0,0,0.2);
+	box-sizing: content-box !important;
+	color: #DDDDDD;
+	cursor: pointer;
+	display: inline-block;
+	padding: 6px 10px;
+	text-align: center;
+	text-shadow: 0 0 5px rgba(0,0,0,0.2), 0 0 1px rgba(0,0,0,0.4);
+	text-decoration: none;
+	font-size: 12px;
+	white-space: normal;
+	outline: none; 
+
+	/* Transition */
+	-moz-transition: all 200ms ease 0ms !important;
+	-o-transition: all 200ms ease 0ms !important;
+	-webkit-transition: all 200ms ease 0ms !important;
+
+	/* Background Color */
+	background: none repeat scroll 0 0 rgba(255,255,255,0.04);
+
+	/* Border Rounding */
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+
+	/* Background Clipping */
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding;
+	background-clip: padding-box;
+	
+	/* Shadow */
+	box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-moz-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-webkit-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10x 10px rgba(255,255,255,0.08) inset;
+	box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+}
+
+#nav  a:hover{
+	color: #DDDDDD;
+	text-shadow: 0 0 5px rgba(0,0,0,0.2), 0 0 1px rgba(0,0,0,0.4);
+	
+	/* Shadow */
+	box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-moz-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-webkit-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+ }
+
+#nav  a:active {
+	color: #eee;
+
+	/* Shadow */
+	box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
+	-moz-box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
+	-webkit-box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
+ }
+
+
 #main {
-    min-height:500px%;
+    min-height:350px;
 	border: 0px solid blue;
 	margin: 10px 10px 10px 10px;
-	padding:  10px 10px 10px 10px;
+	padding: 5px 5px 5px 5px;
     background: #FAFBE3; 
 }
 
@@ -110,16 +182,29 @@ a:hover, a:active {
 	border: 0px solid red;
     padding: 5px 15px 5px 15px;
 	clear: both;
-    background: #006633;
     color: #DDDDDD;
     position: fixed;
     bottom: 0px;
     left: 0px;
     right: 0px;
     height: 40px;
+	background-image: linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
+	background-image: -o-linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
+	background-image: -moz-linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
+	background-image: -webkit-linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
+	background-image: -ms-linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.39, rgb(58,58,58)),
+		color-stop(0.7, rgb(0,102,51)),
+		color-stop(0.85, rgb(0,102,51))
+);
 }
 
-.loginbox {
+.loginboxxx {
 	Background-Color: #CDCFB7;
     Border-Color: #909a90;
     Border-Style: solid;
@@ -135,6 +220,50 @@ a:hover, a:active {
     font-size: 10px;
 }
 
+.loginbox {
+	border: 1px solid rgba(0,0,0,0.2);
+	box-sizing: content-box !important;
+	color: #DDDDDD;
+	cursor: pointer;
+	display: inline-block;
+	padding: 6px 10px;
+	text-align: center;
+	text-shadow: 0 0 5px rgba(0,0,0,0.2), 0 0 1px rgba(0,0,0,0.4);
+	text-decoration: none;
+	font-size: 12px;
+	white-space: normal;
+	outline: none; 
+
+	/* Transition */
+	-moz-transition: all 200ms ease 0ms !important;
+	-o-transition: all 200ms ease 0ms !important;
+	-webkit-transition: all 200ms ease 0ms !important;
+
+	/* Background Color */
+	background: none repeat scroll 0 0 rgba(255,255,255,0.04);
+
+	/* Border Rounding */
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+
+	/* Background Clipping */
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding;
+	background-clip: padding-box;
+	
+	/* Shadow */
+	box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-moz-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-webkit-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10x 10px rgba(255,255,255,0.08) inset;
+	box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	
+	float: right; 
+    margin-bottom: 5px; 
+    margin-left: 10px;
+    position: relative;
+}
+
 .loginbox label {
     display: block;
 	overflow: auto;
@@ -144,39 +273,106 @@ a:hover, a:active {
 .loginbox label input {
     float: none;
     width:100px;
-}
-
-/* form elements - buttons */
-input[type="password"],
-input[type="search"],
-input[type="select"],
- {
-    width:100px;
+    margin-left: 30px;
     border-radius:2px;
     border: solid 1px #ccc;
-    padding:2px;
+	padding: 6px 6px;
     background-color: #f5f5f5;
     box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);
 }
-
 
 /* form elements - text entry */
 input[type="text"],
 input[type="password"],
-input[type="search"],
+input[type="search"]
 textarea {
     width:400px;
     border-radius:2px;
     border: solid 1px #ccc;
-    padding:2px;
+	padding: 6px 10px;
     background-color: #f5f5f5;
     box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);
 }
 
-input[type="submit"]:active {
-    background: pink;
+input[type="select"],
+textarea {
+    min-width:100px;
+    border-radius:2px;
+    border: solid 1px #ccc;
+	padding: 6px 6px;
+    background-color: #f5f5f5;
+    box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);
 }
 
 input[type="radio"],input[type="checkbox"] {
     
 }
+
+
+input[type="button"],
+input[type="reset"],
+input[type="submit"]
+ {	
+	border: 1px solid rgba(0,0,0,0.2);
+	box-sizing: content-box !important;
+	color: #3A3A3A;
+	cursor: pointer;
+	display: inline-block;
+	padding: 6px 10px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 12px;
+	white-space: normal;
+	outline: none; 
+
+	/* Transition */
+	-moz-transition: all 200ms ease 0ms !important;
+	-o-transition: all 200ms ease 0ms !important;
+	-webkit-transition: all 200ms ease 0ms !important;
+
+	/* Background Color */
+	background: none repeat scroll 0 0 rgba(255,255,255,0.04);
+
+	/* Border Rounding */
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+
+	/* Background Clipping */
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding;
+	background-clip: padding-box;
+	
+	/* Shadow */
+	box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-moz-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-webkit-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10x 10px rgba(255,255,255,0.08) inset;
+	box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+}
+
+
+input[type="button"]:hover, 
+input[type="reset"]:hover, 
+input[type="submit"]:hover
+ {	
+	color: #3A3A3A;
+	text-shadow: 0 0 5px rgba(0,0,0,0.2), 0 0 1px rgba(0,0,0,0.4);
+	
+	/* Shadow */
+	box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-moz-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+	-webkit-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
+ }
+
+
+input[type="button"]:active,
+input[type="reset"]:active,
+input[type="submit"]:active
+ {	
+	color: #3A3A3A;
+
+	/* Shadow */
+	box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
+	-moz-box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
+	-webkit-box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
+ }

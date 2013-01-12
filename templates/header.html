@@ -26,10 +26,11 @@
     <div id="nav">
         <a href="/">Home</a>  
         <a href="/profiles">User Profiles</a>  
-        <a href="/view_stories">View Stories</a>   
+        <a href="/view_story_list">View Story list</a>   
         {% if current_user is not None %}
             <a href='/new_story'>Create a Story</a>
 			<a href='/add_to_stories'>Add to a Story</a>
+            <a href="/view_story">View Story</a>
             <a href='{{"/user/{}".format(current_user.username)}}'>My Profile</a>	
         {% endif %}
    </div>

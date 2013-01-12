@@ -5,7 +5,6 @@ import hashlib
 __version__ = '0.001'
 
 # TODO:
-#  - {% include "file" with var0 = a, var1 = b %} - include_remap
 #  - pretty=True (automatic prettification of html - i.e. call someone else's prettifier)
 
 
@@ -118,6 +117,17 @@ class ForNode(Node):
 		del variables['___iterator']
 		return output
 
+# Node for remapping variables when including files:
+class IncludeNode(Node):
+	def __init__(self, child, remappings):
+		self.child = child
+		self.remap = [r.strip().split('=') for r in remappings if r.strip()]
+
+	# Remap the variables, and render the included file:
+	def render(self, variables):
+		new_vars = dict((variable.strip(), eval(expression, {}, variables)) for variable, expression in self.remap)
+		return self.child.render(new_vars)
+
 
 # Abstract class for parsing exceptions:
 class TemplateException(Exception):
@@ -162,7 +172,7 @@ def lex(text):
 	for {%\s*for\s(.*?)\s*in\s*(.*?)\s*%}
 	endfor {%\s*endfor\s*%}
 
-	include_remap {%\s*include\s(.*?)\swith(\s.*?\sas\s.*?)+%}
+	include_remap {%\s*include\s\"(.*?)\"\swith\s(.*?=.*?(?:;.*?=.*?)*?)%}
 	include {%\s*include\s\"(.*?)\"\s*%}
 
 	comment {#.*?#}
@@ -292,6 +302,11 @@ def parse_template(iterator, last=None, template=None):
 		elif tok_type == 'include':
 			result.add(parse_file(parameters))
 
+		# If a remapping include, construct a node for remapping the variables:
+		elif tok_type == 'include_remap':
+			filename, variables = parameters
+			result.add(IncludeNode(parse_file(filename), variables.split(';')))
+
 		# If a comment, ignore:
 		elif tok_type == 'comment':
 			pass # Ignore
@@ -303,6 +318,10 @@ def parse_template(iterator, last=None, template=None):
 		elif tok_type == 'gravatar':
 			result.add(GravatarNode(parameters))
 
+
+	# If a block was not terminated, raise an exception:
+	if last is not None:
+		raise NoMatchingEndToken('The end the input was reached before an {} block was closed.'.format('{% '+last+' %}'))
 
 	# Return the GroupNode:
 	return result

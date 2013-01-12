@@ -7,8 +7,8 @@ html {
 body { 
 	font-family: 'Arimo', sans-serif;  
 	line-height: 1.88889;
-	color: #000000; 
-	background: #ccffbb; 
+	color: #3A3A3A; 
+	background: #E9FFE1; 
 	margin: 0; 
 	padding: 0;
 	}
@@ -17,22 +17,22 @@ p {
 	text-align: justify;
 	}
 h1 { 
-	font-family: 'Merienda One', cursive;
+	font-family: 'Arimo', cursive;
 	letter-spacing: 1px; 
 	margin-bottom: 0; 
-	color: #DDDDDD;
+	color: #006633;
 	}
 h2 { 
 	font-family: 'Arimo', sans-serif;
 	letter-spacing: 1px; 
 	margin-bottom: 0; 
-	color: #66dd44;
+	color: #006633;
 	}
 h3 { 
 	font-family: 'Arimo', sans-serif;
 	letter-spacing: 1px; 
 	margin-bottom: 0; 
-	color: #66ff44;
+	color: #006633;
 	}
 a:link { 
 	font-weight: bold; 
@@ -58,19 +58,22 @@ a:hover, a:active {
 
 #header {
 	border: 0px solid green;
-	padding: 5px 15px 5px 15px;
-    background: #006633;
+    margin-top: 0px;
+	padding: 5px 5px 5px 15px;
+    background: #3A3A3A;
 }
 
 #header h1{
     font-family: 'Merienda One', cursive;
 	letter-spacing: 1px; 
 	margin-bottom: 0; 
+    margin-top: 0;
 	color: #DDDDDD;
+    padding-top: 0px;
 }
 #nav {
 	border: 0px solid black;
-	padding: 3px;
+	padding: 5px;
     background: #006633;
     letter-spacing: 1px; 
 	margin-bottom: 0; 
@@ -89,12 +92,11 @@ a:hover, a:active {
 }
 
 #main {
-    min-height:70%;
+    min-height:500px%;
 	border: 0px solid blue;
-	margin-right: 10px;
-    margin-left: 10px;
+	margin: 10px 10px 10px 10px;
 	padding:  10px 10px 10px 10px;
-    background: #fff; 
+    background: #FAFBE3; 
 }
 
 #story-text {
@@ -106,6 +108,7 @@ a:hover, a:active {
 
 #footer {
 	border: 0px solid red;
+    padding: 5px 15px 5px 15px;
 	clear: both;
     background: #006633;
     color: #DDDDDD;
@@ -116,28 +119,8 @@ a:hover, a:active {
     height: 40px;
 }
 
-.loginboxfoo {
-	Background-Color: #e0e0f0;
-    Border-Color: #909a90;
-    Border-Style: solid;
-    Border-Width: thin;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    float: right; 
-    margin-left: 15px;
-    font-size: 10px;
-    position: fixed;
-    top: 5px;
-    right: 5px;
-    width: 200px;
-    line-height: 5px;
-}
-
-
 .loginbox {
-	Background-Color: #e0e0f0;
+	Background-Color: #CDCFB7;
     Border-Color: #909a90;
     Border-Style: solid;
     Border-Width: thin;

@@ -1,6 +1,8 @@
 from tornado import Server
 from dbapi.user import User
+import register
 import user
+import template
 
 ###### TODO change this to use database ######
 
@@ -16,6 +18,16 @@ def check_login(username,password):
 #            i['password'] = new_password
 
 #########################################
+
+def index(response):
+    username = response.get_secure_cookie('username')
+    if username is not None:
+        context = {'username':str(username, 'utf-8')}
+    else:
+        context = {'username':None}
+
+    html = template.render_file('templates/index.html', context)
+    response.write(html)
 
 def login(response):
     response.write('''
@@ -84,9 +96,9 @@ def changepassword(response):
                     </head>
                     <body>
                         <p>Password seems to have changed.</p>
-                        <p><a href='/user'>Home</a></p>
+                        <p><a href='/user/{}'>Home</a></p>
                     </body>
-                </html>''')
+                </html>'''.format(username))
         else:
             response.write('''
                 <!doctype html>
@@ -135,11 +147,14 @@ def changepassword(response):
             </html>''')
 
 server = Server()
-server.register('/', login)
+server.register('/', index)
+server.register('/login', login)
 server.register('/authenticate', authenticate)
 server.register('/logout', logout)
 server.register('/changepassword', changepassword)
 server.register('/user/(\w[\w\d]+)', user.user)
+server.register('/register', register.register)
+server.register('/process_register', register.process_register)
 server.run()
 
 

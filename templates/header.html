@@ -29,10 +29,11 @@
     </div>
     <div id="nav">
     <a href="/">Home</a>  
-    <a href="/static/newstory.html">New Story</a>  
     <a href="/profile">Profiles</a>  
     <a href="/viewingstory">View Story</a>  
     <a href='/storylist'>Story List </a> 
-    <a href='/static/newstory'>Create a Story </a>
-    <a href='{{"profile/{}.html".format(username)}}'>My Profile </a>
+    {% if username is not None %}
+        <a href='/static/newstory'>Create a Story </a>
+        <a href='{{"profile/{}".format(username)}}'>My Profile </a>
+    {% endif %}
    </div>

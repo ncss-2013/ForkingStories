@@ -2,7 +2,6 @@ from dbapi.user import User
 import template
 
 def user(response, username):
-	# Example user whilst waiting for DB model
 	user = User.get(username)
 
 	if response.get_secure_cookie('username'):
@@ -18,5 +17,3 @@ def user(response, username):
 
 	html = template.render_file('templates/user.html', context)
 	response.write(html)
-
-	#get_profile = User.get(id)

@@ -1,6 +1,6 @@
 from tornado import Server
 from dbapi.user import User
-import register
+#import register
 import user
 import template
 
@@ -153,8 +153,8 @@ server.register('/authenticate', authenticate)
 server.register('/logout', logout)
 server.register('/changepassword', changepassword)
 server.register('/user/(\w[\w\d]+)', user.user)
-server.register('/register', register.register)
-server.register('/process_register', register.process_register)
+# server.register('/register', register.register)
+# server.register('/process_register', register.process_register)
 server.run()
 
 

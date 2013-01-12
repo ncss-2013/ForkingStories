@@ -1,10 +1,12 @@
 CREATE TABLE IF NOT EXISTS users (
-  id INTEGER NOT NULL,
-  firstname TEXT NOT NULL,
-  lastname TEXT NOT NULL,
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  fname TEXT NOT NULL,
+  lname TEXT NOT NULL,
   username TEXT NOT NULL,
   password TEXT NOT NULL,
-  PRIMARY KEY (id)
+  dob TEXT NOT NULL,
+  email TEXT NOT NULL,
+  joindate FLOAT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS paragraph (
@@ -19,10 +21,7 @@ CREATE TABLE IF NOT EXISTS paragraph (
     PRIMARY KEY (id)
 );
 
-
-REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234');
-REPLACE INTO users VALUES (1, 'Prue', 'Robinson', 'prob_hi', '4682');
-REPLACE INTO users VALUES (2, 'Andrew', 'Varvel', 'sdfko', 'password123');
+REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', '22/22/22', 'barry.sucks@gmail.com', 2.9);
 
 REPLACE INTO paragraph VALUES (0, '"You shall not pass!"', NULL, 10, 2,
     0, 0, '2013-01-12 10:54:51.404000');

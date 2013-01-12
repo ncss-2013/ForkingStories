@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' href='/static/css/stylesheet.css' type='text/css'>
+        <title>
+            Forking Stories 
+        </title>
+    </head>
+    <body>
+<div id="container"> <!-- this is opening the container div that is closed in footer -->
+   <div id="header">
+        <div class='loginbox'>
+            <form>
+                <label>
+                    Username:
+                    <input type='text' class='loginbox' placeholder='Username'>
+                </label>
+                <label>
+                    Password:
+                    <input type='password' class='loginbox' placeholder='Password'>
+                </label>
+                <input type='submit' class='loginbox' value='Login'>
+            </form>
+            <a link='registration.html'> Create an account </a>
+        </div>
+        <h1>Forking Stories</h1>
+    </div>
+    <div id="nav">
+    <a href="/">Home</a>  
+    <a href="/static/newstory.html">New Story</a>  
+    <a href="/profile">Profiles</a>  
+    <a href="/viewingstory">View Story</a>  
+    <a href='/storylist'>Story List </a> 
+    <a href='/static/newstory'>Create a Story </a>
+    <a href='{{"profile/{}.html".format(username)}}'>My Profile </a>
+   </div>

@@ -1,0 +1,42 @@
+{% include "header.html"%}
+<div>
+    <h2>
+        {{story.title}}
+    </h2>
+    <h3>
+        Started by {{story.author}}
+    </h3>
+    <div>
+        Story Rules:
+        <br>
+        <ul>
+        {% for rule in rules %}
+            <li>
+                {{rule}}
+            </li>
+        {%endfor%}
+        </ul>
+        <div>
+            {{story.authcomment}}
+        </div>
+        <span>
+            <a href='{{"profile/{}.html".format(username)}}'> Printable version </a>
+        </span>
+    </div>
+    {% for paragraph in paragraphs %}
+    <div>
+        {{paragraph}}
+        <span id='authorname'>
+        <br>
+            - {{author.username}}
+        </span>
+    </div>
+    <div>
+        <form>
+            <textarea placeholder='Enter your part of the story!' name='textentry'>
+            </textarea>
+            <input type='submit' value='Submit'>
+        </form>
+    </div>
+</div>
+{% include "footer.html"%}

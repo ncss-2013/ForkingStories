@@ -1,0 +1,37 @@
+{% include "header.html"%}
+<div>
+    <h2>
+        Current Stories
+    </h2>
+    <div>
+        <form id='sortbox'>
+            <select name='sort'>
+                <option>
+                    Title: A-Z
+                </option>
+                <option>
+                    Title: Z-A
+                </option>
+                <option>
+                    Most Likes
+                </option>
+                <option>
+                    Most Views
+                </option>
+            </select>
+            <input type='submit' value='Sort'>
+        </form>
+        <form id='searchbox'>
+            <input type ='search' name='query' placeholder='Search'>
+            <input type='submit' value='Search'>
+        </form>
+    </div>        
+    {% for story in stories %}
+    <a id="story_row" href="/story/view?id={{story.id}}">
+        {{story.title}}
+    </a>
+    {{story.likes}}
+    {{story.views}}
+    {% endfor %}
+</div>
+{% include "footer.html"%}

@@ -1,10 +1,10 @@
-{% include "header.html"%}
+{% include "header.html" %}
 <div>
     <h2>
         {{story.title}}
     </h2>
     <h3>
-        Started by {{story.author}}
+        Started by {{story.author_id}}
     </h3>
     <div>
         Story Rules:
@@ -14,7 +14,7 @@
             <li>
                 {{rule}}
             </li>
-        {%endfor%}
+        {% endfor %}
         </ul>
         <div>
             {{story.authcomment}}
@@ -31,6 +31,7 @@
             - {{author.username}}
         </span>
     </div>
+    {% endfor %}
     <div>
         <form>
             <textarea placeholder='Enter your part of the story!' name='textentry'>
@@ -39,4 +40,4 @@
         </form>
     </div>
 </div>
-{% include "footer.html"%}
+{% include "footer.html" %}

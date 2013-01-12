@@ -29,6 +29,16 @@ def index(response):
     html = template.render_file('templates/index.html', context)
     response.write(html)
 
+def view_stories(response):
+    user = response.get_secure_cookie('username')
+    if user is not None:
+        context = {'current_user':User.get('username', str(user, 'utf-8'))}
+    else:
+        context = {'current_user':None}
+
+    html = template.render_file('templates/viewingstory.html', context)
+    response.write(html)
+
 def login(response):
     response.write('''
         <!doctype html>
@@ -153,6 +163,8 @@ server.register('/authenticate', authenticate)
 server.register('/logout', logout)
 server.register('/changepassword', changepassword)
 server.register('/user/(\w[\w\d]+)', user.user)
+server.register('/profiles', user.profiles)
+server.register('/view_stories', view_stories)
 # server.register('/register', register.register)
 # server.register('/process_register', register.process_register)
 server.run()

@@ -17,3 +17,9 @@ def user(response, username):
 
 	html = template.render_file('templates/profile.html', context)
 	response.write(html)
+
+def profiles(response):
+	users = User.get('all')
+
+	for user in users:
+		response.write('<a href="/user/{}">{}</a><br />'.format(user.username, user.username))

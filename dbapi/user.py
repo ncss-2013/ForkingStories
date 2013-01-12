@@ -23,7 +23,7 @@ class User(object):
         self.joindate = joindate
 
     @classmethod
-    def get(cls, field_name:str, query:str):
+    def get(cls, field_name:str, query:str=""):
         """
         Arguments required, in order: the query (what the user is searching for), and the field name of the field they are searching in.
         """

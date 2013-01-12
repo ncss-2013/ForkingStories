@@ -8,8 +8,10 @@ Written by Alex Mueller and Waseem Sajeev
 
 '''
 
-from __init__ import *
-import dbtime
+import __importfix__; __package__ = 'dbapi'
+
+from .__init__ import *
+import dbapi.dbtime as dbtime
 
 class Paragraph(object):
     '''This class represents a row in the paragraph table.

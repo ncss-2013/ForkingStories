@@ -1,4 +1,4 @@
-
+import __importfix__; __package__ = 'dbapi'
 from .__init__ import *
 
 def nuke():

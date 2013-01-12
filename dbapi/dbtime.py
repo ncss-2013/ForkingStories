@@ -13,7 +13,7 @@ import time
 format_str = '%Y-%m-%d %H:%M:%S.%f'
 
 def create_datetime(time_float):
-    return datetime.datetime.fromtimestamp(time_float)
+    return datetime.datetime.fromtimestamp(float(time_float))
     
 def make_time_float(date=tuple()):
     '''Returns in seconds since epoch. Calulates now if time = ().

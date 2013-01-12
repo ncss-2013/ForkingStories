@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
   password TEXT NOT NULL,
   dob TEXT NOT NULL,
   email TEXT NOT NULL,
-  joindate FLOAT NOT NULL
+  joindate REAL NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS paragraph (

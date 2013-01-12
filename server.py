@@ -42,7 +42,7 @@ def authenticate(response):
     password = response.get_field('password')
     if check_login(username,password) or response.get_secure_cookie('username'):
         response.set_secure_cookie('username', username)
-        response.redirect('/user')
+        response.redirect('/user/{}'.format(username))
 
     else:
         response.write('''
@@ -84,7 +84,7 @@ def changepassword(response):
                     </head>
                     <body>
                         <p>Password seems to have changed.</p>
-                        <p><a href='/'>Home</a></p>
+                        <p><a href='/user'>Home</a></p>
                     </body>
                 </html>''')
         else:
@@ -139,8 +139,7 @@ server.register('/', login)
 server.register('/authenticate', authenticate)
 server.register('/logout', logout)
 server.register('/changepassword', changepassword)
-server.register('/user', user.user)
-server.register('/user/(\w[\w\d]+)', user.profile)
+server.register('/user/(\w[\w\d]+)', user.user)
 server.run()
 
 

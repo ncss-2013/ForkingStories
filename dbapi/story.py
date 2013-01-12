@@ -7,11 +7,6 @@ import dbapi.dbtime as dbtime
 
 import sqlite3
 
-class RecordNotFound(Exception):
-    def __init__(self,msg):
-        self.msg = msg
-    def __str__(self):
-        return self.msg
 
 class Story(object):
     '''
@@ -27,7 +22,6 @@ class Story(object):
         find(field_name,field_value) --> returns a list of story objects
                                Valid field_names: 'id', 'created_time',
                                            'title', 'author_id', 'all'
-                                Raises RecordNotFound if no records
         create(author_id, title) --> returns a new story object
 
     '''
@@ -39,10 +33,10 @@ class Story(object):
     def save(self):
         cur = conn.cursor()
         if self.id is None:
-            self.created_time = dbtime.make_time_float()
+            time = dbtime.make_time_float()
+            self.created_time = dbtime.create_datetime(time)
             cur.execute("INSERT INTO stories VALUES (NULL, ?, ?, ?);",
-                        (self.author_id,self.title,self.created_time))
-            #TODO: get db id and add to object
+                        (self.author_id,self.title,time))
             self.id = cur.lastrowid
         else:
             cur.execute('''UPDATE stories SET
@@ -50,7 +44,6 @@ class Story(object):
                         title=?,
                         WHERE id=?'''(self.author_id,self.title,self.id))
         conn.commit()
-        print('saved')
 
     def delete(self):
         if self.id is not None:
@@ -60,12 +53,13 @@ class Story(object):
             conn.commit()
 
     def get_paragraphs(self):
-        cur = conn.cursor()
-        return Paragraph.get('story_id', self.id)
+        # TODO: Integrate with Paragraph stuff.
+        return Paragraph.get_approved_content(self.id)
 
     def get_author(self):
+        # TODO: Integrate with User stuff.
         cur = conn.cursor()
-        return User.get('id', self.author_id)[0]
+        return User.find('id', self.author_id)[0]
     
     @classmethod
     def find(cls, field_name, field_value):
@@ -73,12 +67,13 @@ class Story(object):
         if field_name == 'all':
             cur.execute("SELECT * FROM stories")
         else:
-            print("Searching for", field_name, field_value)
             cur.execute("SELECT * FROM stories WHERE " + field_name + "= ?",(field_value,))
         records = cur.fetchall()
         stories = []
         for record in records:
-            stories.append(Story(*record))
+            story = Story(*record)
+            story.created_time = dbtime.create_datetime(record[3])
+            stories.append(story)
         return stories
                     
     @classmethod
@@ -88,12 +83,11 @@ class Story(object):
 if __name__ == "__main__":
     story = Story.create(12,'hello')
     story.save()
-    stories = Story.find('author_id',5)
-    author = story.get_author()
+    stories = Story.find('author_id',12)
+    #author = story.get_author()
     assert len(stories) > 0, 'stroies should have at leats 1 story'
     count = len(stories)
-    stories[0].get_paragraphs()
-
+    #stories[0].get_paragraphs()
     story.delete()
     story.find('author_id',12)
     stories = Story.find('author_id',12)

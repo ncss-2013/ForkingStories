@@ -1,4 +1,5 @@
-{% include "header.html"%}
+{% include "templates/header.html" %}
+{% if user is not None %}
 <div>
     <span id='profileimg'>
         <img src='http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'>
@@ -16,21 +17,58 @@
         </h2>
     </span>
     <div>
-        <span> 
-            Name: {{ user.fname }} {{ user.lname }}
-        </span>
-        <span> 
-            Age: {{ user.age }}
-        </span>
-        <span> 
-            Location: {{ user.location }}
-        </span>
-        <span> 
-            TimeZone: {{ user.timezone }}
+        
+        <strong>Name: </strong> {{ user.fname }} {{ user.lname }}<br />
+        <strong>Username: </strong> {{ user.username }}
+        
+        {% if current_user is not None and current_user.username == user.username %}
+            <p><form action='/changepassword'>
+                <label>Old password:
+                    <input type='text' name='old password'>
+                </label>
+                <p><label>New password:
+                    <input type='password' name='new password 1'>
+                </label>
+                <p><label>New password:
+                    <input type='password' name='new password 2'>
+                </label>
+                <p><input type='submit' value='change password'>
+            </form>
+            <form action='/logout'>
+                <input type='submit' value='logout'>
+            </form>
+        {% endif %}
+
+        <!-- <span id='profileimg'>
+            <img src='http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'>
         </span>
         <span>
-            Bio: {{ user.bio }}
-        </span>
+        <a href='http://en.gravatar.com/?utm_source=lasindias.info/blog'>
+        <span> -->
     </div>
-</div>
-{% include "footer.html"%}
+    <div>
+        <span>
+            <h2> 
+                {# current_user.username #}
+            </h2>
+        </span>
+        <div>
+            <span> 
+                <!-- Name: --> {# current_user.fname #} {# current_user.lname #}
+            </span>
+            <span> 
+                <!--Age: {# user.age #}
+            </span>
+            <span> 
+                Location: {# user.location #}
+            </span>
+            <span> 
+                TimeZone: {# user.timezone #}
+            </span>
+            <span>
+                Bio: {# user.bio #}
+            </span>-->
+        </div>
+    </div>
+{% endif %}
+{% include "templates/footer.html"%}

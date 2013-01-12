@@ -6,8 +6,8 @@ import template
 
 ###### TODO change this to use database ######
 
-def check_login(username,password):
-    user = User.get(username)
+def check_login(username, password):
+    user = User.get('username', username)
     if user is not None and username == user.username and password == user.password:
         return user
     return None
@@ -22,9 +22,9 @@ def check_login(username,password):
 def index(response):
     username = response.get_secure_cookie('username')
     if username is not None:
-        context = {'username':str(username, 'utf-8')}
+        context = {'current_user':User.get('username', str(username, 'utf-8'))}
     else:
-        context = {'username':None}
+        context = {'current_user':None}
 
     html = template.render_file('templates/index.html', context)
     response.write(html)

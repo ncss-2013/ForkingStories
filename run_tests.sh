@@ -3,7 +3,8 @@
 cd "$(dirname "$0")"
 
 PYTHON="python3.3"
-TESTS=$(grep -l __main__ `find ./ -iname \*\.py` | grep -v tornado | grep -v " ")
+FILES=$(find ./ -iname \*\*.py | grep -v " ")
+TESTS=$(grep -l __main__ $FILES | grep -v tornado)
 
 STATUS=0
 

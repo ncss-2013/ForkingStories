@@ -1,0 +1,16 @@
+{% include "header.html"%}
+<h2>
+    {{ story.title }}
+</h2>
+<h3>
+    {{ story.author}}
+</h3>
+{% for paragraph in paragraphs %}
+{{paragraph}}
+<br>
+<span id='authorname'>
+    - {{author.username}}
+</span>
+
+{%endfor%}
+{% include "footer.html"%}

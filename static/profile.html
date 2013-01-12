@@ -1,3 +1,4 @@
+{% include "header.html"%}
 <div>
     <span id='profileimg'>
         <img src='http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'>
@@ -9,24 +10,25 @@
 <div>
     <span>
         <h2> 
-            {{ Username }} 
+            {{ user.username }} 
         </h2>
     </span>
     <div>
         <span> 
-            Name: {{ firstname }} {{lastname}}
+            Name: {{ user.fname }} {{ user.lname }}
         </span>
         <span> 
-            Age: {{ Age }}
+            Age: {{ user.age }}
         </span>
         <span> 
-            Location: {{ location }}
+            Location: {{ user.location }}
         </span>
         <span> 
-            TimeZone: {{ timezone }}
+            TimeZone: {{ user.timezone }}
         </span>
         <span>
-            Bio: {{ biography }}
+            Bio: {{ user.bio }}
         </span>
     </div>
 </div>
+{% include "footer.html"%}

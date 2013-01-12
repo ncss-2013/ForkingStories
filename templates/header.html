@@ -25,12 +25,12 @@
     </div>
     <div id="nav">
         <a href="/">Home</a>  
-        <a href="/profiles">Profiles</a>  
-        <a href="/view_stories">View Story</a>  
-        <a href='/'>Story List</a> 
+        <a href="/profiles">User Profiles</a>  
+        <a href="/view_stories">View Stories</a>   
         {% if current_user is not None %}
-            <a href='/'>Create a Story</a>
-            <a href='{{"/user/{}".format(current_user.username)}}'>My Profile</a>
+            <a href='/new_story'>Create a Story</a>
+			<a href='/add_to_stories'>Add to a Story</a>
+            <a href='{{"/user/{}".format(current_user.username)}}'>My Profile</a>	
         {% endif %}
    </div>
    <div id="main"><!-- this is opening the main div that is closed in footer -->

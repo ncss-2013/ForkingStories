@@ -1,205 +1,27 @@
 #!/usr/local/bin/python3
-
-
 from tornado import Server
-from dbapi.user import User
-#import register
-import user
-import template
 
-###### TODO change this to use database ######
+# Handlers:
+import handler_login
+import handler_main
+import handler_story
+import handler_user
 
-def check_login(username, password):
-    user = User.get('username', username)
-    if user is not None and username == user.username and password == user.password:
-        return user
-    return None
-
-#def change_password(username,old_password,new_password):
-#    for i in users:
-#        if username == i['username'] and old_password == i['password']:
-#            i['password'] = new_password
-
-#########################################
-
-def index(response):
-    username = response.get_secure_cookie('username')
-    if username is not None:
-        context = {'current_user':User.get('username', str(username, 'utf-8'))}
-    else:
-        context = {'current_user':None}
-
-    html = template.render_file('templates/index.html', context)
-    response.write(html)
-
-def view_stories(response):
-    user = response.get_secure_cookie('username')
-    if user is not None:
-        context = {'current_user':User.get('username', str(user, 'utf-8'))}
-    else:
-        context = {'current_user':None}
-
-    html = template.render_file('templates/viewingstory.html', context)
-    response.write(html)
-
-def add_to_stories(response):
-    user = response.get_secure_cookie('username')
-    if user is not None:
-        context = {'current_user':User.get('username', str(user, 'utf-8'))}
-    else:
-        context = {'current_user':None}
-
-    html = template.render_file('templates/addingtostory.html', context)
-    response.write(html)
-
-def new_story(response):
-    user = response.get_secure_cookie('username')
-    if user is not None:
-        context = {'current_user':User.get('username', str(user, 'utf-8'))}
-    else:
-        context = {'current_user':None}
-
-    html = template.render_file('templates/newstory.html', context)
-    response.write(html)
-
-
-
-
-
-
-
-
-
-def login(response):
-    response.write('''
-        <!doctype html>
-        <html>
-            <head>
-            </head>
-            <body>
-                <h1>Hello!</h1>
-                <form action='/authenticate' method="POST">
-                    <label>Username:
-                        <input type='text' name='username'>
-                    </label>
-                    <p><label>Password:
-                        <input type='password' name='password'>
-                    </label>
-                    <p><input type='submit' value='login'>
-                </form>
-            </body>
-        </html>''')
-
-def authenticate(response):
-    username = response.get_field('username')
-    password = response.get_field('password')
-    if check_login(username,password) or response.get_secure_cookie('username'):
-        response.set_secure_cookie('username', username)
-        response.redirect('/user/{}'.format(username))
-
-    else:
-        response.write('''
-            <!doctype html>
-            <html>
-                <head>
-                </head>
-                <body>
-                    <p>Incorrect username or password, or username and password.</p>
-                </body>
-            </html>''')
-
-def logout(response):
-    response.clear_cookie('username')
-    response.write('''
-        <!doctype html>
-        <html>
-            <head>
-            </head>
-            <body>
-                <p>Congratulations, you have successfully logged out!</p>
-                <p><a href='/'>Home</a></p>
-            </body>
-        </html>''')
-
-def changepassword(response):
-    old_password = response.get_field('old password')
-    new_password_1 = response.get_field('new password 1')
-    new_password_2 = response.get_field('new password 2')
-    username = str(response.get_secure_cookie('username'), 'utf-8')
-    if new_password_1 == new_password_2:
-        user = check_login(username, old_password)
-        if user is not None:
-            user.update('password', new_password_1)
-            response.write('''
-                <!doctype html>
-                <html>
-                    <head>
-                    </head>
-                    <body>
-                        <p>Password seems to have changed.</p>
-                        <p><a href='/user/{}'>Home</a></p>
-                    </body>
-                </html>'''.format(username))
-        else:
-            response.write('''
-                <!doctype html>
-                <html>
-                    <head>
-                    </head>
-                    <body>
-                        <p>Old password is incorrect.</p>
-                        <p><form action='/changepassword'>
-                            <label>Old password:
-                                <input type='text' name='old password'>
-                            </label>
-                            <p><label>New password:
-                                <input type='password' name='new password 1'>
-                            </label>
-                            <p><label>New password:
-                                <input type='password' name='new password 2'>
-                            </label>
-                            <p><input type='submit' value='change password'>
-                        </form>
-                        <p><a href='/'>Home</a></p>
-                    </body>
-                </html>''')
-    else:
-        response.write('''
-            <!doctype html>
-            <html>
-                <head>
-                </head>
-                <body>
-                    <p>Passwords do not match.</p>
-                    <p><form action='/changepassword'>
-                        <label>Old password:
-                            <input type='text' name='old password'>
-                        </label>
-                        <p><label>New password:
-                            <input type='password' name='new password 1'>
-                        </label>
-                        <p><label>New password:
-                            <input type='password' name='new password 2'>
-                        </label>
-                        <p><input type='submit' value='change password'>
-                    </form>
-                    <p><a href='/'>Home</a></p>
-                </body>
-            </html>''')
+# TODO
+#import handler_register
 
 server = Server()
-server.register('/', index)
-server.register('/login', login)
-server.register('/authenticate', authenticate)
-server.register('/logout', logout)
-server.register('/changepassword', changepassword)
-server.register('/user/(\w[\w\d]+)', user.user)
-server.register('/profiles', user.profiles)
-server.register('/view_stories', view_stories)
-server.register('/add_to_stories', add_to_stories)
-server.register('/new_story', new_story)
-add_to_stories
-new_story
+server.register('/', handler_main.index)
+server.register('/login', handler_login.login)
+server.register('/authenticate', handler_login.authenticate)
+server.register('/logout', handler_login.logout)
+server.register('/changepassword', handler_login.changepassword)
+server.register('/user/(\w[\w\d]+)', handler_user.user)
+server.register('/profiles', handler_user.profiles)
+server.register('/view_story', handler_story.view_story)
+server.register('/add_to_stories', handler_story.add_to_stories)
+server.register('/new_story', handler_story.new_story)
+server.register('/view_story_list', handler_story.view_story_list)
 # server.register('/register', register.register)
 # server.register('/process_register', register.process_register)
 server.run()

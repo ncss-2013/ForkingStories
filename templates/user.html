@@ -1,0 +1,24 @@
+{% if user is not None %}
+	<strong>Name: </strong> {{ user.fname }} {{ user.lname }}<br />
+	<strong>Username: </strong> {{ user.username }}
+
+	{% if current_user is not None and current_user.username == user.username %}
+		<p><form action='/changepassword'>
+		    <label>Old password:
+		        <input type='text' name='old password'>
+		    </label>
+		    <p><label>New password:
+		        <input type='password' name='new password 1'>
+		    </label>
+		    <p><label>New password:
+		        <input type='password' name='new password 2'>
+		    </label>
+		    <p><input type='submit' value='change password'>
+		</form>
+		<form action='/logout'>
+		    <input type='submit' value='logout'>
+		</form>
+	{% endif %}
+{% else %}
+	<p>User {{ requested_user }} doesn't exist.</p>
+{% endif %}

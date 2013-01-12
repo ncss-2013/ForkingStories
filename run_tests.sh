@@ -16,9 +16,9 @@ for TEST in $TESTS; do
   if [ "$?" == "0" ]; then
     PKG=$(echo $TEST | grep -o -E "[^\.]*")
     PKG=$(echo $PKG | sed "s/\//./g")
-    $PYTHON -m $PKG
+    $PYTHON -m $PKG >/dev/null
   else
-    $PYTHON $TEST
+    $PYTHON $TEST >/dev/null
   fi
 
   if [ "$?" != "0" ]; then

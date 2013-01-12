@@ -1,17 +1,12 @@
 import re
-import doctest
+import os
 import hashlib
 
 __version__ = '0.001'
 
 # TODO:
-#  - Caching of parse trees of files (will require timestamp checking)
-#  - File directories?  (current, templates, passed in?)
-#  - Given an email, return a gravatar
 #  - {% include "file" with var0 = a, var1 = b %} - include_remap
-#  - {% exec .... %}
 #  - pretty=True (automatic prettification of html - i.e. call someone else's prettifier)
-#  - {% iif .... then .... else .... %}
 
 
 # Abstract Node Class:
@@ -58,6 +53,19 @@ class PythonNode(Node):
 
 	def __repr__(self):
 		return 'PythonNode: {}'.format(self.code)
+
+# Node for holding python code to execute:
+class ExecNode(Node):
+	def __init__(self, code):
+		self.code = code
+
+	# Execute the expression and return nothing:
+	def render(self, variables):
+		exec(self.code, {}, variables)
+		return ''
+
+	def __repr__(self):
+		return 'ExecNode: {}'.format(self.code)
 
 # Node for handling if and else blocks:
 class IfNode(Node):
@@ -148,11 +156,14 @@ def lex(text):
 	else {%\s*else\s*%}
 	endif {%\s*endif\s*%}
 
+	iif_else {%\s*iif\s(.*?)\s%then%\s(.*?)\s%else%\s(.*?)%}
+	iif {%\s*iif\s(.*?)\s%then%\s(.*?)\s%}
+
 	for {%\s*for\s(.*?)\s*in\s*(.*?)\s*%}
 	endfor {%\s*endfor\s*%}
 
-	include {%\s*include\s\"(.*?)\"\s*%}
 	include_remap {%\s*include\s(.*?)\swith(\s.*?\sas\s.*?)+%}
+	include {%\s*include\s\"(.*?)\"\s*%}
 
 	comment {#.*?#}
 
@@ -189,8 +200,15 @@ def lex(text):
 
 # Reads a file and returns a parse tree for the file:  (TODO: Caching parse trees.)
 def parse_file(filename):
+	if not os.path.exists(filename):
+		old_name = filename
+		filename = os.path.join('templates', filename)
+		if not os.path.exists(filename):
+			raise IOError('The file "{}" could not be found in the root directory or in the templates folder.'.format(old_name))
+
 	with open(filename) as f:
 		text = f.read()
+
 	return parse(text)
 
 # Lexes the template string and runs the parser, returning a parse tree:
@@ -213,17 +231,21 @@ def parse_template(iterator, last=None, template=None):
 	while True:
 		# Consume tokens until there are none left:
 		try:
-			tok_type, tok_text = next(iterator)
+			tok_type, parameters = next(iterator)
 		except StopIteration:
 			break
 
 		# If text, simply add a TextNode:
 		if tok_type == 'text':
-			result.add(TextNode(tok_text))
+			result.add(TextNode(parameters))
 
 		# If an expression, add a PythonNode:
 		elif tok_type == 'eval':
-			result.add(PythonNode(tok_text))
+			result.add(PythonNode(parameters))
+
+		# If an executed expression, add an ExecNode:
+		elif tok_type == 'exec':
+			result.add(ExecNode(parameters))
 
 		# If an else, check for a matching if and recurse:
 		elif tok_type == 'else':
@@ -249,16 +271,26 @@ def parse_template(iterator, last=None, template=None):
 		# If an if, recurse for the containing blocks, and add an IfNode:
 		elif tok_type == 'if':
 			istrue, isfalse = parse_template(iterator, 'if')
-			result.add(IfNode(tok_text, istrue, isfalse))
+			result.add(IfNode(parameters, istrue, isfalse))
 
 		# If a for, recurse for the contained blocks and add a ForNode:
 		elif tok_type == 'for':
-			variables, iterable = tok_text
+			variables, iterable = parameters
 			result.add(ForNode(variables, iterable, parse_template(iterator, 'for')))
+
+		# Inline if - create an IfNode with python nodes as children:
+		elif tok_type == 'iif':
+			condition, istrue = parameters
+			result.add(IfNode(condition, PythonNode(istrue), TextNode('')))
+
+		# Inline if with else:
+		elif tok_type == 'iif_else':
+			condition, istrue, isfalse = parameters
+			result.add(IfNode(condition, PythonNode(istrue), PythonNode(isfalse)))
 
 		# If an include, recursively parse the file:
 		elif tok_type == 'include':
-			result.add(parse_file(tok_text))
+			result.add(parse_file(parameters))
 
 		# If a comment, ignore:
 		elif tok_type == 'comment':
@@ -269,7 +301,7 @@ def parse_template(iterator, last=None, template=None):
 		
 		# Gravatar URLs:
 		elif tok_type == 'gravatar':
-			result.add(GravatarNode(tok_text))
+			result.add(GravatarNode(parameters))
 
 
 	# Return the GroupNode:
@@ -284,14 +316,14 @@ def render(template, variables={}):
 	>>> render("{{string}}", variables={'string': 'this is a string'})
 	'this is a string'
 	"""
-	return parse(template).render(variables)
+	return parse(template).render(dict(variables.items()))
 
 
 def render_file(filename, variables={}):
 	"""
 	Call with the relative path of the template as filename, and the list of variables as variables
 	"""
-	return parse_file(filename).render(variables)
+	return parse_file(filename).render(dict(variables.items()))
 
 
 if __name__ == '__main__':

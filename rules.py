@@ -1,14 +1,12 @@
 import re
 
 class Rules(object):
-#    def __init__(self, condition):
-#        self.condition = condition
 
     def letters_per_word(original:str, minimum:int=0, maximum:int=999):
-        '''
+        """
 Returns False if the word is not within (or equal to) the minimum or maximum
 values set by the user.
-        '''
+        """
         text = original.lower()
         eng_words = re.findall(r"[a-z'/-]+", text)        
         for word in eng_words:
@@ -17,10 +15,11 @@ values set by the user.
         return True
 
 
-    def ban_on_words(original:str, banned_words:list,):
-        '''
+
+    def ban_on_words(original:str, banned_words:list):
+        """
 Returns False if a banned word is found within the text.
-        '''
+        """
         for word in banned_words:
              if re.search(r"\b{}\b".format(word), original, flags=re.IGNORECASE):
                  return False
@@ -28,32 +27,38 @@ Returns False if a banned word is found within the text.
     
 
 
-    def max_num_words(text, limit):
-        # the number of words in submission must be <= host input
-        """ This is my documentation.
-
-         max_num_words("hello", 5)
-        True
+    def max_num_words(original:str, limit:int):
         """
-        words = text.split()
+The number of words in submission must be <= host's input
+        """
+        words = original.split()
         if len(words) <= limit:
             return True
         else:
             return False
 
-    def include_words(text, forcedwords):
-        #users text must include the words host submits
-        if type(forcedwords) == str:
-            forcedwords = forcedwords.split(" ")
-        text = text.lower().split(" ")        
-        for word in forcedwords:
-            if word and word.lower() not in text:
+
+
+    def include_words(original:str, forced_words:str):
+        """
+User's text must include the words host submits
+        """
+        if type(forced_words) == str:
+            forced_words = forced_words.split(" ")
+        original = original.lower().split(" ")
+        for word in forced_words:
+            if word and word.lower() not in original:
                 return False
         return True
 
-    def include_number_words(text, required_word, number):
-        #host sets requirement for certain word to be used in writers submission every ___ words
-        words = text.split()
+
+
+    def include_number_words(original:str, required_word:str, number:int):
+        """
+host sets requirement for certain word to be used in writers submission
+every ___ words
+        """
+        words = original.split()
         count = 0
         for word in words:
             if word == required_word:
@@ -67,9 +72,9 @@ Returns False if a banned word is found within the text.
         
 
 
+
 if __name__=="__main__":
-    #import doctest
-    #doctest.testmod()
+    
     #these are tests for this function
     assert Rules.max_num_words("hello", 5)
     assert not Rules.max_num_words("hello hello hello", 2)
@@ -98,7 +103,3 @@ if __name__=="__main__":
     assert Rules.ban_on_words("fjkalsd", [])
     assert not Rules.ban_on_words("blah blah blah", ['abc', 'blah'])
 
-                     
-                             
-    
-    

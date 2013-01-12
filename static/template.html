@@ -3,37 +3,38 @@
     <head>
         <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-        <link rel='stylesheet' href='./css/testcss.css' type'text/css'>
+        <link rel='stylesheet' href='./css/stylesheet.css' type='text/css'>
         <title>
             Forking Stories 
         </title>
     </head>
     <body>
-        <header id='header'>
-            <h1>Forking Stories</h1>
-            <div class='block'>
+<div id="container"> <!-- this is opening the container div that is closed in footer -->
+   <div id="header">
+        <div class='loginbox'>
                 <form>
                     <label>
                         Username:
                         <input type='text' class='loginbox' placeholder='Username'>
                     </label>
-                    <br>
                     <label>
                         Password:
                         <input type='password' class='loginbox' placeholder='Password'>
                     </label>
-                    <br>
                     <input type='submit' class='loginbox' value='Login'>
                 </form>
-            </div>
-        </header>
-        <nav id='nav'>
-            Link Link Link Link Link Link
-        </nav>
+        </div>
+        <h1>Forking Stories</h1>
+    </div>
+
+   <div id="nav">
+    <a href="http://google.com">Link 1</a>  <a href="foo">Link 2</a>  <a href="foo">Link 3</a>  <a href="foo">Link 4</a>  <a href="foo">Link 5</a>  <a href="foo">Link 6</a> 
+   </div>
+   
             {{ content }}
-        <footer id='footer'>
+        <div id='footer'>
             Group 2 Production!
-        </footer>
+        </div>
     </body>
 </html>
 

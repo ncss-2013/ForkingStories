@@ -2,6 +2,7 @@ import __importfix__; __package__ = 'dbapi'
 
 from .__init__ import *
 from dbapi.paragraph import Paragraph as Paragraph
+from dbapi.user import User as User
 import dbapi.dbtime as dbtime
 
 import sqlite3
@@ -21,8 +22,9 @@ class Story(object):
         delete() --> removes the story object from the database
         get_paragraphs() --> returns a list of paragraphs
                                 that belong to the story
+        get_author() --> returns author object that made the story
 
-        get(field_name,field_value) --> returns a list of story objects
+        find(field_name,field_value) --> returns a list of story objects
                                Valid field_names: 'id', 'created_time',
                                            'title', 'author_id', 'all'
                                 Raises RecordNotFound if no records
@@ -60,6 +62,10 @@ class Story(object):
     def get_paragraphs(self):
         cur = conn.cursor()
         return Paragraph.get('story_id', self.id)
+
+    def get_author(self):
+        cur = conn.cursor()
+        return User.get('id', self.author_id)[0]
     
     @classmethod
     def find(cls, field_name, field_value):
@@ -82,7 +88,8 @@ class Story(object):
 if __name__ == "__main__":
     story = Story.create(12,'hello')
     story.save()
-    stories = Story.find('author_id',12)
+    stories = Story.find('author_id',5)
+    author = story.get_author()
     assert len(stories) > 0, 'stroies should have at leats 1 story'
     count = len(stories)
     stories[0].get_paragraphs()

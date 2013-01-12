@@ -1,3 +1,6 @@
+#!/usr/local/bin/python3
+
+
 from tornado import Server
 from dbapi.user import User
 #import register
@@ -38,6 +41,34 @@ def view_stories(response):
 
     html = template.render_file('templates/viewingstory.html', context)
     response.write(html)
+
+def add_to_stories(response):
+    user = response.get_secure_cookie('username')
+    if user is not None:
+        context = {'current_user':User.get('username', str(user, 'utf-8'))}
+    else:
+        context = {'current_user':None}
+
+    html = template.render_file('templates/addingtostory.html', context)
+    response.write(html)
+
+def new_story(response):
+    user = response.get_secure_cookie('username')
+    if user is not None:
+        context = {'current_user':User.get('username', str(user, 'utf-8'))}
+    else:
+        context = {'current_user':None}
+
+    html = template.render_file('templates/newstory.html', context)
+    response.write(html)
+
+
+
+
+
+
+
+
 
 def login(response):
     response.write('''
@@ -165,6 +196,10 @@ server.register('/changepassword', changepassword)
 server.register('/user/(\w[\w\d]+)', user.user)
 server.register('/profiles', user.profiles)
 server.register('/view_stories', view_stories)
+server.register('/add_to_stories', add_to_stories)
+server.register('/new_story', new_story)
+add_to_stories
+new_story
 # server.register('/register', register.register)
 # server.register('/process_register', register.process_register)
 server.run()

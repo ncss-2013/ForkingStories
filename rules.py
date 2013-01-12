@@ -1,3 +1,32 @@
+import re
+
+class Rules(object):
+    def __init__(self, condition):
+        self.condition = condition
+
+    def letters_per_word(original:str, minimum:int=0, maximum:int=999):
+        '''
+Returns False if the word is not within (or equal to) the minimum or maximum
+values set by the user.
+        '''
+        text = original.lower()
+        eng_words = re.findall(r"[a-z'/-]+", text)        
+        for word in eng_words:
+            if not minimum <= len(word) <= maximum:
+                return False
+        return True
+
+
+    def ban_on_words(original:str, banned_words:list,):
+        '''
+Returns False if a banned word is found within the text.
+        '''
+        for word in banned_words:
+             if re.search(r"\b{}\b".format(word), original, flags=re.IGNORECASE):
+                 return False
+        return True
+    
+
 
 def max_num_words(text, limit):
     # the number of words in submission must be <= host input
@@ -56,7 +85,20 @@ if __name__=="__main__":
     assert not include_words("hello banana apple", "hello train")
     assert include_words("hello banana apple", ["hello", "apple"])
     
-                         
+
+    
+    # Waseem
+    
+    assert not Rules.letters_per_word("cat it's", maximum = 3)
+    assert Rules.letters_per_word("c-d", minimum = 3)
+    assert Rules.letters_per_word("", minimum = 2)
+
+    assert Rules.ban_on_words("cation, organic", ['cat', 'gan'])
+    assert not Rules.ban_on_words("cat's, organic", ['cat', 'gan'])
+    assert Rules.ban_on_words("fjkalsd", [])
+    assert not Rules.ban_on_words("blah blah blah", ['abc', 'blah'])
+
+                     
                              
     
     

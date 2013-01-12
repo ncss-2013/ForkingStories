@@ -27,27 +27,30 @@ Use p.save() to add the paragraph row to the database, where p is
 an instantiated Paragraph object.
 
 '''
-    def __init__(self, content:str, parent_id:int or None, votes:int,
-                 author_id:int, approved:bool, story_id:int,
-                 _created=None, _id=None):
-        self.id = _id
+    def __init__(self, para_id:int, content:str, parent_id:int,
+                 votes:int, author_id:int, approved:int, story_id:int,
+                 created:float):
+        self.id = para_id
         self.content = content
         self.parent_id = parent_id
         self.votes = votes
-        self.created = _created
+        self.created = created
         self.author_id = author_id
-        self.approved = 1 if approved else 0
+        self.approved = approved
         self.story_id = story_id
 
     def save(self):
         cur = conn.cursor()
         if not self.id:
+            now = dbtime.make_time_float()
             cur.execute(
                 'INSERT INTO paragraph VALUES'
                 '(NULL, ?, ?, ?, ?, ?, ?, ?);',
                 (self.content, self.parent_id, self.votes,
-                 dbtime.make_time_str(), self.author_id, self.approved,
+                 now, self.author_id, self.approved,
                  self.story_id))
+            self.id = cur.lastrowid
+            self.created = now
         else:
             cur.execute(
                 '''UPDATE paragraph 
@@ -60,27 +63,39 @@ story_id = ?
 WHERE id = ?''', (self.content, self.parent_id, self.votes,
                   self.author_id, self.approved, self.story_id,
                   self.id))
+        # Commit data
+        conn.commit()
+
+    @classmethod
+    def create (clf, content:str, parent_id:int, votes:int,
+                 author_id:int, approved:bool, story_id:int):
+        return Paragraph(None, content, parent_id, votes, author_id,
+                         1 if approved else 0,
+                         story_id, -1)
+        
 
 
     @classmethod
-    def get(self, field_name, query):
+    def get(clf, field_name, query, order_by=None):
         cur = conn.cursor()
+        if not order_by:
+            order_by = field_name
+            
         # TODO: This is a bug, maybe escape field_name later
         rows = cur.execute('SELECT * FROM paragraph WHERE ' + field_name + ' = ?'
                            'ORDER BY ?',
-                        (query, field_name)).fetchall()
-        return [Paragraph(p[1], p[2], p[3], p[4], p[5], p[6],
-                         _created=dbtime.get_time_from_str(p[7]),
-                         _id=p[0]) for p in rows]
+                        (query, order_by)).fetchall()
+        return [Paragraph(p[0], p[1], p[2], p[3], p[4], p[5], p[6],
+                         dbtime.create_datetime(p[7])) for p in rows]
         
 
 if __name__ == '__main__':
-    p = Paragraph('It\'s a cave troll! Save the hobbits! Aragorn!',
+    p = Paragraph.create('It\'s a cave troll! Save the hobbits! Aragorn!',
                   1, 10, 0,
-                  False, 0);
+                  False, 0)
     p.save()
 
-    q = Paragraph.get('id', 1)
+    q = Paragraph.get('id', p.id, 'story_id')
     assert len(q) > 0, 'Some paragraph should exsist.'
     print(q[0].content)
             

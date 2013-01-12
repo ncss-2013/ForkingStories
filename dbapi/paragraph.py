@@ -8,7 +8,7 @@ Written by Alex Mueller and Waseem Sajeev
 
 '''
 
-from __init__ import conn
+from .__init__ import conn
 
 class Paragraph(object):
     def __init__(self, para_id:int, content:str, parent_id:int, votes:int, \

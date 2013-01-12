@@ -1,0 +1,68 @@
+<span>
+    <h2>
+        Registration
+    </h2>
+</span>
+<div>
+    <form>
+        <label>
+            First Name:
+            <input type='text' name='fname'>
+        </label>
+        <label>
+            Last Name:
+            <input type='text' name='lname'>
+        </label>
+        <label>
+            Username:
+            <input type='text' name='username'>
+        </label>
+        <label>
+            Password:
+            <input type='password' name='password'>
+        </label>
+        <label> 
+            Repeat Password:
+            <input type='password' name='password_again'>
+        </label>
+        <label>
+            Email:
+            <input type='text' name='email'>
+        </label>
+        Date of birth. 
+        <label>
+            Year:
+            <select name='birthyear'>
+                {% for year in range(1913, 2014) %}
+                    <option>{{ year }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            Month: 
+            <select name='birthmonth'>
+                {% for month in range(1, 13) %}
+                    <option>{{ month }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            Day:
+            <select name='birthday'>
+                {% for day in range(1, 32) %}
+                    <option>{{ day }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            Location:
+            <input type='text' name='location'>
+        </label>
+        <label>
+            Bio:
+            <textarea name='bio'>
+            </textarea>
+        </label>
+    </form>
+</div>
+        

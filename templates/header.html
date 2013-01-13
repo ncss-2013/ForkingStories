@@ -23,7 +23,7 @@
         {% else %}
             <div class='loginbox'>
                 <table><tr><td>
-                <img src='{% gravatar user.email %}'>
+                <img src='{% gravatar current_user.email %}'>
                 </td><td>
                 <p>Welcome {{"<a href='/user/{}'>{}</a>!".format(current_user.username,current_user.username)}}</p>
                 <p><a href='/logout'>Logout</a> </p>

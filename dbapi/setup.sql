@@ -116,14 +116,15 @@ REPLACE INTO rules (id, story_id, rule_def_id, params)
 REPLACE INTO rules (id, story_id, rule_def_id, params)
     VALUES (1, 0, 2, "cat||dog");
     
+
 REPLACE INTO ruleDefs (id, name, description)
-    VALUES (0, "forced_words", "User's text must include the words host submits");
+    VALUES (0, "letters_per_word", "Returns False if the word is not within (or equal to) the minimum or maximum values set by the user.");
 REPLACE INTO ruleDefs (id, name, description)
-    VALUES (1, "letters_per_word", "Returns False if the word is not within (or equal to) the minimum or maximum values set by the user.");
+    VALUES (1, "banned_words", "Returns False if a banned word is found within the text.");
 REPLACE INTO ruleDefs (id, name, description)
-    VALUES (2, "banned_words", "Returns False if a banned word is found within the text.");
+    VALUES (2, "max_num_words", "The number of words in submission must be <= host's input");
 REPLACE INTO ruleDefs (id, name, description)
-    VALUES (3, "max_num_words", "The number of words in submission must be <= host's input");
+    VALUES (3, "forced_words", "User's text must include the words host submits");
 REPLACE INTO ruleDefs (id, name, description)
     VALUES (4, "include_number_words", "host sets requirement for certain word to be used in writers submission every ___ words");
 

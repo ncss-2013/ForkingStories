@@ -50,7 +50,10 @@ class PythonNode(Node):
 
 	# Evaluate and stringify the expression:
 	def render(self, variables):
-		return self.escape(eval(self.code, {}, variables))
+		try:
+			return self.escape(eval(self.code, {}, variables))
+		except Exception as e:
+			raise e.__class__('Error evaluating "{}" in eval node: {}'.format(self.code, str(e)))
 
 	def __repr__(self):
 		return 'PythonNode: {}'.format(self.code)
@@ -77,10 +80,13 @@ class IfNode(Node):
 
 	# Evaluate the precondition, and render the appropriate child node:
 	def render(self, variables):
-		if eval(self.expr, {}, variables):
-			return self.istrue.render(variables)
-		else:
-			return self.isfalse.render(variables)
+		try:
+			if eval(self.expr, {}, variables):
+				return self.istrue.render(variables)
+			else:
+				return self.isfalse.render(variables)
+		except Exception as e:
+			raise e.__class__('Error evaluating "{}" in if statement: {}'.format(self.expr, str(e)))
 
 	def __repr__(self):
 		return 'IfNode (\n{}\n) else (\n{}\n}'.format(repr(self.istrue), repr(self.isfalse))
@@ -91,8 +97,11 @@ class GravatarNode(Node):
 		self.email = email
 
 	def render(self, variables):
-		hashed = hashlib.md5(str(eval(self.email, {}, variables)).lower().strip().encode('ascii')).hexdigest()
-		return 'http://www.gravatar.com/avatar/' + hashed
+		try:
+			hashed = hashlib.md5(str(eval(self.email, {}, variables)).lower().strip().encode('ascii')).hexdigest()
+			return 'http://www.gravatar.com/avatar/' + hashed
+		except Exception as e:
+			raise e.__class__('Error evaluating "{}" in gravatar statement: {}'.format(self.email, str(e)))
 
 	def __repr__(self):
 		return 'GravatarNode: {}'.format(self.email)
@@ -107,13 +116,19 @@ class ForNode(Node):
 
 	# Loop over the iterable, rendering the child nodes:
 	def render(self, variables):
-		variables['___iterator'] = iter(eval(self.expr, {}, variables))
+		try:
+			variables['___iterator'] = iter(eval(self.expr, {}, variables))
+		except Exception as e:
+			raise e.__class__('Error evaluating "{}" in for node: {}'.format(self.expr, str(e)))
+
 		output = ''
 		while True:
 			try:
-				exec(self.variables + ' = ' + 'next(___iterator)', {}, variables)
+				exec(self.variables + ' = next(___iterator)', {}, variables)
 			except StopIteration:
 				break
+			except Exception as e:
+				raise e.__class__('Error executing "{}" in for loop: {}'.format(self.variables + ' = next(___iterator)', str(e)))
 			else:
 				output += self.enclosed.render(variables)
 		del variables['___iterator']
@@ -130,7 +145,10 @@ class IncludeNode(Node):
 
 	# Remap the variables, and render the included file:
 	def render(self, variables):
-		new_vars = dict((variable.strip(), eval(expression, {}, variables)) for variable, expression in self.remap)
+		try:
+			new_vars = dict((variable.strip(), eval(expression, {}, variables)) for variable, expression in self.remap)
+		except Exception as e:
+			raise e.__class__('Error evaluating remappings in an include.  Remap: "{}".  Exception: "{}".'.format(repr(self.remap), str(e)))
 		return self.child.render(new_vars)
 
 	def __repr__(self):

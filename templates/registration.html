@@ -1,10 +1,10 @@
 {% include "header.html" %}
-<span>
+<div class="main-single">
     <h2>
         Registration
     </h2>
-</span>
-<div class="main-single">
+</div>
+<div class="main-left">
     <script>
     $(function() {
         $('#form_filler').click(function() {
@@ -24,27 +24,27 @@
         <label>
             First Name:
             <input type='text' name='fname'>
-        </label><br />
+        </label>
         <label>
             Last Name:
             <input type='text' name='lname'>
-        </label><br />
+        </label>
         <label>
             Username:
             <input type='text' name='username' required>
-        </label><br />
+        </label>
         <label>
             Password:
             <input type='password' name='password' required id='password-initial' title='Passwords do not match!'>
-        </label><br />
+        </label>
         <label> 
             Repeat Password:
             <input type='password' name='rpassword' id='rpassword' required>
-        </label><br />
+        </label>
         <label>
             Email:
             <input type='email' name='email' required>
-        </label><br />
+        </label>
         <label>
         Date of birth. 
             <input type="date" name="bday">
@@ -57,15 +57,17 @@
         <label>
             Bio:
             <textarea name='bio'></textarea>
-        </label><br />
-        <div class="error-message">
-        </div>
+        </label>
         <label>
             <input type="submit" value="Register">
         </label>
     </form>
+    
 </div>
-
+<div class="main-left">
+        <div class="error-message">
+        </div>
+</div>
 <script>
 $(function (){
     validate_passwords('password-initial', 'password-repeat');

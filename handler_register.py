@@ -26,18 +26,18 @@ def process_register(response):
     password = response.get_argument('password')
     repeat_password = response.get_argument('rpassword')
     email = response.get_argument('email')
-    birthyear = response.get_argument('birthyear', default='')
-    birthmonth = response.get_argument('birthmonth', default='')
-    birthday = response.get_argument('birthday', default='')
+    birthdate = response.get_argument('bday', default='')
     location = response.get_argument('location', default='')
     bio = response.get_argument('bio', default='')
 
-    #user_exists = User.get(username)
-    user_exists = False
+    birthdate = birthdate.split('-')
+    birthyear = birthdate[0]
+    birthmonth = birthdate[1]
+    birthday = birthdate[2]
 
     # Check username fits criteria (regex) and password matches the repeated password
-    if username_pat.match(username) and password == repeat_password and not user_exists:
-        user = User.create(firstname, lastname, username, password, int(birthyear), int(birthmonth), int(birthday), email, location, bio)
+    if username_pat.match(username) and password == repeat_password:
+        user = User.create(firstname, lastname, username, password, birthyear, birthmonth, birthday, email, location, bio)
         user.save()
 
         response.redirect('/')

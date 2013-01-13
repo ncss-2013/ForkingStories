@@ -1,7 +1,7 @@
 {% include "header.html"%}
 <div class='main-left'>
     <h2>{{ story.title }}</h2>
-    <h3>Created By <a href="/user/{{ user.username }}">{{ author.username }}</a></h3>
+    <h3>Created By <a href="/user/{{ author.username }}">{{ author.username }}</a></h3>
     <p>{{ story.author_init_comment }}</p>
 <!-- This is where the rules for the story should go -->
     {% for paragraph in story.get_approved_paragraphs() %}

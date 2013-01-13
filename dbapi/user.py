@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""User package"""
+'''user.py
+
+Contains a User object to interface with the user table in the database.
+
+Written by Melissa McKeogh and Jessica Zhang
+
+'''
 
 import __importfix__; __package__ = 'dbapi'
 from .__init__ import *
@@ -12,13 +18,40 @@ import dbapi.story
 def nuke():
     conn.execute("DROP TABLE IF EXISTS users;")
 
-
 class UsernameAlreadyExists(Exception):
     pass
 
 class User(object):
-    def __init__(self, uid, fname, lname, username, password, dob, email, joindate, location, bio, image):
-        self.uid = uid
+    '''This class represents a row in the user table.
+
+Use User.find(<fieldname for query>, <some query>) to fetch a list
+of User objects representing rows in the user table.
+
+Use User.create(fname, lname, username, password, year, month, day, email, location, bio) to create a new User object.
+Id, joindate are created automatically. Dob is figured from the year, month, day.
+
+Use User.save() to add the user row to the database.
+
+To delete a User from the database, find the user then use User.delete()
+e.g. u = User.find(<fieldname>, <value>)
+     u.delete()
+
+for the rest of these explanations, u is a user object.
+
+Use u.get_contributed_stories() to return a list of Story objects the User has contributed to.
+
+Use u.get_stories() to return a list of Story objects the User has created.
+
+Use u.get_number_of_stories() to return an integer representing the number of Story objects the User has created.
+
+Use u.get_number_of_paragraphs() to return an integer representing the number of paragraphs the User has contributed overall.
+
+Use u.get_number_of_paragraphs_approved() to return an integer representing the number of paragraphs the User has contributed that have been approved.
+
+'''
+    
+    def __init__(self, uid, fname, lname, username, password, dob, email, joindate, location, bio):
+        self.id = uid
         self.fname = fname
         self.lname = lname
         self.username = username
@@ -28,7 +61,6 @@ class User(object):
         self.joindate = joindate
         self.location = location
         self.bio = bio
-        self.image = image
 
     @classmethod
     def find(cls, field_name:str, query:str = ""):
@@ -37,9 +69,9 @@ class User(object):
         """
         cur = conn.cursor()
         if field_name == "all":
-            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio, image FROM users")
+            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio FROM users")
         else:
-            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio, image FROM users WHERE " + field_name + " = ?",
+            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio FROM users WHERE " + field_name + " = ?",
                     (query,))
         rows = cur.fetchall()
         results = []
@@ -48,19 +80,19 @@ class User(object):
         return results
     #When you edit, use User.find()[0] (you can't edit multiple results, it will just edit the first one)
 
-    def create(fname, lname, username, password, year, month, day, email, location, bio, image):
+    def create(fname, lname, username, password, year, month, day, email, location, bio):
         joindate = dbtime.make_time_str()
-        dob = dbtime.make_time_str((year, month, day))
-        return User(None, fname, lname, username, password, dob, email, joindate, location, bio, image)
+        dob = dbtime.make_time_str((int(year), int(month), int(day)))
+        return User(None, fname, lname, username, password, dob, email, joindate, location, bio)
         
     #Don't use update, but don't delete it either!!!
     def update(self, fieldname, value):
         cur = conn.cursor()
         cur.execute("UPDATE users SET "+ fieldname +" = ? WHERE id = ?",
-                    (value, self.uid))
+                    (value, self.id))
 
     def save(self):
-        if self.uid is None:
+        if self.id is None:
             cur = conn.cursor()
             cur.execute("SELECT id FROM users WHERE username = ?",(self.username,))
             rows = cur.fetchall()
@@ -71,9 +103,9 @@ class User(object):
                 raise UsernameAlreadyExists()
             else:
                 cur.execute("""INSERT INTO users
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (self.uid, self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio, self.image))
-                self.uid = cur.lastrowid
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (self.id, self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio))
+                self.id = cur.lastrowid
         else:
             self.update('fname', self.fname)
             self.update('lname', self.lname)
@@ -81,14 +113,13 @@ class User(object):
             self.update('email', self.email)
             self.update('location', self.location)
             self.update('bio', self.bio)
-            self.update('image', self.image)
         conn.commit()
         #User name and id can't change
 
     def delete(self):
         cur = conn.cursor()
         cur.execute('''DELETE FROM users
-                    WHERE id = ?''', (self.uid,))
+                    WHERE id = ?''', (self.id,))
         conn.commit()
 
     def get_contributed_stories(self):
@@ -96,7 +127,7 @@ class User(object):
         cur.execute("""SELECT s.id
             FROM stories s JOIN paragraph p ON s.id = p.story_id JOIN users u ON p.author_id = u.id
             WHERE u.id = ?""",
-            (self.uid,))
+            (self.id,))
         rows = cur.fetchall()
         results = []
         for row in rows:
@@ -108,13 +139,40 @@ class User(object):
         cur.execute("""SELECT s.id
             FROM stories s JOIN users u ON s.author_id = u.id
             WHERE u.id = ?""",
-            (self.uid,))
+            (self.id,))
         rows = cur.fetchall()
         results = []
         for row in rows:
             results += dbapi.story.Story.find("id", *row)
         return results
-        
+
+    def get_number_of_stories(self):
+        return len(self.get_stories())
+
+    def get_number_of_paragraphs(self):
+        cur = conn.cursor()
+        cur.execute("""SELECT id
+            FROM paragraphs
+            WHERE author_id = ?""",
+            (self.id,))
+        rows = cur.fetchall()
+        results = []
+        for row in rows:
+            results += Paragraph.find("id", *row)
+        return len(results)
+
+    def get_number_of_paragraphs_approved(self):
+        cur = conn.cursor()
+        cur.execute("""SELECT id
+            FROM paragraphs
+            WHERE author_id = ? AND approved = 1""",
+            (self.id,))
+        rows = cur.fetchall()
+        results = []
+        for row in rows:
+            results += Paragraph.find("id", *row)
+        return len(results)
+    
 
 if __name__ == "__main__":
     s = User.find('username', 'barry_1233')[0]

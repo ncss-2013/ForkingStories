@@ -8,8 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
   email TEXT NOT NULL,
   joindate TEXT NOT NULL,
   location TEXT NOT NULL,
-  bio TEXT,
-  image TEXT
+  bio TEXT
 );
 
 CREATE TABLE IF NOT EXISTS paragraphs (
@@ -49,12 +48,12 @@ CREATE TABLE IF NOT EXISTS ruleDefs (
 );
 
 REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', "2000-11-16 00:00:00.00000",
-    'barry.sucks@gmail.com', "2000-11-16 00:00:00.00000", 'Sydney', "Hi, I'm Barry!", '<img src="vjeiwo".jpg>');
+    'barry.sucks@gmail.com', "2000-11-16 00:00:00.00000", 'Sydney', "Hi, I'm Barry!");
 
 REPLACE INTO paragraphs VALUES (0, '"You shall not pass!"', -1, 10, 0,
     1, 0, "2013-01-13 14:13:29.324000");
 REPLACE INTO paragraphs VALUES (1, '"But you can dance!"', 0, 10,  0,
     1, 0, "2013-01-13 14:14:09.884000");
-REPLACE INTO paragraphs VALUES (2, 'Wizard Gandalf style!', 1, 10, 0,
+REPLACE INTO paragraphs VALUES (2, 'Wizard Gandalf style!', 1, 10, 1,
     1, 0, "2013-01-13 14:14:27.044000");
 REPLACE INTO stories VALUES (0, 0, "This is such a cool story", "2013-01-13 13:14:27.044000", "Comment");

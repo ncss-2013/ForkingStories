@@ -199,24 +199,29 @@ def search(cursor, conn, query):
     return scores
 
 
-def main():
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-    conn.execute('DROP TABLE IF EXISTS SearchIndex')
+def create_table(conn, if_exists=False):
+    if if_exists:
+        conn.execute('DROP TABLE IF EXISTS SearchIndex')
     conn.execute('''
-        CREATE TABLE SearchIndex (
+        CREATE TABLE IF NOT EXISTS SearchIndex (
             identifier TEXT NOT NULL,
             index_dict BLOB NOT NULL,
             PRIMARY KEY(identifier)
         );''')
 
+
+def main():
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    create_table(conn)
+
     # do the search function
     result = search(cursor, conn, 'gandalf')
 
-    assert sum([x[1] for x in result]) == 0.0, 'assert relevancy works'
-
-    assert len(result) > 0
+    # assert sum([x[1] for x in result]) == 0.0, 'assert relevancy works'
+    assert result, 'bad result; {}'.format(result)
+    assert len(result) > 0, 'no results were returned'
 
     conn.close()
 

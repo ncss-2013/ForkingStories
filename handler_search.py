@@ -80,4 +80,7 @@ def search_results(response):
 def debug(response):
     index = load_index(conn.cursor(), conn)
     for doc in index:
-        response.write('{}: {}<br/>'.format(doc, index[doc]))
+        response.write('{};<br/>'.format(doc))
+        for word in index[doc]:
+            response.write('<div style="margin-left:20px;">{}; {}</div>'.format(word, index[doc][word]))
+        response.write('<br/>')

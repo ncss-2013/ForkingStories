@@ -1,37 +1,11 @@
 {% include "header.html"%}
-<h2>
-    {# story.title #}
-</h2>
-<h3>
-    {# story.author #}
-</h3>
-{# for paragraph in paragraphs #}
-{#paragraph#}
-<br>
-<span id='authorname'>
-    - {#author.username#}
-</span>
-{# endfor #}
-If you liked that story, leave a comment below:
-<div id='commentbox'>
-    <form>
-        <textarea placeholder='Comment'></textarea>
-        <br>
-        <input type='submit' value='Comment'>
-    </form>
-    <table>
-        {#% for comment in comments %#}
-        <tr>
-            <td>
-                <img src='{#comment.user.profileimage#}'>
-                <br>
-                {{ User.username }}
-            </td>
-            <td>
-                {{ comment }}
-            </td>
-        </tr>
-        {#% endfor %#}
-    </table>
-</div>
+<h2>{{ story.title }}</h2>
+<h3>{{ author }}</h3>
+
+<p>{{ story.author_init_comment }}</p>
+
+{% for paragraph in story.get_approved_paragraphs() %}
+	<p>{{ paragraph.content }} - {{ paragraph.get_author().username }}</p>
+{% endfor %}
+
 {% include "footer.html" %}

@@ -20,9 +20,11 @@ server.register('/changepassword', handler_login.changepassword)
 server.register('/user/(\w[\w\d]+)', handler_user.user)
 server.register('/profiles', handler_user.profiles)
 
-server.register('/view_story', handler_story.view_story)
+server.register('/view_story/([0-9]+)', handler_story.view_story)
 server.register('/add_to_stories', handler_story.add_to_stories)
+
 server.register('/new_story', handler_story.new_story)
+server.register('/process_new_story', handler_story.process_new_story)
 server.register('/view_story_list', handler_story.view_story_list)
 
 server.register('/register', handler_register.register)

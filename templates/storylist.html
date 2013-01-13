@@ -41,34 +41,22 @@
                 Options
             </th>
         </tr>
-    {#% for story in stories %#}
+    {% for story in stories %}
         <tr id='story_row'>
             <td>
-                {story.title}
+                <a href="view_story/{{ story.id }}">{{ story.title }}</a>
             </td>
             <td>
-                {story.likes}
+                {# story.likes #}
             </td>
             <td>
-                {story.views}
+                {# story.views #}
             </td>
             <td>
-                {% if current_user is None %}
-                <a href="/story/view?id={#story.id#}">
-                View Story
-                </a>
-                {% else %}
-                <a href="/story/contribute?id={#story.id#}">
-                Add to story
-                </a>
-                <br>
-                <a href="/story/view?id={#story.id#}">
-                View Story
-                </a>
-                {% endif %}
+                
             </td>
         </tr>
-    {#% endfor %#}
+    {% endfor %}
     </table>
 </div>
 {% include "footer.html"%}

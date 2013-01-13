@@ -21,6 +21,9 @@
                 Paragraphs Written
             </th>
             <th>
+                Stories Written
+            </th>
+            <th>
                 Stories Started
             </th>
             <th>
@@ -30,10 +33,17 @@
                 Option
             </th>
         </tr>
-    {#% for user in users %#}
+    {% for user in users %}
         <tr id="user_row">
             <td>
-                {#user.username#}
+                <a href='http://en.gravatar.com/'>
+                    <span id='profileimg'>
+                        <img src='{% gravatar user.email %}'>
+                    </span>
+                </a>
+            </td>
+            <td>
+                {{ user.username }}
             </td>
             <td>
                 {#user.parascont#}
@@ -48,12 +58,12 @@
                 {#user.likes#}
             </td>
             <td>
-                <a href="/user/view?id={#user.id#}">
+                <a href="/user/{{ user.username }}">
                 View Profile
                 </a>
             <td>
         </tr>
-                {#% endfor %#}
+    {% endfor %}
     </table>
 </div>
 {% include "footer.html"%}

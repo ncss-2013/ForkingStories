@@ -15,11 +15,23 @@ def user(response, username):
 	    'requested_user': username
 	}
 
+	print(user)
+
 	html = template.render_file('templates/profile.html', context)
 	response.write(html)
 
 def profiles(response):
 	users = User.find('all')
 
-	for user in users:
-		response.write('<a href="/user/{}">{}</a><br />'.format(user.username, user.username))
+	if response.get_secure_cookie('username') is not None:
+		current_user = User.find('username', str(response.get_secure_cookie('username'), 'utf-8'))[0]
+	else:
+		current_user = None
+
+	context = {
+		'users':users,
+		'current_user':current_user
+	}
+
+	html = template.render_file('templates/profilelist.html', context)
+	response.write(html)

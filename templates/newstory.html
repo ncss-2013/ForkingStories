@@ -1,40 +1,42 @@
 {% include "header.html"%}
-<article>
-   <h2> 
-        Create a Story! 
-    </h2>
-    <form>
-        <div>
-            <label>
-                Title:
-                <input type='text' placeholder='Enter your title' name='title'>
-                <br>
-            </label>
-            <label>
-                <textarea placeholder='Start your story here!' name='story'></textarea>
-                <br>
-            </label>
-            <label>
-                Challenge Rules:
-                <select name='rule'>
-                    <option>
-                        Rule 1
-                    </option>
-                    <option>
-                        Rule 2
-                    </option>
-                    <option>
-                        Rule 3
-                    </option>
-                </select>
-                <br>
-            </label>
-                <textarea placeholder="Host's Comments" name='comment'></textarea>
-                <br>
-            <input type='submit' value='Create a Story!'>
-        </div>
-    </form>
-</article>
+{% if current_user is not None %}
+    <article>
+       <h2> 
+            Create a Story! 
+        </h2>
+        <form action="/process_new_story" method="POST">
+            <div>
+                <label>
+                    Title:
+                    <input type='text' placeholder='Enter your title' name='title'>
+                    <br>
+                </label>
+                <label>
+                    <textarea placeholder='Start your story here!' name='story'></textarea>
+                    <br>
+                </label>
+                <label>
+                    Challenge Rules:
+                    <select name='rule'>
+                        <option>
+                            Rule 1
+                        </option>
+                        <option>
+                            Rule 2
+                        </option>
+                        <option>
+                            Rule 3
+                        </option>
+                    </select>
+                    <br>
+                </label>
+                    <textarea placeholder="Host's Comments" name='comment'></textarea>
+                    <br>
+                <input type='submit' value='Create a Story!'>
+            </div>
+        </form>
+    </article>
+{% else %}
+    <p>You need to be logged in to create a new story. <a href="/register">Register now!</a></p>
+{% endif %}
 {% include "footer.html"%}                   
-                
-                    

@@ -1,7 +1,7 @@
 import __importfix__; __package__ = 'dbapi'
 
 from .__init__ import *
-from dbapi.user import *
+import dbapi.user
 import dbapi.dbtime as dbtime
 
 import sqlite3
@@ -58,8 +58,10 @@ class Comment(object):
             conn.commit()
 
     def get_author(self):
-        cur = conn.cursor()
-        return User.find('id', self.author_id)
+        try:
+            return dbapi.user.User.find('id', self.author_id)[0]
+        except IndexError:
+            return None
 
     @classmethod
     def create(cls, userObj:object, storyObj:object, content:str):

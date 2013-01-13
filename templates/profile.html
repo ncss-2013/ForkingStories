@@ -22,7 +22,7 @@
         <strong>Paragraphs Written: </strong> {{user.get_number_of_paragraphs_approved()}} <br />
         <strong>Stories Started: {% if not user.get_stories() %}no stories submitted{% endif %}</strong> <ul>
         {% for story in user.get_stories() %} 
-           <li> {{story.title}}</li>
+           <li><a href="/view_story/{{story.id}}">{{story.title}}</a></li>
         {% endfor %}
          </ul>
         {% if current_user is not None and current_user.username == user.username %}

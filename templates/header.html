@@ -26,12 +26,9 @@
             </div>
         {% else %}
             <div class='loginbox'>
-                <table><tr><td>
                 <img src='{% gravatar current_user.email %}'>
-                </td><td>
                 <p>Welcome <a href='/user/{{current_user.username}}'>{{current_user.username}}</a>!</p>
                 <p><a href='/logout'>Logout</a> </p>
-                </td></tr></table>
             </div>
         {% endif %}
         <h1>Forking Stories</h1>

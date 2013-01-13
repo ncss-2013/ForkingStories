@@ -53,7 +53,19 @@
                 {# story.views #}
             </td>
             <td>
-                
+                {% if current_user is None %}
+                <a href="/story/view?id={#story.id#}">
+                View Story
+                </a>
+                {% else %}
+                <a href="/story/contribute?id={#story.id#}">
+                Add to story
+                </a>
+                <br>
+                <a href="/story/view?id={#story.id#}">
+                View Story
+                </a>
+                {% endif %}                
             </td>
         </tr>
     {% endfor %}

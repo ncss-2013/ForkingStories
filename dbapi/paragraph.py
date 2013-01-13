@@ -132,7 +132,7 @@ in order for that story.'''
         cur = conn.cursor()
         cur.execute('''SELECT * FROM paragraphs WHERE
 story_id = ''' + str(story_id) + ''' AND approved = 1
-ORDER BY parent_id;''')
+ORDER BY created;''')
         rows = cur.fetchall()
         return [Paragraph(p[0], p[1], p[2], p[3], p[4], p[5], p[6],
                          dbtime.get_time_from_str(p[7])) for p in rows]

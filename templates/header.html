@@ -8,7 +8,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
         <script src="/static/js/utility.js"></script>
         <title>
-            Forking Stories 
+            Forking Stories
         </title>
     </head>
     <body>
@@ -36,14 +36,14 @@
         <h1>Forking Stories</h1>
     </div>
     <div id="nav">
-        <a href="/">Home</a>  
-        <a href="/profiles">User Profiles</a>  
-        <a href="/view_story_list">View Story list</a>   
+        <a href="/">Home</a>
+        <a href="/profiles">User Profiles</a>
+        <a href="/search">Search Stories</a>
         {% if current_user is not None %}
             <a href='/new_story'>Create a Story</a>
 			<!-- <a href='/add_to_stories'>Add to a Story</a>
             <a href="/view_story">View Story</a>  -->
-            <a href='{{"/user/{}".format(current_user.username)}}'>My Profile</a>	
+            <a href='{{"/user/{}".format(current_user.username)}}'>My Profile</a>
         {% endif %}
    </div>
    <div id="main"><!-- this is opening the main div that is closed in footer -->

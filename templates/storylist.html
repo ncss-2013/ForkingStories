@@ -3,6 +3,8 @@
     <h2>
         Current Stories
     </h2>
+    {% if stories %}
+    {% ifdef query %}{% if query %}<h4>Results for "{{ query }}"</h4>{% endif %}{% endif %}
     <table id='storytable'>
         <tr>
             <th>
@@ -18,24 +20,26 @@
                 Options
             </th>
         </tr>
-    {% for story in stories %}
-        <tr id='story_row'>
-            <td>
-                {{ story.title }}
-            </td>
-            <td>
-                {# story.likes #}
-            </td>
-            <td>
-                {# story.views #}
-            </td>
-            <td>
-                <a href="view_story/{{ story.id }}">View Story</a>             
-            </td>
-        </tr>
-    {% endfor %}
-
+        {% for story in stories %}
+            <tr id='story_row'>
+                <td>
+                    {{ story.title }}
+                </td>
+                <td>
+                    {# story.likes #}
+                </td>
+                <td>
+                    {# story.views #}
+                </td>
+                <td>
+                    <a href="view_story/{{ story.id }}">View Story</a>
+                </td>
+            </tr>
+        {% endfor %}
     </table>
+    {% else %}
+        <h4>No stories matched the search query "{{ query }}"</h4>
+    {% endif %}
 </div>
 <div class="main-right">
     <div>

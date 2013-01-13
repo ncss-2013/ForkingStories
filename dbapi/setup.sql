@@ -33,6 +33,21 @@ CREATE TABLE IF NOT EXISTS stories (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS rules (
+    id INTEGER NOT NULL,
+    story_id INTEGER NOT NULL,
+    rule_def_id INTEGER NOT NULL,
+    params TEXT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS ruleDefs (
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    PRIMARY KEY (id)
+);
+
 REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', "2000-11-16 00:00:00.00000",
     'barry.sucks@gmail.com', "2000-11-16 00:00:00.00000", 'Sydney', "Hi, I'm Barry!", '<img src="vjeiwo".jpg>');
 

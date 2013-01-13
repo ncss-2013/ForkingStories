@@ -29,8 +29,8 @@ class User(object):
 Use User.find(<fieldname for query>, <some query>) to fetch a list
 of User objects representing rows in the user table.
 
-Use User.create(fname, lname, username, password, year, month, day, email, location, bio) to create a new User object.
-Id, joindate are created automatically. Dob is figured from the year, month, day.
+Use User.create(fname, lname, username, password, dob, email, location, bio) to create a new User object.
+Id, joindate are created automatically. 
 
 Use User.save() to add the user row to the database.
 
@@ -82,9 +82,8 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         return results
     #When you edit, use User.find()[0] (you can't edit multiple results, it will just edit the first one)
 
-    def create(fname, lname, username, password, year, month, day, email, location, bio):
+    def create(fname, lname, username, password, dob, email, location, bio):
         joindate = dbtime.make_time_str()
-        dob = dbtime.make_time_str((int(year), int(month), int(day)))
         return User(None, fname, lname, username, password, dob, email, joindate, location, bio)
         
     #Don't use update, but don't delete it either!!!
@@ -100,8 +99,8 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
             rows = cur.fetchall()
             results = []
             for row in rows:
-                results.append(User(*row))
-            if results:
+                results += User.find("id", *row) 
+            if len(results) != 0:
                 raise UsernameAlreadyExists()
             else:
                 cur.execute("""INSERT INTO users (fname, lname, username, password, dob, email, joindate, location, bio)
@@ -127,7 +126,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
     def get_contributed_stories(self):
         cur = conn.cursor()
         cur.execute("""SELECT s.id
-            FROM stories s JOIN paragraph p ON s.id = p.story_id JOIN users u ON p.author_id = u.id
+            FROM stories s JOIN paragraphs p ON s.id = p.story_id JOIN users u ON p.author_id = u.id
             WHERE u.id = ?""",
             (self.id,))
         rows = cur.fetchall()
@@ -189,4 +188,6 @@ if __name__ == "__main__":
 
     stories = s2.get_stories()
     assert len(stories), "Should have some stories"
+
+    
 

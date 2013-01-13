@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS ruleDefs (
 
 CREATE TABLE IF NOT EXISTS comments (
     id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
+    author_id INTEGER NOT NULL,
     story_id INTEGER NOT NULL,
     content TEXT NOT NULL,
     PRIMARY KEY (id)

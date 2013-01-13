@@ -79,8 +79,7 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
         try:
             return User.find('id', self.author_id)[0]
         except IndexError:
-            raise Exception('This paragraph has no exsiting author'
-                            ' in the datebase.')
+            return None
 
     def get_story(self):
         from dbapi.story import Story

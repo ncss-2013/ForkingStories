@@ -1,11 +1,13 @@
 {% include "header.html"%}
+
 <h2>{{ story.title }}</h2>
-<h3>{{ author }}</h3>
+<h3>{{ author.username }}</h3>
 
 <p>{{ story.author_init_comment }}</p>
 
 {% for paragraph in story.get_approved_paragraphs() %}
-	<p>{{ paragraph.content }} - {{ paragraph.get_author().username }}</p>
+	{% exec pauthor = paragraph.get_author() %}
+	<p>{{ paragraph.content }} {% if pauthor %} - {{ pauthor.username }} {% endif %}</p>
 {% endfor %}
 
 {% include "footer.html" %}

@@ -180,7 +180,7 @@ def lex(text):
 	############################
 
 	# Hackily get a list of labels and regex objects that match them:
-	token_reg = [(label, re.compile(regex)) for label, regex in (l.split() for l in r'''
+	token_reg = [(label, re.compile(regex, re.S)) for label, regex in (l.split() for l in r'''
 
 	eval {{(.*?)}}
 	exec {%\s*exec\s(.*?)%}
@@ -210,11 +210,19 @@ def lex(text):
 
 	gravatar {%\s*gravatar\s(.*?)%}
 
-	'''.split('\n') if l.strip())]
+	'''.splitlines() if l.strip())]
 
+
+	matches = []
+	for match in re.finditer(r'({{.*?}}|{%.*?%}|{#.*?#})', text, re.S | re.M):
+		start = match.start()
+		end = match.end()
+		if matches:
+			matches.append((matches[-1][1], start))
+		matches.append((start, end))
 
 	# For each relevant block:
-	for block in re.split(r'({{.*?}}|{%.*?%}|{#.*?#})', text):
+	for block in (text[start:end] for start,end in matches if start < end):
 
 		# Try matching each of the tokens:
 		label = None
@@ -236,6 +244,7 @@ def lex(text):
 			expr = block
 
 		tokens.append((label, expr))
+
 	return tokens
 
 

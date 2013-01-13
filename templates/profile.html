@@ -1,21 +1,18 @@
 {% include "templates/header.html" %}
 {% if user is not None %}
 <div>
-    <span id='profileimg'>
-        <img src='http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'>
-    </span>
-    <span>
-    <a href='http://en.gravatar.com/?utm_source=lasindias.info/blog'> 
-        Change your pic here! 
+    <a href='http://en.gravatar.com/'>
+        <span id='profileimg'>
+            <img src='{% gravatar user.email %}'>
+        </span>
     </a>
-    <span>
-</div>
-<div>
     <span>
         <h2> 
             {{ user.username }} 
         </h2>
     </span>
+</div>
+<div>
     <div>
         
         <strong>Name: </strong> {{ user.fname }} {{ user.lname }}<br />

@@ -8,6 +8,7 @@ import handler_story
 import handler_user
 import handler_chat
 import handler_register
+import handler_spellcheck
 
 server = Server()
 server.register('/', handler_main.index)
@@ -29,5 +30,7 @@ server.register('/view_story_list', handler_story.view_story_list)
 
 server.register('/register', handler_register.register)
 server.register('/process_register', handler_register.process_register)
+
+server.register('/spellcheck', handler_spellcheck.spellcheck)
 
 server.run()

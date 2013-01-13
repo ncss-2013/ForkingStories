@@ -1,12 +1,18 @@
 import string
+import os
 
-file = open('words.txt')
+if __name__ == "__main__":
+    basepath = "."
+else:
+    basepath = os.path.dirname(__file__)
+
+file = open(basepath+'/words.txt')
 dictionary = set()
 for line in file:
     dictionary.add(line[:-1])
 
 test = dict()
-with open('wordcount.txt', encoding='utf-8') as w:
+with open(basepath+'/wordcount.txt', encoding='utf-8') as w:
     for line in w:
         line = line.split()
         word = line[0]
@@ -146,20 +152,22 @@ def suggest_corrections(word):
     for items in sorted_suggestions:
         item_1, item_2 = items
         final.append(item_1)
+    if word in final:
+        return None
+    elif len(final) >= 10:
+        return final[:10]
     return final
 
-word = input('Enter word: ')
-while word:
-    results = suggest_corrections(word)
-    if word in results:
-        print('No errors!')
-    elif len(results) == 0:
-        print('No results!')
-    elif len(results) < 10:
-        for index in range(len(results)):
-            print(results[index],)
-    else:
-        for index in range(10):
-            print(results[index],)
-    print()
+if __name__ == '__main__':
     word = input('Enter word: ')
+    while word:
+        results = suggest_corrections(word)
+        if word is None:
+            print('No errors!')
+        elif len(results) == 0:
+            print('No results!')
+        else:
+            for index in range(10):
+                print(results[index],)
+        print()
+        word = input('Enter word: ')

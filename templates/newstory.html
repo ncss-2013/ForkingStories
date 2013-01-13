@@ -12,7 +12,32 @@
                     <br>
                 </label>
                 <label>
-                    <textarea placeholder='Start your story here!' name='story' required></textarea>
+                    <textarea id="story" placeholder='Start your story here!' name='story' required></textarea>
+                    <button id="check-story">Check Spelling</button>
+                    <div id="spelling-result"></div>
+<script type="text/javascript">
+var button = $('#check-story');
+button.click(function() {
+    var story = $('#story');
+    $.ajax('/spellcheck', {
+            type: 'POST',
+            data: {
+                text: story.attr('value')
+            },
+            success: function(value) {
+                if (typeof value == 'string') {
+                    value = JSON.parse(value);
+                }
+                var html = "";
+                for (var k in value) {
+                    html += '<strong>' + k + '</strong> ' + value[k] + '<br />';
+                }
+                $('#spelling-result').html(html);
+            }
+    });
+    return false;
+});
+</script>
                     <br>
                 </label>
                 <label>

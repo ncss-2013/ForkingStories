@@ -90,15 +90,16 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
                             ' story in the datebase.')
     def up_vote(self):
         self.votes += 1
-        return self.votes
 
     def approve(self):
+        '''This method is currently obsolete and has no function. All paragraphs
+are approved by default.'''
         self.approved = 1
     
     @classmethod
-    def create (clf, content:str, parent_id:int,
+    def create (clf, content:str, parent_id:int, votes:int,
                  author_id:int, approved:bool, story_id:int):
-        return Paragraph(None, content, parent_id, 0, author_id,
+        return Paragraph(None, content, parent_id, votes, author_id,
                          1 if approved else 0,
                          story_id, -1)
         
@@ -111,9 +112,9 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
             order_by = field_name
             
         # TODO: This is a bug, maybe escape field_name later
-        rows = cur.execute('SELECT * FROM paragraphs WHERE ' + field_name + ' = ?'
-                           'ORDER BY ?',
-                        (query, order_by)).fetchall()
+        rows = cur.execute('SELECT * FROM paragraphs WHERE ' + field_name +
+                           ' = ? ORDER BY ?',
+                        (query, order_by)).fetchall()     
         return [Paragraph(p[0], p[1], p[2], p[3], p[4], p[5], p[6],
                          dbtime.get_time_from_str(p[7])) for p in rows]
 
@@ -133,9 +134,9 @@ ORDER BY parent_id;''')
 
 if __name__ == '__main__':
     p = Paragraph.create('It\'s a cave troll! Save the hobbits! Aragorn!',
-                         2, 0, False, 0)
+                         2, 1, 0, False, 0)
     p.up_vote()
-    assert p.votes == 1, 'p should have 1 vote!'
+    assert p.votes == 2, 'p should have 2 votes!'
     p.approve()
     assert p.approved == 1, 'p should be approved! How come p.approve isn\'t 1?'
     p.save()

@@ -396,7 +396,7 @@ def render_file(filename, variables={}):
 def prettify(rendered):
 	rendered = re.sub(r'\s+', ' ', rendered)
 	rendered = BeautifulSoup(rendered).prettify()
-	return '\n'.join(re.sub(r'^(\s+)', r'\1'*3, line) for line in rendered.splitlines())
+	return '\n'.join(re.sub(r'^(\s+)', r'\1'*2, line) for line in rendered.splitlines())
 
 if __name__ == '__main__':
 	context = {

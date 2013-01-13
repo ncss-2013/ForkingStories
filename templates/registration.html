@@ -39,7 +39,7 @@
         </label>
         <label> 
             Repeat Password:
-            <input type='password' name='rpassword' id='rpassword' required>
+            <input type='password' name='rpassword' required id='rpassword'>
         </label>
         <label>
             Email:
@@ -70,7 +70,7 @@
 </div>
 <script>
 $(function (){
-    validate_passwords('password-initial', 'password-repeat');
+    validate_passwords('password-initial', 'rpassword');
     validate_form($("#register-form"), $('#register-form .error-message'));
 })
 </script>

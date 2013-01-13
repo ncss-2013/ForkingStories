@@ -30,10 +30,10 @@
                     <input type='password' name='old password'>
                 </label>
                 <p><label>New password:
-                    <input type='password' name='new password 1'>
+                    <input type='password' name='new password 1' id="pwchange">
                 </label>
                 <p><label>New password:
-                    <input type='password' name='new password 2'>
+                    <input type='password' name='new password 2' id="pwchangerepeat">
                 </label>
                 <p><input type='submit' value='Submit'>
             </form>
@@ -64,5 +64,10 @@
             </span>-->
         </div>
     </div>
+<script>
+$(function (){
+    validate_passwords('pwchange', 'pwchangerepeat');
+})
+</script>
 {% endif %}
 {% include "templates/footer.html"%}

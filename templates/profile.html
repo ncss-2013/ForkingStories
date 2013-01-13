@@ -1,7 +1,7 @@
 {% include "templates/header.html" %}
 {% if user is not None %}
 <div class="main-right">
-    <a href='http://en.gravatar.com/'>
+    <a href="/user/{{ user.username }}">
         <span id='profileimg'>
             <img src='{% gravatar user.email %}'>
         </span>

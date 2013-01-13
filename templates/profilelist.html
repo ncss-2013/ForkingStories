@@ -23,21 +23,20 @@
             <th>
                 Stories Started
             </th>
-            <th>
-                Options
-            </th>
         </tr>
     {% for user in users %}
         <tr id="user_row">
             <td>
-                <a href='http://en.gravatar.com/'>
+                <a href="/user/{{ user.username }}">
                     <span id='profileimg'>
                         <img src='{% gravatar user.email %}'>
                     </span>
                 </a>
             </td>
             <td>
+                <a href="/user/{{ user.username }}">
                 {{ user.username }}
+                </a>
             </td>
             <td>
                 {{user.get_number_of_paragraphs_approved()}}
@@ -45,11 +44,6 @@
             <td>
                 {{user.get_number_of_stories()}}
             </td>
-            <td>
-                <a href="/user/{{ user.username }}">
-                View Profile
-                </a>
-            <td>
         </tr>
     {% endfor %}
     </table>

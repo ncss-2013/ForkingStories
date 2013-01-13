@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
   lname TEXT NOT NULL,
   username TEXT NOT NULL,
   password TEXT NOT NULL,
-  dob TEXT NOT NULL,
+  dob REAL NOT NULL,
   email TEXT NOT NULL,
   joindate TEXT NOT NULL,
   location TEXT NOT NULL,
@@ -63,6 +63,6 @@ REPLACE INTO paragraphs VALUES (0, '"You shall not pass!"', -1, 10, 0,
     1, 0, "2013-01-13 14:13:29.324000");
 REPLACE INTO paragraphs VALUES (1, '"But you can dance!"', 0, 10,  0,
     1, 0, "2013-01-13 14:14:09.884000");
-REPLACE INTO paragraphs VALUES (2, 'Wizard Gandalf style!', 1, 10, 1,
+REPLACE INTO paragraphs VALUES (2, 'Wizard Gandalf style!', 1, 10, 0,
     1, 0, "2013-01-13 14:14:27.044000");
 REPLACE INTO stories VALUES (0, 0, "This is such a cool story", "2013-01-13 13:14:27.044000", "Comment", 0);

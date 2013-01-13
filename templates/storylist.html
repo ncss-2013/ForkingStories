@@ -3,7 +3,30 @@
     <h2>
         Current Stories
     </h2>
-    <table>
+    <div>
+        <form id='storysortbox'>
+            <select name='sort'>
+                <option>
+                    Title: A-Z
+                </option>
+                <option>
+                    Title: Z-A
+                </option>
+                <option>
+                    Most Likes
+                </option>
+                <option>
+                    Most Views
+                </option>
+            </select>
+            <input type='submit' value='Sort'>
+        </form>
+        <form id='storysearchbox' method="POST">
+            <input type ='search' name='storyquery' placeholder='Search'>
+            <input type='submit' value='Search'>
+        </form>
+    </div>
+    <table id='storytable'>
         <tr>
             <th>
                 Story Title
@@ -30,16 +53,7 @@
                 {# story.views #}
             </td>
             <td>
-                {% if current_user is None %}
-                <a href="view_story/{{ story.id }}">{{ story.title }}</a>
-                <a href="view_story/{{ story.id }}">View Story</a>
-                {% else %}
-                <!--<a href="/story/contribute?id={#story.id#}">
-                Add to story
-                </a>
-                <br>-->
-                <a href="view_story/{{ story.id }}">{{ story.title }}</a>
-                {% endif %}                
+                <a href="view_story/{{ story.id }}">View Story</a>             
             </td>
         </tr>
     {% endfor %}

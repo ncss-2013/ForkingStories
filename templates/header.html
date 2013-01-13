@@ -16,9 +16,9 @@
    <div id="header">
         {% if current_user is None %}
             <div class='loginbox'>
-                <form action="/authenticate" method="POST">
-                    <label>Username: <input type='text' name="username" id="username" class='loginbox' placeholder='Username'></label>
-                    <label>Password: <input type='password' name="password" id="password" class='loginbox' placeholder='Password'></label>
+                <form action="/authenticate" method="POST" autocomplete='off'>
+                    <label>Username: <input type='text' name="username" id="username" class='loginbox' placeholder='Username' required></label>
+                    <label>Password: <input type='password' name="password" id="password" class='loginbox' placeholder='Password' required></label>
                     <input type='submit' class='loginbox' value='Login'>
                 </form>
                 <a href='/register'>Create an account</a>

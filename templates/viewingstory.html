@@ -9,5 +9,8 @@
 	{% exec pauthor = paragraph.get_author() %}
 	<p>{{ paragraph.content }} {% if pauthor %} - {{ pauthor.username }} {% endif %}</p>
 {% endfor %}
-
+<form>
+    <textarea name='commentbox' placeholder='Comment'></textarea>
+    <br>
+    <input type='submit' value='Comment'>
 {% include "footer.html" %}

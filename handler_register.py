@@ -20,17 +20,17 @@ def process_register(response):
     # Username should be 4 or more characters of only numbers and letters
     username_pat = re.compile(r'[a-zA-Z0-9]{4}[a-zA-Z0-9]*')
     
-    firstname = response.get_argument('fname')
-    lastname = response.get_argument('lname')
+    firstname = response.get_argument('fname', default='')
+    lastname = response.get_argument('lname', default='')
     username = response.get_argument('username')
     password = response.get_argument('password')
     repeat_password = response.get_argument('rpassword')
     email = response.get_argument('email')
-    birthyear = response.get_argument('birthyear')
-    birthmonth = response.get_argument('birthmonth')
-    birthday = response.get_argument('birthday')
-    location = response.get_argument('location')
-    bio = response.get_argument('bio')
+    birthyear = response.get_argument('birthyear', default='')
+    birthmonth = response.get_argument('birthmonth', default='')
+    birthday = response.get_argument('birthday', default='')
+    location = response.get_argument('location', default='')
+    bio = response.get_argument('bio', default='')
 
     #user_exists = User.get(username)
     user_exists = False

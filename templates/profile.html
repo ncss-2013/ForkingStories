@@ -18,8 +18,13 @@
         <strong>Name: </strong> {{ user.fname }} {{ user.lname }}<br />
         <strong>DOB: </strong> {{ user.dob }}<br />
         <strong>Email: </strong> {{ user.email }}<br />
+        <strong>Location: </strong> {{ user.location }}<br/>
+        <strong>Bio: </strong> {{ user.bio }}<br />
         
         {% if current_user is not None and current_user.username == user.username %}
+        <input type='button' id='hidepass' value='Change Password''>
+        <script src='/static/js/hidepasswordchange.js'></script>
+        <div id='changepass' style='display:none;>
             <p><form action='/changepassword'>
                 <label>Old password:
                     <input type='password' name='old password'>
@@ -30,11 +35,9 @@
                 <p><label>New password:
                     <input type='password' name='new password 2'>
                 </label>
-                <p><input type='submit' value='change password'>
+                <p><input type='submit' value='Submit'>
             </form>
-            <form action='/logout'>
-                <input type='submit' value='logout'>
-            </form>
+        </div>
         {% endif %}
 
         <!-- <span id='profileimg'>

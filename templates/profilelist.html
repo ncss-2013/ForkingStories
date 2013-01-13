@@ -21,16 +21,10 @@
                 Paragraphs Written
             </th>
             <th>
-                Stories Written
-            </th>
-            <th>
                 Stories Started
             </th>
             <th>
-                Likes Recieved
-            </th>
-            <th>
-                Option
+                Options
             </th>
         </tr>
     {% for user in users %}
@@ -46,16 +40,10 @@
                 {{ user.username }}
             </td>
             <td>
-                {#user.parascont#}
+                {{user.get_number_of_paragraphs_approved()}}
             </td>
             <td>
-                {#user.storiescont#}
-            </td>
-            <td>
-                {#user.storiesstarted#}
-            </td>
-            <td>
-                {#user.likes#}
+                {{user.get_number_of_stories()}}
             </td>
             <td>
                 <a href="/user/{{ user.username }}">

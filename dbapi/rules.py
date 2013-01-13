@@ -1,5 +1,10 @@
 import re
 
+import __importfix__; __package__ = 'dbapi'
+
+from .__init__ import *
+
+
 def list2str (data:list, separator:str='||'):
     """
 This takes a list and inserts the seperator in to return a string.
@@ -16,6 +21,24 @@ And returns a list of strings.
 
 
 class Rules(object):
+
+    def get_rules_params(story_id):
+        cur = conn.cursor()
+        cur.execute("""
+SELECT d.name, r.params
+FROM rules r
+JOIN ruleDefs d ON r.rule_def_id = d.id
+WHERE r.story_id = ?;""", (story_id,))
+        return cur.fetchall()
+
+    def get_rules():
+        cur = conn.cursor()
+        cur.execute("""
+SELECT *
+FROM ruleDefs;""")
+        return cur.fetchall()
+
+
 
     def letters_per_word(original:str, minimum:str, maximum:str):
         """
@@ -79,15 +102,16 @@ every ___ words
                 return False
         return True
 
-    def check():
+    def check(original:str, story_id:int):
         #get the list of rules for that story
-        rows = [ ('banned_words', "cat||dog||mouse"),
-                 ('letters_per_word', "3||4") ]
+        rows = Rules.get_rules_params(0)
+        #rows = [ ('banned_words', "cat||dog||mouse"),
+         #        ('letters_per_word', "3||4") ]
         #iterate of the list of rules, checking each
         for method, params in rows:
             params = str2list(params)
-            #print(repr(method+'('+original+', '+", '".join(params)))
-            if not eval("Rules."+method+'('+repr(original)+", '"+"', '".join(params)+"')"):
+            if not eval("Rules.{}({},'{}')".format(
+                method, repr(original), "','".join(params))):
                 return False
 
         return True
@@ -120,6 +144,11 @@ if __name__=="__main__":
     assert Rules.forced_words("hello banana apple", "hello", "banana")
     assert not Rules.forced_words("hello banana apple", "hello", "train")
     assert Rules.forced_words("hello banana apple", "hello", "apple")
+
+    assert Rules.check("hello world", 0)
+
+    #print(RulesTable.get_rules_params(0))
+    #print(RulesTable.get_rules())
 
     #need to fix method so this assert passes
     #assert Rules.forced_words("cats.", "cats")

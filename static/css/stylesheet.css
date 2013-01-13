@@ -531,12 +531,15 @@ button:active
 	display: inline-block;
 	padding: 6px;
 	vertical-align: top;
+	white-space: nowrap;
 }
 .story_text_container {
 	text-align: center;
 	border-bottom: solid thin rgba(100,100,100,0.5);
 	border-left: solid thin rgba(100,100,100,0.3);
+	max-width: 500px;
 	padding: 5px;
+	white-space: normal;
 }
 .story_text {
 	background: rgba(100,100,100,0.1);

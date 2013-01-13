@@ -19,6 +19,7 @@
 var button = $('#check-story');
 button.click(function() {
     var story = $('#story');
+
     $.ajax('/spellcheck', {
             type: 'POST',
             data: {
@@ -28,14 +29,30 @@ button.click(function() {
                 if (typeof value == 'string') {
                     value = JSON.parse(value);
                 }
-                var html = "";
+                var html = "<dl class='spelling'>";
                 for (var k in value) {
-                    html += '<strong>' + k + '</strong> ' + value[k] + '<br />';
+                    html += '<dt>' + k + '</dt><dd>';
+                    for (var i in value[k]) {
+                        html += "<a href='#'>" + value[k][i] + "</a>";
+                    }
                 }
+                html += "</dl>";
                 $('#spelling-result').html(html);
             }
     });
     return false;
+});
+
+var replace_word = function(from, to) {
+    $('#story').val($('#story').val().replace(from, to));
+};
+
+$(document).on('click', '.spelling dd a', function(event) {
+    var to = $(event.target).html();
+    var from = $(event.target).closest('dd').prev().html();
+    replace_word(from, to);
+    $(event.target).closest('dd').hide();
+    $(event.target).closest('dd').prev().hide();
 });
 </script>
                     <br>

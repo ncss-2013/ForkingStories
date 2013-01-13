@@ -440,3 +440,27 @@ input[type="submit"]:active
     background-color: whitesmoke;
     padding: 29px;
 }
+
+
+/* spelling suggestions */
+.spelling {
+    width: 560px;
+}
+
+.spelling dt, .spelling dd {
+    display: inline-block;
+}
+
+.spelling dt {
+    width: 100px;
+    font-weight: bold;
+}
+
+.spelling dd {
+    width: 450px;
+    -webkit-margin-start: 0px;
+}
+
+.spelling dd a {
+    margin-right: 10px;
+}

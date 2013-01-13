@@ -112,10 +112,9 @@ REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, sto
     6, 10, 2, 1, 1, "2013-01-13 16:24:27.000000");
 
 REPLACE INTO rules (id, story_id, rule_def_id, params)
-    VALUES (0, 0, 1, "0||6");
+    VALUES (0, 0, 0, "0||6");
 REPLACE INTO rules (id, story_id, rule_def_id, params)
-    VALUES (1, 0, 2, "cat||dog");
-    
+    VALUES (1, 0, 1, "cat||dog");
 
 REPLACE INTO ruleDefs (id, name, description)
     VALUES (0, "letters_per_word", "Returns False if the word is not within (or equal to) the minimum or maximum values set by the user.");

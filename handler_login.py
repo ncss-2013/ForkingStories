@@ -47,7 +47,7 @@ def authenticate(response):
                 <head>
                 </head>
                 <body>
-                    <p>Incorrect username or password, or username and password.</p>
+                    <p>Incorrect username or password.</p>
                 </body>
             </html>''')
 

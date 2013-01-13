@@ -28,7 +28,6 @@ def spellcheck(response):
         response.write(json.dumps(fixed))
 
     else:
-        response.write("Hello! This is probably a spellchecker of some kind.")
         response.write('''
 <form method='post'>
 <textarea name='text'>

@@ -13,6 +13,8 @@ import __importfix__; __package__ = 'dbapi'
 from .__init__ import *
 import dbapi.dbtime as dbtime
 
+
+
 class Paragraph(object):
     '''This class represents a row in the paragraph table.
 
@@ -29,12 +31,12 @@ an instantiated Paragraph object.
 '''
     def __init__(self, para_id:int, content:str, parent_id:int,
                  votes:int, author_id:int, approved:int, story_id:int,
-                 created:float):
+                 created_time:float):
         self.id = para_id
         self.content = content
         self.parent_id = parent_id
         self.votes = votes
-        self.created = created
+        self.created_time = created_time
         self.author_id = author_id
         self.approved = approved
         self.story_id = story_id
@@ -44,7 +46,7 @@ an instantiated Paragraph object.
         if not self.id:
             now = dbtime.make_time_float()
             cur.execute(
-                'INSERT INTO paragraph VALUES'
+                'INSERT INTO paragraphs VALUES'
                 '(NULL, ?, ?, ?, ?, ?, ?, ?);',
                 (self.content, self.parent_id, self.votes,
                  now, self.author_id, self.approved,
@@ -53,7 +55,7 @@ an instantiated Paragraph object.
             self.created = now
         else:
             cur.execute(
-                '''UPDATE paragraph 
+                '''UPDATE paragraphs 
 SET content = ?,
 parent_id = ?,
 votes = ?,
@@ -66,6 +68,28 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
         # Commit data
         conn.commit()
 
+    def delete(self):
+        cur = conn.cursor()
+        cur.execute('DELETE FROM paragraphs WHERE id = ' + str(
+            self.id) + ';')
+        conn.commit()
+
+    def get_author(self):
+        from dbapi.user import User
+        try:
+            return User.find('id', self.author_id)[0]
+        except IndexError:
+            raise Exception('This paragraph has no exsiting author'
+                            ' in the datebase.')
+
+    def get_story(self):
+        from dbapi.story import Story
+        try:
+            return Story.find('id', self.story_id)[0]
+        except IndexError:
+            raise Exception('This paragraph does not belong to any exsiting'
+                            ' story in the datebase.')
+
     @classmethod
     def create (clf, content:str, parent_id:int, votes:int,
                  author_id:int, approved:bool, story_id:int):
@@ -76,17 +100,31 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
 
 
     @classmethod
-    def get(clf, field_name, query, order_by=None):
+    def find(clf, field_name, query, order_by=None):
         cur = conn.cursor()
         if not order_by:
             order_by = field_name
             
         # TODO: This is a bug, maybe escape field_name later
-        rows = cur.execute('SELECT * FROM paragraph WHERE ' + field_name + ' = ?'
+        rows = cur.execute('SELECT * FROM paragraphs WHERE ' + field_name + ' = ?'
                            'ORDER BY ?',
                         (query, order_by)).fetchall()
         return [Paragraph(p[0], p[1], p[2], p[3], p[4], p[5], p[6],
                          dbtime.create_datetime(p[7])) for p in rows]
+
+    @classmethod
+    def get_approved_paragraphs(clf, story_id):
+        # TODO: Update docstrings
+        '''Takes a story id and returns a list of all the aprroved content
+in order for that story.'''
+        cur = conn.cursor()
+        cur.execute('''SELECT * FROM paragraphs WHERE
+story_id = ''' + str(story_id) + ''' AND approved = 1
+ORDER BY parent_id;''')
+        rows = cur.fetchall()
+        return [Paragraph(p[0], p[1], p[2], p[3], p[4], p[5], p[6],
+                         dbtime.create_datetime(p[7])) for p in rows]
+            
         
 
 if __name__ == '__main__':
@@ -95,8 +133,11 @@ if __name__ == '__main__':
                   False, 0)
     p.save()
 
-    q = Paragraph.get('id', p.id, 'story_id')
+    q = Paragraph.find('id', p.id, 'story_id')
     assert len(q) > 0, 'Some paragraph should exsist.'
     print(q[0].content)
+    print('Author:', p.get_author())
+    print('Story:', p.get_story())
+    p.delete()
             
             

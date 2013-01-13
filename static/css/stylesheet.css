@@ -103,7 +103,7 @@ a:hover, a:active {
 	display: inline-block;
 	padding: 6px 10px;
 	text-align: center;
-	text-shadow: 0 0 5px rgba(0,0,0,0.2), 0 0 1px rgba(0,0,0,0.4);
+	Text-shadow: 0 0 5px rgba(0,0,0,0.2), 0 0 1px rgba(0,0,0,0.4);
 	text-decoration: none;
 	font-size: 12px;
 	white-space: normal;
@@ -238,6 +238,10 @@ a:hover, a:active {
     position: relative;
     }
 
+.loginbox input {
+  color: #000;
+}
+
 .loginbox label {
     display: block;
 	overflow: auto;
@@ -343,7 +347,7 @@ input[type="button"]:active,
 input[type="reset"]:active,
 input[type="submit"]:active
  {	
-	color: #3A3A3A;
+	color: #3a3A3A;
 
 	/* Shadow */
 	box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;

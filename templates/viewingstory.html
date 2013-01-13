@@ -1,6 +1,8 @@
 {% include "header.html"%}
-<div class='main-left'>
+<div class="main-single">
     <h2>{{ story.title }}</h2>
+</div>    
+<div class='main-left'>
     <h3>Created By <a href="/user/{{ author.username }}">{{ author.username }}</a></h3>
     <p>{{ story.author_init_comment }}</p>
 <!-- This is where the rules for the story should go -->

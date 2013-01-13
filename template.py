@@ -89,7 +89,7 @@ class GravatarNode(Node):
 		self.email = email
 
 	def render(self, variables):
-		hashed = hashlib.md5(str(eval(self.email)).lower().strip().encode('ascii')).hexdigest()
+		hashed = hashlib.md5(str(eval(self.email, {}, variables)).lower().strip().encode('ascii')).hexdigest()
 		return 'http://www.gravatar.com/avatar/' + hashed
 
 	def __repr__(self):

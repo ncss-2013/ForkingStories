@@ -526,3 +526,22 @@ button:active
      }
     }
 
+/* Support for displaying story trees. */
+.story_group {
+	display: inline-block;
+	padding: 6px;
+	vertical-align: top;
+}
+.story_text_container {
+	text-align: center;
+	border-bottom: solid thin rgba(100,100,100,0.5);
+	border-left: solid thin rgba(100,100,100,0.3);
+	padding: 5px;
+}
+.story_text {
+	background: rgba(100,100,100,0.1);
+	border: solid thin rgba(100,100,100,0.1);
+	padding: 14px;
+	text-align: center;
+	display: inline-block;
+}

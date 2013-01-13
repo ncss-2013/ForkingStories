@@ -5,7 +5,7 @@ html {
 	padding: 0;
 	}
 body {
-	font-family: 'Arimo', sans-serif;
+	font-family: 'Helvetica', 'Arimo', sans-serif;
 	line-height: 1.88889;
 	color: #3A3A3A;
 	background: #E8E6E6;
@@ -79,9 +79,10 @@ a:hover, a:active {
 
 #header {
 	border: 0px solid green;
-    margin-top: 0px;
 	padding: 5px 5px 5px 15px;
 	background: #3a3a3a;
+  margin: 0 auto;
+  padding: 10px 150px;
     }
 
 #header h1{
@@ -90,15 +91,18 @@ a:hover, a:active {
 	margin-bottom: 0;
     margin-top: 0;
 	color: #DDDDDD;
-    padding-top: 0px;
+    padding-top: 0;
     }
 #nav {
 	border: 0px solid black;
 	padding: 5px;
-    letter-spacing: 1px;
+  letter-spacing: 1px;
 	margin-bottom: 0;
-    color: #DDDDDD;
-	background-image: linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
+  color: #DDDDDD;
+	background: #3a3a3a;
+  margin: 0 auto;
+  padding: 0 150px 10px 150px;
+	/*background-image: linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
 	background-image: -o-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
 	background-image: -moz-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
 	background-image: -webkit-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
@@ -111,7 +115,7 @@ a:hover, a:active {
 		color-stop(0.39, rgb(0,102,51)),
 		color-stop(0.7, rgb(58,58,58)),
 		color-stop(0.85, rgb(58,58,58))
-        );
+        );*/
     }
 
 #nav  a,
@@ -181,31 +185,31 @@ a:hover, a:active {
 
 #main {
     min-height:350px;
-	margin: 15px auto 60px;
-	padding: 15px 15px 15px 15px;
+	  margin: 0 auto;
+    padding: 10px 150px;
     background: #FAFBE3;
     overflow: auto;
-    width:900px;
     }
 
 .main-single {
 	overflow: hidden;
-    width:870px;
     padding: 5px 5px;
     }
 
 .main-left  {
 	overflow: hidden;
     float:left;
-    width:570px;
-    padding: 5px 5px;
+    /* width:570px; */
+    padding: 5px 300px 5px 5px;
     }
 
 .main-right {
     overflow: hidden;
-    float:right;
+    position: absolute;
+    right: 10px;
     width:300px;
     padding: 5px 5px;
+    display: block;
     }
 
 #story-text {
@@ -215,15 +219,11 @@ a:hover, a:active {
     }
 
 #footer {
-    padding: 5px 15px 5px 15px;
+  padding: 0 150px 0px 150px;
 	clear: both;
     color: #DDDDDD;
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    height: 40px;
-	background-image: linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
+	background: #3a3a3a;
+	/*background-image: linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
 	background-image: -o-linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
 	background-image: -moz-linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
 	background-image: -webkit-linear-gradient(bottom, rgb(58,58,58) 39%, rgb(0,102,51) 70%, rgb(0,102,51) 85%);
@@ -236,7 +236,7 @@ a:hover, a:active {
 		color-stop(0.39, rgb(58,58,58)),
 		color-stop(0.7, rgb(0,102,51)),
 		color-stop(0.85, rgb(0,102,51))
-	);
+	);*/
     }
 
 .loginbox {
@@ -296,11 +296,11 @@ a:hover, a:active {
 }
 
 .loginbox label {
-    display: block;
+  display: inline-block;
 	overflow: auto;
 	width: 100%;
-    margin: 3px;
-    }
+  margin: 3px;
+}
 
 .loginbox label input {
     float: none;
@@ -335,13 +335,6 @@ a:hover, a:active {
     color: #3A3A3A;
     }    
     
-.main-left  {
-	overflow: hidden;
-    float:left;
-    width:570px;
-    padding: 5px 5px;
-}
-
 .main-right {
     overflow: hidden;
     float:right;

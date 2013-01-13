@@ -3,6 +3,7 @@
     <head>
         <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+        <!--<link rel='stylesheet' href='/static/css/reset.css' type='text/css'>-->
         <link rel='stylesheet' href='/static/css/stylesheet.css' type='text/css'>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
@@ -21,13 +22,13 @@
                     <label>Username: <input type='text' name="username" id="username" class='loginbox' placeholder='Username' required></label>
                     <label>Password: <input type='password' name="password" id="password" class='loginbox' placeholder='Password' required></label>
                     <input type='submit' class='loginbox' value='Login'>
+                    <input type="submit" class="loginbox" value="Register" onClick="document.location = '/register';">
                 </form>
-                <a href='/register'>Create an account</a>
             </div>
         {% else %}
             <div class='loginbox'>
                 <img src='{% gravatar current_user.email %}'>
-                <p>Welcome <a id="username-inputbox" href='/user/{{current_user.username}}'>{{current_user.username}}</a>!</p>
+                <p>Welcome <a id="username-inputbox" href='/user/{{current_user.username}}'>{{current_user.username}}</a></p>
                 <p><a href='/logout'>Logout</a> </p>
             </div>
         {% endif %}

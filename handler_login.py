@@ -1,6 +1,5 @@
 import template
 from dbapi.user import User
-from utils import set_error
 
 
 def check_login(username, password):
@@ -27,17 +26,26 @@ def login(response):
             </body>
         </html>''')
 
+
 def authenticate(response):
     username = response.get_field('username')
     password = response.get_field('password')
+    try:
+        check_login(username, password)
+    except TypeError:
+        response.set_secure_cookie('error_msg', 'invalid login credentials')
+        response.redirect('/')
+        return
+
     if check_login(username, password) or response.get_secure_cookie('username'):
         response.set_secure_cookie('username', username)
         response.redirect('/user/{}'.format(username))
 
     else:
-        response = set_error(response, {'error_msg': 'invalid login credentials'})
+        response.set_secure_cookie('error_msg', 'invalid login credentials')
 
         response.redirect('/')
+
 
 def logout(response):
     response.clear_cookie('username')

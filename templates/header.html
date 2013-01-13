@@ -45,4 +45,12 @@
         {% endif %}
    </div>
    <div id="main"><!-- this is opening the main div that is closed in footer -->
-        {% ifdef error %}{% if error %}<div class="error_slidedown">{% safe error %}</div>{% endif %}{% endif %}
+        {% ifdef error %}
+            {% if error %}
+                <div class="error_slidedown">
+                    <div style="padding: 5px;">
+                        {% safe error %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}

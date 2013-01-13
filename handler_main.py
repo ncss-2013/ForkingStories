@@ -1,6 +1,5 @@
 import template
 from dbapi.user import User
-from utils import get_error
 
 
 def index(response):
@@ -10,7 +9,9 @@ def index(response):
     else:
         context = {'current_user': None}
 
-    context['error'] = get_error(response, 'error')
+    context['error'] = (response.get_secure_cookie('error_msg') or b'').decode()
+    response.clear_cookie('error_msg')
 
     html = template.render_file('templates/index.html', context)
     response.write(html)
+

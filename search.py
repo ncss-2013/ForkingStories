@@ -185,7 +185,10 @@ def search(cursor, conn, query):
 
     logging.debug('End query;', [x for x in words if x not in Document.stopwords])
 
-    logging.debug('Unique indexed words;', len(list(set(chain.from_iterable([x.keys() for x in index.values()])))))
+    words = (list(set(chain.from_iterable([x.keys() for x in index.values()]))))
+    # logging.debug('Unique indexed words;', len(list(set(chain.from_iterable([x.keys() for x in index.values()])))))
+    logging.debug('Unique indexed words;', words)
+    print('sir' in words)
 
     scores = defaultdict(float)
     for page in index:

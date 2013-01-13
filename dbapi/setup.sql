@@ -59,8 +59,26 @@ CREATE TABLE IF NOT EXISTS comments (
 
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
     VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', "2000-11-16 00:00:00.00000",
-    'barry.sucks@gmail.com', "2000-11-16 00:00:00.00000", 'Sydney', "Hi, I'm Barry!");
+    'barry.sucks@gmail.com', "2000-11-16", 'Sydney', "Hi, I'm Barry!");
+REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
+    VALUES (1, 'Larry', 'Schultz', 'larry', '1234', "2000-11-16",
+    'larry.rocks@gmail.com', "2000-11-16", 'Sydney', "Hi, I'm not Barry!");    
+REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
+    VALUES (2, 'Harry', 'Potter', 'chosenone', 'voldemort', "31-7-1980",
+    'killvoldemort@hogwarts.net.uk', "2000-11-16", 'London', "Hi, I defeated Voldy, suckers!");  
+REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
+    VALUES (3, 'Carry', 'Schultz', 'carry', '1234', "1998-09-22",
+    'carry@gmail.com', "2000-11-16", 'Sydney', "My brothers are twins.");
+REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
+    VALUES (4, 'Dominic', 'May', 'Lord_DeathMatch', '20133', "1996-08-07",
+    'jack.thatch@gmail.com', "2000-11-16", 'Sydney', "Hi, I'm Dom!!");
+     
+REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)
+    VALUES (0, 0, "Wizard Gandalf Style", "2013-01-13 13:14:27.044000", "Comment", 0);
+REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)
+    VALUES (1, 2, "Harry Potter and the Philosopher's Stone", "2013-01-13 13:14:27.044000", "Joint autobiography", 0);
 
+   
 REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
     VALUES (0, '"You shall not pass!"', -1, 10, 0, 1, 0, "2013-01-13 14:13:29.324000");
 REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
@@ -72,9 +90,26 @@ REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, sto
 REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
     VALUES (4, "It's a cave troll! Save the hobbits!", 0, 10, 0, 1, 0, "2013-01-13 16:24:27.000000");
 REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
-    VALUES (5, "Aragorn!", 2, 10, 0, 1, 0, "2013-01-13 16:24:27.000000");
-REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)
-    VALUES (0, 0, "Wizard Gandalf Style", "2013-01-13 13:14:27.044000", "Comment", 0);
+    VALUES (5, "Aragorn!", 2, 10, 0, 1, 0, "2013-01-13 16:24:27.000000");   
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (6, "Mr. and Mrs. Dursley, of number four, Privet Drive, were proud to say that they were perfectly normal, 
+    thank you very much. They were the last people you’d expect to be involved in anything strange or mysterious, because 
+    they just didn’t hold with such nonsense. Mr. Dursley was the director of a firm called Grunnings, which made drills. 
+    He was a big, beefy man with hardly any neck, although he did have a very large mustache. Mrs. Dursley was thin and 
+    blonde and had nearly twice the usual amount of neck, which came in very useful as she spent so much of her time craning 
+    over garden fences, spying on the neighbors. The Dursleys had a small son called Dudley and in their opinion there was 
+    no finer boy anywhere. The Dursleys had everything they wanted, but they also had a secret, and their greatest fear 
+    was that somebody would discover it. They didn’t think they could bear it if anyone found out about the Potters.", 
+    -1, 10, 2, 1, 1, "2013-01-13 16:24:27.000000");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (7, "Mrs. Potter was Mrs. Dursley’s sister, but they hadn’t met for several years; in fact, Mrs. Dursley 
+    pretended she didn’t have a sister, because her sister and her good-for-nothing husband were as unDursleyish as 
+    it was possible to be. The Dursleys shuddered to think what the neighbors would say if the Potters arrived in the 
+    street. The Dursleys knew that the Potters had a small son, too, but they had never even seen him.", 
+    6, 10, 2, 1, 1, "2013-01-13 16:24:27.000000");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (8, "Mrs. Pot", 
+    6, 10, 2, 1, 1, "2013-01-13 16:24:27.000000");
 
 REPLACE INTO rules (id, story_id, rule_def_id, params)
     VALUES (0, 0, 1, "0||6");
@@ -91,3 +126,8 @@ REPLACE INTO ruleDefs (id, name, description)
     VALUES (3, "max_num_words", "The number of words in submission must be <= host's input");
 REPLACE INTO ruleDefs (id, name, description)
     VALUES (4, "include_number_words", "host sets requirement for certain word to be used in writers submission every ___ words");
+
+REPLACE INTO comments (id, author_id, story_id, content, created_time)
+    VALUES (0, 1, 1, "Oh my Rowling, this is totally plagiarism", "2000-11-16 00:00:00.00000");
+REPLACE INTO comments (id, author_id, story_id, content, created_time)
+    VALUES (1, 2, 1, "Wow, you should make a seven book series for this idea!", "2010-11-16 00:00:00.00000");

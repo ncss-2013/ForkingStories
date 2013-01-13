@@ -191,7 +191,3 @@ if __name__ == "__main__":
     stories = s2.get_stories()
     assert len(stories), "Should have some stories"
 
-    #user = User.create(firstname, lastname, username, password, birthyear, birthmonth, birthday, email, location, bio)
-    user = User.create('Shannon', 'Rothe', 'srothe', 'shannon', '1996', '1', '10', 'shannon.michael.rothe@gmail.com', 'Mudgee', 'Test')
-    user.save()
-

@@ -69,3 +69,19 @@ REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, sto
     VALUES (2, 'Wizard Gandalf style!', 1, 10, 0, 1, 0, "2013-01-13 14:14:27.044000");
 REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)
     VALUES (0, 0, "This is such a cool story", "2013-01-13 13:14:27.044000", "Comment", 0);
+
+REPLACE INTO rules (id, story_id, rule_def_id, params)
+    VALUES (0, 0, 1, "0||6");
+REPLACE INTO rules (id, story_id, rule_def_id, params)
+    VALUES (0, 0, 2, "cat||dog");
+    
+REPLACE INTO ruleDefs (id, name, description)
+    VALUES (0, "forced_words", "User's text must include the words host submits");
+REPLACE INTO ruleDefs (id, name, description)
+    VALUES (1, "letters_per_word", "Returns False if the word is not within (or equal to) the minimum or maximum values set by the user.");
+REPLACE INTO ruleDefs (id, name, description)
+    VALUES (2, "banned_words", "Returns False if a banned word is found within the text.");
+REPLACE INTO ruleDefs (id, name, description)
+    VALUES (3, "max_num_words", "The number of words in submission must be <= host's input");
+REPLACE INTO ruleDefs (id, name, description)
+    VALUES (4, "include_number_words", "host sets requirement for certain word to be used in writers submission every ___ words");

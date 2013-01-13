@@ -74,6 +74,7 @@ class Story(object):
                         title=?,
                         WHERE id=?'''(self.author_id,self.title,self.id))
         conn.commit()
+        return self
 
     def delete(self):
         if self.id is not None:
@@ -97,14 +98,14 @@ class Story(object):
         return User.find('id', self.author_id)
 
     def add_paragraph(self, userObj:object, content:str, parent_id=None):
+        '''This method should be used to create the first paragraph in a
+story. After that, use the Paragraph.chain_paragraph() method.'''
         # --- Alex Mueller wrote this ---
-        paragraph = Paragraph.create(content, None, 1, userObj.id, True, self.id)
-        paragraphs = Paragraph.find('story_id', self.id)
-        parent_ids = [p.parent_id for p in paragraphs if p.approved]
-        if not parent_id:
-            paragraph.parent_id = max(parent_ids) if parent_ids else -1
-        else:
-            paragraph.parent_id = parent_id
+        paragraph = Paragraph.create(content, None, 1, userObj.id, True,
+                                     self.id)
+        #paragraphs = Paragraph.find('story_id', self.id)
+        #parent_ids = [p.parent_id for p in paragraphs if p.approved]
+        paragraph.parent_id = parent_id if parent_id else -1
         return paragraph
         # --- End the part that Alex Mueller wrote ---
 

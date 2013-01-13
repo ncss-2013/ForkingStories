@@ -138,6 +138,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
             self.update('bio', self.bio)
         conn.commit()
         #User name and id can't change
+        return self
 
     def delete(self):
         cur = conn.cursor()

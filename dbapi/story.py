@@ -11,13 +11,16 @@ import sqlite3
 
 class Story(object):
     '''
-        Story class for database interfacing.
+        Story class for database interfacing
         
             --- Written by Nicholas Verstegen ---
         save() --> saves story object to database
+        
         delete() --> removes the story object from the database
+        
         get_paragraphs() --> returns a list of paragraphs
                                 that belong to the story
+                                
         get_author() --> returns author object in a list that
                             made the story
 
@@ -25,14 +28,21 @@ class Story(object):
                                Valid field_names: 'id', 'created_time',
                                            'title', 'author',
                                            'author_init_comment', 'all', 'votes'
+
         create(author_obj, title, author_init_comment) --> returns a new story object,
                                                         author_init_comment is optional and
                                                         defults to an empty string
-        get_accepted_paragraphs() --> returns paragraph objects that are acccepted
-                                        by having required number of votes
-        add_paragraph(userObj, content) --> returns a list of paragraph objects for the story
+
+        get_accepted_paragraphs() --> returns paragraph objects of the story
+
+        add_paragraph(userObj, content, parent_id) --> returns a new paragraph object for the story
+
         get_comments() --> returns a list of comment objects for the story
+
         up_vote() --> increments the votes for the story
+
+        .created_time --> a time object from the time of first save to database
+        .votes --> votes of the object
         
     '''
     def __init__(self, story_id:int,author_id:int,title:str,created_time:str,author_init_comment:str, votes:int):
@@ -78,19 +88,30 @@ class Story(object):
         cur = conn.cursor()
         return User.find('id', self.author_id)
 
-    def add_paragraph(self, userObj:object, content:str):
+    def add_paragraph(self, userObj:object, content:str, parent_id=None):
         # --- Alex Mueller wrote this ---
         paragraph = Paragraph.create(content, None, 1, userObj.id, True, self.id)
         paragraphs = Paragraph.find('story_id', self.id)
         parent_ids = [p.parent_id for p in paragraphs if p.approved]
-        paragraph.parent_id = max(parent_ids) if parent_ids else -1
+        if not parent_id:
+            paragraph.parent_id = max(parent_ids) if parent_ids else -1
+        else:
+            paragraph.parent_id = parent_id
         return paragraph
         # --- End the part that Alex Mueller wrote ---
 
     def add_comment(self, userObj:object, content:str):
         return Comment.create(userObj, self, content)
+
+    def set_rule(self):
+        #TODO
+        pass
+
+    def get_rules(self):
+        #cur = conn.cursor()
+        #cur.execute
+        pass
         
-    
     @classmethod
     def find(cls, field_name, field_value):
         if field_name == 'author':

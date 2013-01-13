@@ -8,14 +8,22 @@ import sqlite3
 
 class Comment(object):
     '''
+        Comment class for database interfacing
+        
+            --- Written by Nicholas Verstegen ---
         save() --> saves comment object to database
+        
         delete() --> removes the comment object from the database
+        
         find(field_name,field_value) --> returns a list of comment objects
                                Valid field_names: 'id', 'created_time',
                                            'content', 'author', 'all',
                                            'story_id'
 
         get_author() --> returns author object for the comment in a list
+
+        .content --> is the content string of the comment
+        .created_time --> a time object from the time of first save to database
         
     '''
 

@@ -2,7 +2,7 @@ import template
 from dbapi.user import User
 
 def check_login(username, password):
-    user = User.get('username', username)
+    user = User.find('username', username)[0]
     if user is not None and username == user.username and password == user.password:
         return user
     return None

@@ -7,9 +7,7 @@ import handler_main
 import handler_story
 import handler_user
 import handler_chat
-
-# TODO
-#import handler_register
+import handler_register
 
 server = Server()
 server.register('/', handler_main.index)
@@ -27,11 +25,7 @@ server.register('/add_to_stories', handler_story.add_to_stories)
 server.register('/new_story', handler_story.new_story)
 server.register('/view_story_list', handler_story.view_story_list)
 
-# server.register('/register', register.register)
-# server.register('/process_register', register.process_register)
+server.register('/register', handler_register.register)
+server.register('/process_register', handler_register.process_register)
 
 server.run()
-
-
-
-

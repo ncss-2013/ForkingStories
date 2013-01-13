@@ -1,35 +1,35 @@
-{% include "header.html"%}
+{% include "header.html" %}
 <span>
     <h2>
         Registration
     </h2>
 </span>
 <div>
-    <form>
+    <form action="/process_register" method="POST">
         <label>
             First Name:
             <input type='text' name='fname'>
-        </label>
+        </label><br />
         <label>
             Last Name:
             <input type='text' name='lname'>
-        </label>
+        </label><br />
         <label>
             Username:
             <input type='text' name='username'>
-        </label>
+        </label><br />
         <label>
             Password:
             <input type='password' name='password'>
-        </label>
+        </label><br />
         <label> 
             Repeat Password:
-            <input type='password' name='password_again'>
-        </label>
+            <input type='password' name='rpassword'>
+        </label><br />
         <label>
             Email:
             <input type='text' name='email'>
-        </label>
+        </label><br />
         Date of birth. 
         <label>
             Year:
@@ -38,7 +38,7 @@
                     <option>{{ year }}</option>
                 {% endfor %}
             </select>
-        </label>
+        </label><br />
         <label>
             Month: 
             <select name='birthmonth'>
@@ -46,7 +46,7 @@
                     <option>{{ month }}</option>
                 {% endfor %}
             </select>
-        </label>
+        </label><br />
         <label>
             Day:
             <select name='birthday'>
@@ -54,17 +54,20 @@
                     <option>{{ day }}</option>
                 {% endfor %}
             </select>
-        </label>
+        </label><br />
         <label>
             Location:
             <input type='text' name='location'>
-        </label>
+        </label><br />
         <label>
             Bio:
             <textarea name='bio'>
             </textarea>
+        </label><br />
+        <label>
+            <input type="submit" value="Register">
         </label>
     </form>
 </div>
-{% include "footer.html"%}
+{% include "footer.html" %}
         

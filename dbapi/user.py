@@ -23,7 +23,7 @@ class User(object):
         self.lname = lname
         self.username = username
         self.password = password
-        self.dob = dbtime.create_datetime(dob)
+        self.dob = dob
         self.email = email
         self.joindate = joindate
         self.location = location

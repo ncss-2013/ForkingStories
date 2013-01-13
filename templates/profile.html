@@ -19,7 +19,8 @@
     <div>
         
         <strong>Name: </strong> {{ user.fname }} {{ user.lname }}<br />
-        <strong>Username: </strong> {{ user.username }}
+        <strong>DOB: </strong> {{ user.dob }}<br />
+        <strong>Email: </strong> {{ user.email }}<br />
         
         {% if current_user is not None and current_user.username == user.username %}
             <p><form action='/changepassword'>

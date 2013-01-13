@@ -2,10 +2,10 @@ from dbapi.user import User
 import template
 
 def user(response, username):
-	user = User.get('username', username)
+	user = User.find('username', username)[0]
 
 	if response.get_secure_cookie('username') is not None:
-		current_user = User.get('username', str(response.get_secure_cookie('username'), 'utf-8'))
+		current_user = User.find('username', str(response.get_secure_cookie('username'), 'utf-8'))[0]
 	else:
 		current_user = None
 
@@ -19,7 +19,7 @@ def user(response, username):
 	response.write(html)
 
 def profiles(response):
-	users = User.get('all')
+	users = User.find('all')
 
 	for user in users:
 		response.write('<a href="/user/{}">{}</a><br />'.format(user.username, user.username))

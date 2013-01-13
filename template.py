@@ -212,7 +212,7 @@ def lex(text):
 
 	'''.splitlines() if l.strip())]
 
-
+	"""
 	matches = []
 	for match in re.finditer(r'({{.*?}}|{%.*?%}|{#.*?#})', text, re.S | re.M):
 		start = match.start()
@@ -223,7 +223,8 @@ def lex(text):
 
 	# For each relevant block:
 	for block in (text[start:end] for start,end in matches if start < end):
-
+	"""
+	for block in re.split(r'({{.*?}}|{%.*?%}|{#.*?#})', text, re.S | re.M):
 		# Try matching each of the tokens:
 		label = None
 		for token, regex in token_reg:

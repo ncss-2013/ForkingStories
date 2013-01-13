@@ -45,13 +45,12 @@ class User(object):
         results = []
         for row in rows:
             results.append(User(*row))
-        print(str(len(results)) + " result(s) found.")
         return results
-    #You can't edit the results of this query unless there is only 1 unique result, so if you search username or uid
+    #When you edit, use User.find()[0] (you can't edit multiple results, it will just edit the first one)
 
     def create(fname, lname, username, password, year, month, day, email, location, bio, image):
-        joindate = dbtime.make_time_float()
-        dob = dbtime.make_time_float((year, month, day))
+        joindate = dbtime.make_time_str()
+        dob = dbtime.make_time_str((year, month, day))
         return User(None, fname, lname, username, password, dob, email, joindate, location, bio, image)
         
     #Don't use update, but don't delete it either!!!

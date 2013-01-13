@@ -33,8 +33,6 @@ def add_to_story(response, id):
     username = response.get_secure_cookie('username')
     user = User.find('username',  str(username, 'utf-8'))
 
-
-
     if not user:
         raise Exception("Expected user account when adding to story")
     user = user[0]

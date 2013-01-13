@@ -23,7 +23,7 @@ from itertools import chain
 from collections import defaultdict, Counter
 
 # un-comment this line for debugging stuff
-# logging.debug = print
+logging.debug = print
 
 # project imports
 from dbapi.story import Story
@@ -208,6 +208,7 @@ def create_table(conn, if_exists=False):
             index_dict BLOB NOT NULL,
             PRIMARY KEY(identifier)
         );''')
+    conn.commit()
 
 
 def main():
@@ -219,9 +220,9 @@ def main():
     # do the search function
     result = search(cursor, conn, 'gandalf')
 
-    # assert sum([x[1] for x in result]) == 0.0, 'assert relevancy works'
     assert result, 'bad result; {}'.format(result)
     assert len(result) > 0, 'no results were returned'
+    assert len(load_index(conn)) >= 2, 'too few documents'
 
     conn.close()
 

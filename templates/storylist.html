@@ -4,7 +4,7 @@
         Current Stories
     </h2>
     <div>
-        <form id='sortbox'>
+        <form id='storysortbox'>
             <select name='sort'>
                 <option>
                     Title: A-Z
@@ -22,20 +22,53 @@
             <input type='submit' value='Sort'>
         </form>
         <form id='searchbox'>
-            <input type ='search' name='query' placeholder='Search'>
+            <input type ='search' name='storyquery' placeholder='Search'>
             <input type='submit' value='Search'>
         </form>
-    </div>        
-    {% for story in stories %}
-    {{story.title}}
-    <a id="story_row" href="/story/view?id={{story.id}}">
-    View Story
-    </a>
-    <a id="story_row" href="/story/view?id={{story.id}}">
-    Add to story
-    </a>
-    {{story.likes}}
-    {{story.views}}
-    {% endfor %}
+    </div>
+    <table>
+        <tr>
+            <th>
+                Story Title
+            </th>
+            <th>
+                Story Likes
+            </th>
+            <th>
+                Story Views
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    {#% for story in stories %#}
+        <tr id='story_row'>
+            <td>
+                {story.title}
+            </td>
+            <td>
+                {story.likes}
+            </td>
+            <td>
+                {story.views}
+            </td>
+            <td>
+                {% if current_user is None %}
+                <a href="/story/view?id={#story.id#}">
+                View Story
+                </a>
+                {% else %}
+                <a href="/story/contribute?id={#story.id#}">
+                Add to story
+                </a>
+                <br>
+                <a href="/story/view?id={#story.id#}">
+                View Story
+                </a>
+                {% endif %}
+            </td>
+        </tr>
+    {#% endfor %#}
+    </table>
 </div>
 {% include "footer.html"%}

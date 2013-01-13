@@ -1,0 +1,59 @@
+{% include "header.html"%}
+<div>
+    <h2>
+        User Profiles
+    </h2>
+    <div>
+        <form id='searchbox'>
+            <input type ='search' name='profilequery' placeholder='Search'>
+            <input type='submit' value='Search'>
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th>
+                Profile Pic
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                Paragraphs Written
+            </th>
+            <th>
+                Stories Started
+            </th>
+            <th>
+                Likes Recieved
+            </th>
+            <th>
+                Option
+            </th>
+        </tr>
+    {#% for user in users %#}
+        <tr id="user_row">
+            <td>
+                {#user.username#}
+            </td>
+            <td>
+                {#user.parascont#}
+            </td>
+            <td>
+                {#user.storiescont#}
+            </td>
+            <td>
+                {#user.storiesstarted#}
+            </td>
+            <td>
+                {#user.likes#}
+            </td>
+            <td>
+                <a href="/user/view?id={#user.id#}">
+                View Profile
+                </a>
+            <td>
+        </tr>
+                {#% endfor %#}
+    </table>
+</div>
+{% include "footer.html"%}

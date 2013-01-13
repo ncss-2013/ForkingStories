@@ -134,10 +134,11 @@ ORDER BY parent_id;''')
 
 if __name__ == '__main__':
     p = Paragraph.create('It\'s a cave troll! Save the hobbits! Aragorn!',
-                  0, 10, 0,
-                  False, 0)
-    p.upvote()
-    assert p.votes == 11, 'p should have 11 votes'
+                         2, 0, False, 0)
+    p.up_vote()
+    assert p.votes == 1, 'p should have 1 vote!'
+    p.approve()
+    assert p.approved == 1, 'p should be approved! How come p.approve isn\'t 1?'
     p.save()
 
     q = Paragraph.find('id', p.id, 'story_id')

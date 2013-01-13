@@ -52,16 +52,16 @@ a:hover, a:active {
 /* specific divs */
 
 #container {
-   min-height:100%;
-   position:relative;
-}
+    min-height:100%;
+    position:relative;
+    }
 
 #header {
 	border: 0px solid green;
     margin-top: 0px;
 	padding: 5px 5px 5px 15px;
 	background: #3a3a3a;
-}
+    }
 
 #header h1{
     font-family: 'Merienda One', cursive;
@@ -70,14 +70,14 @@ a:hover, a:active {
     margin-top: 0;
 	color: #DDDDDD;
     padding-top: 0px;
-}
+    }
 #nav {
 	border: 0px solid black;
 	padding: 5px;
     letter-spacing: 1px; 
 	margin-bottom: 0; 
     color: #DDDDDD;
-		background-image: linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
+	background-image: linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
 	background-image: -o-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
 	background-image: -moz-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
 	background-image: -webkit-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
@@ -90,21 +90,12 @@ a:hover, a:active {
 		color-stop(0.39, rgb(0,102,51)),
 		color-stop(0.7, rgb(58,58,58)),
 		color-stop(0.85, rgb(58,58,58))
-);
-}
-#navvv  a{
-	font-weight: bold;
-	text-decoration: none;
-    border-radius:6px;
-	border:1px solid #99C2AE;
-    padding:6px 14px;
-    background-color:#33855C;
-    min-width:90px;
-    min-height:45px;
-    margin: 3px 10px 3px 10px;
-}
+    );
+    }
 
-#nav  a{
+#nav  a,
+.loginbox a,
+.loginbox input[type="submit"]{
 	border: 1px solid rgba(0,0,0,0.2);
 	box-sizing: content-box !important;
 	color: #DDDDDD;
@@ -141,9 +132,10 @@ a:hover, a:active {
 	-moz-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
 	-webkit-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10x 10px rgba(255,255,255,0.08) inset;
 	box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
-}
+    }
 
-#nav  a:hover{
+#nav  a:hover,
+.loginbox a{
 	color: #DDDDDD;
 	text-shadow: 0 0 5px rgba(0,0,0,0.2), 0 0 1px rgba(0,0,0,0.4);
 	
@@ -151,16 +143,17 @@ a:hover, a:active {
 	box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
 	-moz-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
 	-webkit-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
- }
+    }
 
-#nav  a:active {
+#nav  a:active,
+.loginbox a {
 	color: #eee;
 
 	/* Shadow */
 	box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
 	-moz-box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
 	-webkit-box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
- }
+    }
 
 
 #main {
@@ -169,14 +162,14 @@ a:hover, a:active {
 	margin: 10px 10px 10px 10px;
 	padding: 5px 5px 5px 5px;
     background: #FAFBE3; 
-}
+    }
 
 #story-text {
 	border: 0px solid yellow;
 	margin: 10px 10px 10px 10px;
 	padding: 10px 10px 10px 10px;
     background: 99ffaa;
-}
+    }
 
 #footer {
 	border: 0px solid red;
@@ -202,14 +195,14 @@ a:hover, a:active {
 		color-stop(0.7, rgb(0,102,51)),
 		color-stop(0.85, rgb(0,102,51))
 	);
-}
+    }
 
 .loginbox {
 	border: 1px solid rgba(0,0,0,0.2);
 	box-sizing: content-box !important;
 	color: #DDDDDD;
 	display: inline-block;
-	padding: 6px 10px;
+	padding: 6px 6px 0px 6px;
 	text-align: center;
 	text-decoration: none;
 	font-size: 12px;
@@ -241,16 +234,15 @@ a:hover, a:active {
 	box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
 	
 	float: right; 
-    margin-bottom: 5px; 
-    margin-left: 10px;
+
     position: relative;
-}
+    }
 
 .loginbox label {
     display: block;
 	overflow: auto;
 	width: 100%
-}
+    }
 
 .loginbox label input {
     float: none;
@@ -261,7 +253,7 @@ a:hover, a:active {
 	padding: 6px 6px;
     background-color: #f5f5f5;
     /*box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);*/
-}
+    }
 
 /* form elements - text entry */
 input[type="text"],
@@ -274,7 +266,7 @@ textarea {
 	padding: 6px 10px;
     background-color: #f5f5f5;
     /*box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);*/
-}
+    }
 
 input[type="select"],
 textarea {
@@ -284,11 +276,11 @@ textarea {
 	padding: 6px 6px;
     background-color: #f5f5f5;
     box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);
-}
+    }
 
 input[type="radio"],input[type="checkbox"] {
     
-}
+    }
 
 
 input[type="button"],
@@ -330,7 +322,7 @@ input[type="submit"]
 	-moz-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
 	-webkit-box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10x 10px rgba(255,255,255,0.08) inset;
 	box-shadow: 0 0 3px rgba(255,255,255,0.25) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
-}
+    }
 
 
 input[type="button"]:hover, 
@@ -344,7 +336,7 @@ input[type="submit"]:hover
 	box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
 	-moz-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
 	-webkit-box-shadow: 0 0 5px rgba(255,255,255,0.45) inset, 0 0 1px rgba(255,255,255,0.2), 0 10px 10px rgba(255,255,255,0.08) inset;
- }
+    }
 
 
 input[type="button"]:active,
@@ -357,4 +349,4 @@ input[type="submit"]:active
 	box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
 	-moz-box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
 	-webkit-box-shadow: 0 0 5px rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.2), 0 0 4px rgba(0,0,0,0.4) inset, 0 10px 10px rgba(255,255,255,0.08) inset;
- }
+    }

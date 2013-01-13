@@ -76,7 +76,7 @@ a:active {
 #header {
     background: #3a3a3a;
     margin: 0 auto;
-    padding: 10px 160px;
+    padding: 10px 110px;
 }
 #header h1 {
     font-family: 'Merienda One', cursive;
@@ -92,7 +92,7 @@ a:active {
     color: #DDDDDD;
     background: #3a3a3a;
     margin: 0 auto;
-    padding: 10px 150px 10px 150px;
+    padding: 10px 100px;
 }
 #nav  a,
 .loginbox a,
@@ -150,7 +150,7 @@ a:active {
 #main {
     min-height: 350px;
     margin: 0 auto;
-    padding: 10px 150px;
+    padding: 10px 100px;
     /* background: #FAFBE3; */
 }
 .main-single {

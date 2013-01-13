@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """User package"""
-##fix dob function (import alex's thing) and check stories table
 
 import __importfix__; __package__ = 'dbapi'
 from .__init__ import *
@@ -52,7 +51,7 @@ class User(object):
 
     def create(fname, lname, username, password, year, month, day, email, location, bio, image):
         joindate = dbtime.make_time_float()
-        dob = make_time_float((year, month, day))
+        dob = dbtime.make_time_float((year, month, day))
         return User(None, fname, lname, username, password, dob, email, joindate, location, bio, image)
         
     #Don't use update, but don't delete it either!!!

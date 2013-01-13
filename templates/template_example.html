@@ -17,5 +17,8 @@ I have {{ len(friends) }}:
 
 <img src="{% gravatar 'jack.thatch@gmail.com' %}"/>
 
+{{ "This is <b> escaped </b> html by default." }}
+{% safe "<marquee> This is unescaped html! </marquee>" %}
+
 {# this is a comment! #}
 {# I could {% include "footer.html" %} if I wanted to! #}

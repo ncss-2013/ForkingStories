@@ -27,8 +27,12 @@
         </form>
     </div>        
     {% for story in stories %}
+    {{story.title}}
     <a id="story_row" href="/story/view?id={{story.id}}">
-        {{story.title}}
+    View Story
+    </a>
+    <a id="story_row" href="/story/view?id={{story.id}}">
+    Add to story
     </a>
     {{story.likes}}
     {{story.views}}

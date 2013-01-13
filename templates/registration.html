@@ -5,7 +5,7 @@
     </h2>
 </span>
 <div>
-    <form action="/process_register" method="POST">
+    <form action="/process_register" method="POST" id="register-form">
         <label>
             First Name:
             <input type='text' name='fname'>
@@ -20,11 +20,11 @@
         </label><br />
         <label>
             Password:
-            <input type='password' name='password'>
+            <input type='password' name='password' id='password-initial'>
         </label><br />
         <label> 
             Repeat Password:
-            <input type='password' name='rpassword'>
+            <input type='password' name='rpassword' id='password-repeat'>
         </label><br />
         <label>
             Email:
@@ -64,10 +64,18 @@
             <textarea name='bio'>
             </textarea>
         </label><br />
+        <div class="error-message">
+        </div>
         <label>
             <input type="submit" value="Register">
         </label>
     </form>
 </div>
+<script>
+$(function (){
+    validate_passwords('password-initial', 'password-repeat');
+    validate_form($("#register-form"), $('#register-form .error-message'));
+})
+</script>
 {% include "footer.html" %}
         

@@ -41,7 +41,7 @@ def create_tree(story):
     # Find and return the root node
     
     # Get the node that is probably closet to the root of the dictionary
-    a_node = tree[list(tree.values())[0].paragraph.id]
+    a_node = tree[next(tree.values()).paragraph.id]
     # Loop up the tree to the root node
     while a_node.parent != -1:
         a_node = a_node.parent
@@ -49,6 +49,7 @@ def create_tree(story):
     
 
 if __name__ == '__main__':
-    from dbapi.story import Story
-    print(create_tree(Story.find('id', 0)[0]))
+    pass
+    #from dbapi.story import Story
+    #print(create_tree(Story.find('id', 0)[0]))
     

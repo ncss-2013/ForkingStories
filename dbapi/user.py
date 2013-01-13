@@ -96,7 +96,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         if user == None:
             return None
         else:
-            return User.find('username',username)
+            return User.find('username',username)[0]
 
     def create(fname, lname, username, password, dob, email, location, bio):
         s = sha_hash()

@@ -29,18 +29,21 @@
         <input type='button' id='hidepass' value='Change Password'>
         <script src='/static/js/hidepasswordchange.js'></script>
         <div id='changepass' style='display:none;'>
-            <p><form action='/changepassword' method="POST">
-                <label>Old password:
-                    <input type='password' name='old password'>
+            <form id='change-password-form' action='/changepassword' method="POST">
+                <label>Old Password:
+                    <input type='password' name='old password' id="oldpw">
                 </label>
-                <p><label>New password:
+                <label>New Password:
                     <input type='password' name='new password 1' id="pwchange">
                 </label>
-                <p><label>New password:
+                <label>New Password Repeat:
                     <input type='password' name='new password 2' id="pwchangerepeat">
                 </label>
-                <p><input type='submit' value='Submit'>
+                <input type='submit' value='Submit'>
             </form>
+            <div id="change-password-output">
+            
+            </div>
         </div>
         {% endif %}
     </div>
@@ -71,6 +74,19 @@
 <script>
 $(function (){
     validate_passwords('pwchange', 'pwchangerepeat');
+    $("#change-password-form").submit(function(event) {
+        event.preventDefault();
+        $this = $("#change-password-form");
+        
+        $.get("/changepassword", {
+            "old_password": $("#oldpw").val(),
+            "new_password_1": $("#pwchange").val(),
+            "new_password_2": $("#pwchangerepeat").val()
+        }, function(data) {
+            $("#change-password-output").html(data);
+        }, "html");
+        return false;
+    });
 })
 </script>
 {% endif %}

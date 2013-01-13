@@ -1,6 +1,7 @@
 import template
 from dbapi.user import User
 from dbapi.story import Story
+from dbapi.rules import Rules
 
 def view_story(response, id):
     user = response.get_secure_cookie('username')
@@ -32,6 +33,8 @@ def add_to_story(response, id):
     username = response.get_secure_cookie('username')
     user = User.find('username',  str(username, 'utf-8'))
 
+
+
     if not user:
         raise Exception("Expected user account when adding to story")
     user = user[0]
@@ -39,10 +42,19 @@ def add_to_story(response, id):
     addition_to_story = response.get_argument('paragraph')
     story = Story.find('id', id)[0]
 
+    if not Rules.check(addition_to_story, story.id):
+        #reject the story
+        print('Rejected')
+        #return to story view without updating.... TODO: show error
+        response.redirect('/view_story/{}'.format(id))
+        return
+
     added_paragraph = story.add_paragraph(user, addition_to_story)
     added_paragraph.save()
 
     response.redirect('/view_story/{}'.format(id))
+
+
 
     #html = template.render_file('templates/viewingstory.html', context)
     #response.write(html)
@@ -58,6 +70,9 @@ def process_new_story(response):
 
     story = Story.create(user, title, story)
     story.save()
+
+    
+
     response.redirect('/view_story/{}'.format(story.id))
 
 def new_story(response):

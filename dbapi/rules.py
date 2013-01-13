@@ -5,7 +5,6 @@ import __importfix__; __package__ = 'dbapi'
 from .__init__ import *
 
 """
-
 letters_per_word
 banned_words
 max_num_words
@@ -87,7 +86,6 @@ values set by the user.
                 return False
         return True
 
-
     def banned_words(original:str, *banned_words:str):
         """
 Returns False if a banned word is found within the text.
@@ -139,7 +137,7 @@ every ___ words
 
     def check(original:str, story_id:int):
         #get the list of rules for that story
-        rows = Rules.get_rules_params(0)
+        rows = Rules.get_rules_params(story_id)
         #rows = [ ('banned_words', "cat||dog||mouse"),
          #        ('letters_per_word', "3||4") ]
         #iterate of the list of rules, checking each
@@ -164,12 +162,12 @@ if __name__=="__main__":
     assert Rules.banned_words("fjkalsd")
     assert not Rules.banned_words("blah blah blah", 'abc', 'blah')
 
-    assert Rules.max_num_words("hello", 5)
+    """ assert Rules.max_num_words("hello", 5)
     assert not Rules.max_num_words("hello hello hello", 2)
     assert Rules.max_num_words("hello hello", 2)
     assert Rules.max_num_words("", 3)
     assert not Rules.max_num_words("hello blah", -3)
-    
+    """
 
     assert not Rules.forced_words("banana", "c")
     assert Rules.forced_words("hello banana apple", "apple")

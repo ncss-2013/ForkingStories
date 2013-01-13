@@ -23,10 +23,10 @@ server.register('/user/(\w[\w\d]+)', handler_user.user)
 server.register('/profiles', handler_user.profiles)
 
 server.register('/view_story/([0-9]+)', handler_story.view_story)
-server.register('/add_to_stories', handler_story.add_to_stories)
 
 server.register('/new_story', handler_story.new_story)
 server.register('/process_new_story', handler_story.process_new_story)
+server.register('/add_to_story/([0-9]+)', handler_story.add_to_story)
 
 server.register('/register', handler_register.register)
 server.register('/process_register', handler_register.process_register)

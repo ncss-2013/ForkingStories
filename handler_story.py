@@ -28,15 +28,24 @@ def view_story_list(response):
     html = template.render_file('templates/storylist.html', context)
     response.write(html)
 
-def add_to_stories(response):
-    user = response.get_secure_cookie('username')
-    if user is not None:
-        context = {'current_user':User.find('username', str(user, 'utf-8'))[0]}
-    else:
-        context = {'current_user':None}
+def add_to_story(response, id):
+    username = response.get_secure_cookie('username')
+    user = User.find('username',  str(username, 'utf-8'))
 
-    html = template.render_file('templates/addingtostory.html', context)
-    response.write(html)
+    if not user:
+        raise Exception("Expected user account when adding to story")
+    user = user[0]
+
+    addition_to_story = response.get_argument('paragraph')
+    story = Story.find('id', id)[0]
+
+    added_paragraph = story.add_paragraph(user, addition_to_story)
+    added_paragraph.save()
+
+    response.redirect('/view_story/{}'.format(id))
+
+    #html = template.render_file('templates/viewingstory.html', context)
+    #response.write(html)
 
 def process_new_story(response):
     username = response.get_secure_cookie('username')

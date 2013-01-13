@@ -9,9 +9,8 @@
         <p>{{ paragraph.content }} {% if pauthor %} - {{ pauthor.username }} {% endif %}</p>
     {% endfor %}
     {% if current_user is not None %}
-    <form id='storyadd'>
-        <textarea name='paragraph' placeholder='Add to the story!'></textarea>
-        <br>
+    <form id='storyadd' action="/add_to_story/{{ story.id }}" method="POST">
+        <textarea name='paragraph' placeholder='Add to the story!'></textarea><br>
         <input type='submit' value='Submit'>
     </form>
     </div>

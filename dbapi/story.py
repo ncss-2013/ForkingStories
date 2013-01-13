@@ -37,6 +37,7 @@ class Story(object):
         self.title = title
         self.author_init_comment = author_init_comment
         self.votes = votes
+        self.created_time = created_time
 
     def save(self):
         cur = conn.cursor()

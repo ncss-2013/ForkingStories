@@ -212,19 +212,17 @@ def lex(text):
 
 	'''.splitlines() if l.strip())]
 
-	"""
-	matches = []
+	matches = [(0,0)]
 	for match in re.finditer(r'({{.*?}}|{%.*?%}|{#.*?#})', text, re.S | re.M):
 		start = match.start()
 		end = match.end()
-		if matches:
-			matches.append((matches[-1][1], start))
+		matches.append((matches[-1][1], start))
 		matches.append((start, end))
 
 	# For each relevant block:
 	for block in (text[start:end] for start,end in matches if start < end):
-	"""
-	for block in re.split(r'({{.*?}}|{%.*?%}|{#.*?#})', text, re.S | re.M):
+	
+#	for block in re.split(r'({{.*?}}|{%.*?%}|{#.*?#})', text, re.S | re.M):
 		# Try matching each of the tokens:
 		label = None
 		for token, regex in token_reg:
@@ -246,6 +244,7 @@ def lex(text):
 
 		tokens.append((label, expr))
 
+	#print(tokens)
 	return tokens
 
 

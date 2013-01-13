@@ -22,11 +22,7 @@
             <br>
             <input type='submit' value='Post'>
         </form>
-    </div>
-    {% else %}
-    <span> Please log in to add to the stories and comment. </span>
-    {% endif %} 
-    <div>
+        <h2>Comments</h2>
         <table border='1'>
         {% for comment in story.get_comments() %}
             <tr>
@@ -40,5 +36,8 @@
         {% endfor %}
         </table>
     </div>
+    {% else %}
+    <span> Please log in to add to the stories and comment. </span>
+    {% endif %} 
                 
 {% include "footer.html" %}

@@ -6,7 +6,7 @@
         </h2>
         <form action="/process_new_story" method="POST">
             <div>
-                <label>
+                <label id='storytitle'>
                     Title:
                     <input type='text' placeholder='Enter your title' name='title' required>
                     <br>
@@ -72,9 +72,9 @@ $(document).on('click', '.spelling dd a', function(event) {
                     </select>
                     <br>
                 </label>
-                    <textarea placeholder="Host's Comments" name='comment' required></textarea>
+                    <textarea placeholder="Host's Comments" name='comment' class='main-right' required></textarea>
                     <br>
-                <input type='submit' value='Create a Story!'>
+                <input type='submit' value='Create a Story!' autocomplete='off'>
             </div>
         </form>
     </div>

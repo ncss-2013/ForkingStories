@@ -47,7 +47,10 @@ SELECT d.name, r.params
 FROM rules r
 JOIN ruleDefs d ON r.rule_def_id = d.id
 WHERE r.story_id = ?;""", (story_id,))
-        return cur.fetchall()
+        rules = []
+        for name, params in cur.fetchall():
+            rules.append((name, str2list(params)))
+        return rules
 
     def get_rules():
         cur = conn.cursor()
@@ -59,7 +62,7 @@ FROM ruleDefs;""")
             rulesDict[rule[1]] = rule[2]
         return rulesDict
 
-    def add_rule(story_id:int, rule_def_name:str, params:str):
+    def add_rule(story_id:int, rule_def_name:str, params:list):
         cur = conn.cursor()
         cur.execute("""
 SELECT id
@@ -70,7 +73,7 @@ WHERE name = ?
         cur.execute("""
 INSERT INTO rules (id, story_id, rule_def_id, params)
 VALUES (NULL, ?, ?, ?)
-""", (story_id, rule_def_id, params))
+""", (story_id, rule_def_id, list2str(params)))
 
     def letters_per_word(original:str, minimum:str, maximum:str):
         """
@@ -141,7 +144,6 @@ every ___ words
          #        ('letters_per_word', "3||4") ]
         #iterate of the list of rules, checking each
         for method, params in rows:
-            params = str2list(params)
             if not eval("Rules.{}({},'{}')".format(
                 method, repr(original), "','".join(params))):
                 return False
@@ -181,6 +183,7 @@ if __name__=="__main__":
 
     #Rules.add_rule(0, 3, "100")
 
+    #print(Rules.get_rules())
     #print(Rules.get_rules_params(0))
     assert type({}) == type(Rules.get_rules())
 

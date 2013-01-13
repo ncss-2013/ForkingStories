@@ -222,7 +222,7 @@ def main():
 
     assert result, 'bad result; {}'.format(result)
     assert len(result) > 0, 'no results were returned'
-    assert len(load_index(conn)) >= 2, 'too few documents'
+    assert len(load_index(conn.cursor(), conn)) >= 2, 'too few documents'
 
     conn.close()
 

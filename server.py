@@ -37,4 +37,6 @@ server.register('/process_register', handler_register.process_register)
 server.register('/search', handler_search.search_results)
 server.register('/spellcheck', handler_spellcheck.spellcheck)
 
+server.register('/search_debug', handler_search.debug)
+
 server.run()

@@ -19,6 +19,7 @@ import time
 import pickle
 import sqlite3
 import logging
+from pprint import pprint
 from itertools import chain
 from collections import defaultdict, Counter
 
@@ -63,7 +64,7 @@ def term_freq(word, document, all_documents):
 def inverse_document_freq(word, document, all_documents):
     instances_in_all = len([1 for document in all_documents if word in document.tokens])
     if not instances_in_all:
-        return 0
+        return 1
     return math.log(len(all_documents) / instances_in_all)
 
 
@@ -124,6 +125,7 @@ def load_index(cursor, conn):
         save_index(cursor, conn, index)
         logging.debug('Saved to db. Took {} seconds'.format(time.time() - start))
 
+    pprint(index)
     return index
 
 
@@ -181,16 +183,15 @@ def search(cursor, conn, query):
 
     logging.debug('Docs;', len(index))
 
-    words = [x.lower() for x in query.split()]
+    words = [x.lower() for x in Document.TOKEN_RE.split(query)]
 
     logging.debug('End query;', [x for x in words if x not in Document.stopwords])
 
     words = (list(set(chain.from_iterable([x.keys() for x in index.values()]))))
     # logging.debug('Unique indexed words;', len(list(set(chain.from_iterable([x.keys() for x in index.values()])))))
-    logging.debug('Unique indexed words;', words)
-    print('sir' in words)
+    logging.debug('Unique indexed words;', len(words))
 
-    scores = defaultdict(float)
+    scores = defaultdict(lambda: 0)
     for page in index:
         for word in words:
             if word in index[page]:
@@ -199,6 +200,7 @@ def search(cursor, conn, query):
     logging.debug('Relevant pages;', len(scores))
 
     scores = sorted(scores.items(), key=lambda x: x[1])[::-1]
+    pprint(scores)
     return scores
 
 
@@ -215,13 +217,13 @@ def create_table(conn, if_exists=False):
 
 
 def main():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(os.path.join('dbapi', 'database.db'))
     cursor = conn.cursor()
 
     create_table(conn)
 
     # do the search function
-    result = search(cursor, conn, 'gandalf')
+    result = search(cursor, conn, input('Q? '))
 
     assert result, 'bad result; {}'.format(result)
     assert len(result) > 0, 'no results were returned'

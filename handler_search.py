@@ -4,7 +4,7 @@ from dbapi import conn
 from dbapi.story import Story
 from dbapi.user import User
 from collections import defaultdict
-from search import search, create_table
+from search import search, create_table, load_index
 
 create_table(conn, if_exists=False)
 
@@ -77,4 +77,7 @@ def search_results(response):
         response.write(html)
 
 
-
+def debug(response):
+    index = load_index(conn.cursor(), conn)
+    for doc in index:
+        response.write('{}: {}<br/>'.format(doc, index[doc]))

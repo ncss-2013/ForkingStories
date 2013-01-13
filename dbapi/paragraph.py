@@ -97,8 +97,7 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
         '''Returns a Paragraph object, that when saved, is the child
 of this paragraph.'''
         from dbapi.story import Story
-        return Story.find('id', self.story_id
-                         )[0].add_paragraph(userObj, content, self.id)
+        return Story.find('id', self.story_id)[0].add_paragraph(userObj, content, self.id)
 
     def approve(self):
         '''This method is currently obsolete and has no function. All paragraphs

@@ -62,16 +62,16 @@ def process_new_story(response):
     user = User.find('username', str(username, 'utf-8'))[0]
 
     title = response.get_argument('title')
-    story = response.get_argument('story')
+    story_text = response.get_argument('story')
     rule = response.get_argument('rule')
     comment = response.get_argument('comment')
 
-    story = Story.create(user, title, story)
+    story = Story.create(user, title, comment)
     story.save()
-
-    
+    story.add_paragraph(user, story_text).save()
 
     response.redirect('/view_story/{}'.format(story.id))
+
 
 def new_story(response):
     user = response.get_secure_cookie('username')

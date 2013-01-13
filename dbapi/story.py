@@ -154,7 +154,7 @@ if __name__ == "__main__":
     p.delete()
     stories = Story.find('author',user[0])
     author = story.get_author()
-    assert len(stories) > 0, 'stroies should have at least 1 story'
+    assert len(stories) > 0, 'stories should have at least 1 story'
     count = len(stories)
     stories[0].get_approved_paragraphs()
     comment=story.add_comment(user[0],'That was a cool read!')

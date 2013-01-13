@@ -61,16 +61,16 @@ REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, 
     VALUES (0, 'Barry', 'Schultz', 'barry_1233', "261da58a9c89ca6e5840cc9a65d9968a15a8b52599df61ef770210b5c2c8d09a", "2000-11-16 00:00:00.00000",
     'barry.sucks@gmail.com', "2000-11-16", 'Sydney', "Hi, I'm Barry!");
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
-    VALUES (1, 'Larry', 'Schultz', 'larry', '\x03\xacgB\x16\xf3\xe1\\v\x1e\xe1\xa5\xe2U\xf0g\x956#\xc8\xb3\x88\xb4E\x9e\x13\xf9x\xd7\xc8F\xf4', "2000-11-16",
+    VALUES (1, 'Larry', 'Schultz', 'larry', '6ed3e9a7197a1f208b29862d810e2fc31b71184a0c3fb78c6f21b17f828a86e6', "2000-11-16",
     'larry.rocks@gmail.com', "2000-11-16", 'Sydney', "Hi, I'm not Barry!");    
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
-    VALUES (2, 'Harry', 'Potter', 'chosenone', '\x03\xacgB\x16\xf3\xe1\\v\x1e\xe1\xa5\xe2U\xf0g\x956#\xc8\xb3\x88\xb4E\x9e\x13\xf9x\xd7\xc8F\xf4', "31-7-1980",
+    VALUES (2, 'Harry', 'Potter', 'chosenone', '160b72c738761404143b4e87265c306b12e8811c68d46f87e54fb3ce25c5985f', "31-7-1980",
     'killvoldemort@hogwarts.net.uk', "2000-11-16", 'London', "Hi, I defeated Voldy, suckers!");  
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
-    VALUES (3, 'Carry', 'Schultz', 'carry', '\x03\xacgB\x16\xf3\xe1\\v\x1e\xe1\xa5\xe2U\xf0g\x956#\xc8\xb3\x88\xb4E\x9e\x13\xf9x\xd7\xc8F\xf4', "1998-09-22",
+    VALUES (3, 'Carry', 'Schultz', 'carry', '42c0386aedba0ad607852945a9ab3854055fe41f721989b8954f8993f829a8ce', "1998-09-22",
     'carry@gmail.com', "2000-11-16", 'Sydney', "My brothers are twins.");
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
-    VALUES (4, 'Dominic', 'May', 'Lord_DeathMatch', '\x03\xacgB\x16\xf3\xe1\\v\x1e\xe1\xa5\xe2U\xf0g\x956#\xc8\xb3\x88\xb4E\x9e\x13\xf9x\xd7\xc8F\xf4', "1996-08-07",
+    VALUES (4, 'Dominic', 'May', 'Lord_DeathMatch', 'a83f7e6ceaed302344233980c22fb8ac72d5215564be2b9734e62e88a5fc367a', "1996-08-07",
     'jack.thatch@gmail.com', "2000-11-16", 'Sydney', "Hi, I'm Dom!!");
      
 REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)

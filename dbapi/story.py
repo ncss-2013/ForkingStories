@@ -148,6 +148,8 @@ if __name__ == "__main__":
     assert p.content == 'Hey! Where\'s my hobbit?'
     p.save()
     story.get_approved_paragraphs()
+    assert Paragraph.find('id', p.id)[0].content == 'Hey! Where\'s my hobbit?', \
+        'Failed to read content back from databse when testing Story.create()'
     p.delete()
     stories = Story.find('author',user[0])
     author = story.get_author()

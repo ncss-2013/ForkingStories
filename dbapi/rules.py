@@ -25,17 +25,17 @@ with the given data: story_id, rule_def_id, params.
 
 def list2str (data:list, separator:str='||'):
     """
-This takes a list and inserts the seperator in to return a string.
+This takes a list and inserts the separator in to return a string.
     """
-    return seperator.join(data)
+    return separator.join(data)
 
 
-def str2list (data:str, seperator:str='||'):
+def str2list (data:str, separator:str='||'):
     """.
-This takes a list that is represented as a string with the given seperator '||'.
+This takes a list that is represented as a string with the given separator '||'.
 And returns a list of strings.
     """
-    return data.split(seperator)
+    return data.split(separator)
 
 
 class Rules(object):

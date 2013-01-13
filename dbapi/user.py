@@ -95,14 +95,16 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
     def save(self):
         if self.id is None:
             cur = conn.cursor()
-            cur.execute("SELECT id FROM users WHERE username = ?",(self.username,))
+            cur.execute("SELECT * FROM users WHERE username = ?",(self.username,))
             rows = cur.fetchall()
+
             results = []
             for row in rows:
-                results += User.find("id", *row) 
+                results += User(*row) 
             if len(results) != 0:
                 raise UsernameAlreadyExists()
             else:
+                print(self.username)
                 cur.execute("""INSERT INTO users (fname, lname, username, password, dob, email, joindate, location, bio)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio))
@@ -189,5 +191,7 @@ if __name__ == "__main__":
     stories = s2.get_stories()
     assert len(stories), "Should have some stories"
 
-    
+    #user = User.create(firstname, lastname, username, password, birthyear, birthmonth, birthday, email, location, bio)
+    user = User.create('Shannon', 'Rothe', 'srothe', 'shannon', '1996', '1', '10', 'shannon.michael.rothe@gmail.com', 'Mudgee', 'Test')
+    user.save()
 

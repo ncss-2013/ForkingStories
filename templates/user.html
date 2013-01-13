@@ -3,7 +3,7 @@
 	<strong>Username: </strong> {{ user.username }}
 
 	{% if current_user is not None and current_user.username == user.username %}
-		<p><form action='/changepassword'>
+		<form action="/changepassword" method="POST">
 		    <label>Old password:
 		        <input type='text' name='old password'>
 		    </label>

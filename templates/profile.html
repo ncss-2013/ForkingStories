@@ -22,10 +22,10 @@
         <strong>Bio: </strong> {{ user.bio }}<br />
         
         {% if current_user is not None and current_user.username == user.username %}
-        <input type='button' id='hidepass' value='Change Password''>
+        <input type='button' id='hidepass' value='Change Password'>
         <script src='/static/js/hidepasswordchange.js'></script>
-        <div id='changepass' style='display:none;>
-            <p><form action='/changepassword'>
+        <div id='changepass' style='display:none;'>
+            <p><form action='/changepassword' method="POST">
                 <label>Old password:
                     <input type='password' name='old password'>
                 </label>
@@ -39,19 +39,6 @@
             </form>
         </div>
         {% endif %}
-
-        <!-- <span id='profileimg'>
-            <img src='http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'>
-        </span>
-        <span> 
-            Birthdate: {# user.birthyear #}/{# user.birthmonth #}/{# user.birthday #}
-        </span>
-        <span> 
-            Location: {# user.location #}
-        </span>
-        <span>
-        <a href='http://en.gravatar.com/?utm_source=lasindias.info/blog'>
-        <span> -->
     </div>
     <div>
         <span>

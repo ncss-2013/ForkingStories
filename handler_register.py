@@ -30,16 +30,11 @@ def process_register(response):
     location = response.get_argument('location', default='')
     bio = response.get_argument('bio', default='')
 
-    birthdate = birthdate.split('-')
-    birthyear = birthdate[0]
-    birthmonth = birthdate[1]
-    birthday = birthdate[2]
-
-    # Check username fits criteria (regex) and password matches the repeated password
     if username_pat.match(username) and password == repeat_password:
-        user = User.create(firstname, lastname, username, password, birthyear, birthmonth, birthday, email, location, bio)
+        user = User.create(firstname, lastname, username, password, birthdate, email, location, bio)
         user.save()
-
-        response.redirect('/')
+        
+        response.set_secure_cookie('username', username)
+        response.redirect('/user/{}'.format(username))
     else:
         response.write('Please check the username entered meets criteria and both passwords match.')

@@ -20,5 +20,26 @@ I have {{ len(friends) }}:
 {{ "This is <b> escaped </b> html by default." }}
 {% safe "<marquee> This is unescaped html! </marquee>" %}
 
+{% exec myvar = 'I exist!' %}
+{% ifdef myvar then myvar = "I'm a variable!" %}
+{{myvar}}
+{% ifndef myvar then myvar = "I don't exist!" else myvar = "I exist!" %}
+
+{% ifdef im_not_defined %}
+	WRONG
+{% else %}
+	RIGHT
+{% endif %}
+
+{% ifdef myvar %}
+	RIGHT
+{% endif %}
+
+{% ifndef myvar %}
+	WRONG
+{% else %}
+	RIGHT
+{% endif %}
+
 {# this is a comment! #}
 {# I could {% include "footer.html" %} if I wanted to! #}

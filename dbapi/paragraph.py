@@ -44,13 +44,13 @@ an instantiated Paragraph object.
     def save(self):
         cur = conn.cursor()
         if not self.id:
-            now = dbtime.make_time_float()
+            now = dbtime.make_time_str()
             cur.execute(
                 'INSERT INTO paragraphs VALUES'
                 '(NULL, ?, ?, ?, ?, ?, ?, ?);',
                 (self.content, self.parent_id, self.votes,
-                 now, self.author_id, self.approved,
-                 self.story_id))
+                 self.author_id, self.approved,
+                 self.story_id, now))
             self.id = cur.lastrowid
             self.created = now
         else:
@@ -89,7 +89,6 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
         except IndexError:
             raise Exception('This paragraph does not belong to any exsiting'
                             ' story in the datebase.')
-
     @classmethod
     def create (clf, content:str, parent_id:int, votes:int,
                  author_id:int, approved:bool, story_id:int):
@@ -110,11 +109,10 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
                            'ORDER BY ?',
                         (query, order_by)).fetchall()
         return [Paragraph(p[0], p[1], p[2], p[3], p[4], p[5], p[6],
-                         dbtime.create_datetime(p[7])) for p in rows]
+                         dbtime.get_time_from_str(p[7])) for p in rows]
 
     @classmethod
     def get_approved_paragraphs(clf, story_id):
-        # TODO: Update docstrings
         '''Takes a story id and returns a list of all the aprroved content
 in order for that story.'''
         cur = conn.cursor()
@@ -123,7 +121,7 @@ story_id = ''' + str(story_id) + ''' AND approved = 1
 ORDER BY parent_id;''')
         rows = cur.fetchall()
         return [Paragraph(p[0], p[1], p[2], p[3], p[4], p[5], p[6],
-                         dbtime.create_datetime(p[7])) for p in rows]
+                         dbtime.get_time_from_str(p[7])) for p in rows]
             
         
 

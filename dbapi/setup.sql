@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
   lname TEXT NOT NULL,
   username TEXT NOT NULL,
   password TEXT NOT NULL,
-  dob REAL NOT NULL,
+  dob TEXT NOT NULL,
   email TEXT NOT NULL,
   joindate TEXT NOT NULL,
   location TEXT NOT NULL,

@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS comments (
     author_id INTEGER NOT NULL,
     story_id INTEGER NOT NULL,
     content TEXT NOT NULL,
+    created_time TEXT NOT NULL,
     PRIMARY KEY (id)
 ) ;
 

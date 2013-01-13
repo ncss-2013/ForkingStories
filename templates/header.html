@@ -27,7 +27,7 @@
         {% else %}
             <div class='loginbox'>
                 <img src='{% gravatar current_user.email %}'>
-                <p>Welcome <a href='/user/{{current_user.username}}'>{{current_user.username}}</a></p>
+                <p>Welcome <a id="username-inputbox" href='/user/{{current_user.username}}'>{{current_user.username}}</a>!</p>
                 <p><a href='/logout'>Logout</a> </p>
             </div>
         {% endif %}
@@ -45,12 +45,4 @@
         {% endif %}
    </div>
    <div id="main"><!-- this is opening the main div that is closed in footer -->
-        {% ifdef error %}
-            {% if error %}
-                <div class="error_slidedown">
-                    <div style="padding: 5px;">
-                        {% safe error %}
-                    </div>
-                </div>
-            {% endif %}
-        {% endif %}
+        {% ifdef error %}{% if error %}<div class="error_slidedown">{% safe error %}</div>{% endif %}{% endif %}

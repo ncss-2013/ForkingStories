@@ -1,0 +1,18 @@
+<h1>{{story.title}}</h1>
+<div class='main'>
+	<script>
+		var selected = null;
+		function selectNode(nodeID) {
+			if (selected) {
+				selected.removeClass('story_text_selected');
+			} else {
+				$('#paragraphSubmitButton').removeAttr('disabled');
+				$('#paragraphSubmitButton').val('Submit');
+			}
+			selected = $('#story_text_' + nodeID);
+			selected.addClass('story_text_selected');
+			$('#paragraphParentId').val(nodeID);
+		}
+	</script>
+	{% include "story_tree_node.html" with node = node %}
+</div>

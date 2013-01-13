@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+	<title>Chat</title>
+</head>
+<body>
+<div class='chatbox'>
+	{% ifndef width then width = 350 %}
+	{% ifndef height then height = 300 %}
+	<style>
+		.message {
+			margin: 4px;
+		}
+		#chat_text {
+			background-color: rgba(100,255,255,0.4);
+			border: thin;
+			{{'height: {}px'.format(height)}};
+			{{'width: {}px'.format(width)}};
+			overflow: auto;
+			/**/
+		}
+	</style>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script scr="/static/js/chat.js"></script>
+
+	<form onsubmit='false'>
+		<select id='chan_selector' onchange='changeChannel()'>
+			{% for chan_name,channel in channels %}
+				<option value='{{channel}}'> {{chan_name}} </option>
+			{% endfor %}
+		</select>
+	</form>
+	<form onsubmit='return sendMessage()'>
+		<input type='text' name='message' id='message'>
+		<input type='submit' name='submit'>
+	</form>
+	<ul id='chat_text'></ul>
+</div>
+</body>
+</html>

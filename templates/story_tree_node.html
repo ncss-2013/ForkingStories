@@ -1,0 +1,10 @@
+<div class='story_group'>
+	<div class='story_text_container'>
+		<p class='story_text' id='story_text_{{node.paragraph.id}}' onclick='selectNode({{node.paragraph.id}})'>{{node.paragraph.content}}</p>
+	</div>
+	<div class='story_node'>
+		{% for child in node.children %}
+			{% include "story_tree_node.html" with node = child %}
+		{% endfor %}
+	</div>
+</div>

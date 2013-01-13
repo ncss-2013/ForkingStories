@@ -1,5 +1,6 @@
 import Spellcheck.spellcheck as spell
 import json
+import string
 
 def spellcheck(response):
     text = response.get_field('text', default='')
@@ -7,6 +8,8 @@ def spellcheck(response):
         fixed = {}
         words = set(text.split())
         for word in words:
+            word = word.lower()
+            word = word.strip(string.punctuation)
             result = spell.suggest_corrections(word)
             if result is not None:
                 fixed[word] = result

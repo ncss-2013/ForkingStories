@@ -21,6 +21,7 @@ server.register('/changepassword', handler_login.changepassword)
 
 server.register('/user/(\w[\w\d]+)', handler_user.user)
 server.register('/profiles', handler_user.profiles)
+server.register('/check_username/(\w[\w\d]+)', handler_user.check_username)
 
 server.register('/view_story/([0-9]+)', handler_story.view_story)
 

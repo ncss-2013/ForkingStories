@@ -31,7 +31,7 @@
         </label>
         <label>
             Username:
-            <input type='text' name='username' required>
+            <input type='text' name='username' required id='uname'>
         </label>
         <label>
             Password:
@@ -71,6 +71,7 @@
 $(function (){
     validate_passwords('password-initial', 'rpassword');
     validate_form($("#register-form"), $('#register-form .error-message'));
+    validate_username('uname');
 })
 </script>
 {% include "footer.html" %}

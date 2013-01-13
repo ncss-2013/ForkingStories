@@ -33,3 +33,17 @@ def profiles(response):
 
 	html = template.render_file('templates/profilelist.html', context)
 	response.write(html)
+
+def check_username(response, username):
+        import json
+        json_response = {
+                "status":0, "username_available":True 
+                }
+        
+        if User.find('username', username):
+                json_response["username_available"] = False
+
+        response.write(json.dumps(json_response))
+        
+
+        

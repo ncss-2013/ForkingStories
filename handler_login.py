@@ -1,11 +1,17 @@
 import template
 from dbapi.user import User
 
+
 def check_login(username, password):
-    user = User.find('username', username)[0]
+    result = User.find('username', username)
+    if not result:
+        return None
+    else:
+        user = result[0]
     if user is not None and username == user.username and password == user.password:
         return user
     return None
+
 
 def login(response):
     response.write('''
@@ -30,7 +36,7 @@ def login(response):
 def authenticate(response):
     username = response.get_field('username')
     password = response.get_field('password')
-    if check_login(username,password) or response.get_secure_cookie('username'):
+    if check_login(username, password) or response.get_secure_cookie('username'):
         response.set_secure_cookie('username', username)
         response.redirect('/user/{}'.format(username))
 

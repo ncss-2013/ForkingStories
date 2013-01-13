@@ -24,12 +24,14 @@ class Story(object):
                                Valid field_names: 'id', 'created_time',
                                            'title', 'author_id',
                                            'author_init_comment', 'all'
-        create(author_id, title) --> returns a new story object
+        create(author_id, title, author_init_comment) --> returns a new story object,
+                                                        author_init_comment is optional and
+                                                        defults to an empty string
         get_accepted_paragraphs() --> returns paragraph objects that are acccepted
                                         by having required number of votes
 
     '''
-    def __init__(self, story_id:int,author_id:int,title:str,created_time:float,author_init_comment:str):
+    def __init__(self, story_id:int,author_id:int,title:str,created_time:str,author_init_comment:str):
         self.id = story_id
         self.author_id = author_id
         self.title = title
@@ -38,8 +40,8 @@ class Story(object):
     def save(self):
         cur = conn.cursor()
         if self.id is None:
-            time = dbtime.make_time_float()
-            self.created_time = dbtime.create_datetime(time)
+            time = dbtime.make_time_str()
+            self.created_time = dbtime.get_time_from_str(time)
             cur.execute("INSERT INTO stories VALUES (NULL, ?, ?, ?, ?);",
                         (self.author_id,self.title,time,self.author_init_comment))
             self.id = cur.lastrowid
@@ -63,6 +65,15 @@ class Story(object):
     def get_author(self):
         cur = conn.cursor()
         return User.find('id', self.author_id)
+
+    def add_paragraph(self, paragraph):
+        user_id = paragraph.author_id
+        # --- Alex Mueller wrote this ---
+        paragraphs = Paragraph.find('story_id', self.id)
+        paragraph.parent_id = max(
+            [p.parent_id for p in paragraphs if p.approved])
+        paragraph.save()
+        # --- End the part that Alex Mueller wrote ---
     
     @classmethod
     def find(cls, field_name, field_value):
@@ -75,7 +86,7 @@ class Story(object):
         stories = []
         for record in records:
             story = Story(*record)
-            story.created_time = dbtime.create_datetime(record[3])
+            story.created_time = dbtime.get_time_from_str(record[3])
             stories.append(story)
         return stories
                     
@@ -88,7 +99,7 @@ if __name__ == "__main__":
     story.save()
     stories = Story.find('author_id',12)
     author = story.get_author()
-    assert len(stories) > 0, 'stroies should have at leats 1 story'
+    assert len(stories) > 0, 'stroies should have at least 1 story'
     count = len(stories)
     stories[0].get_approved_paragraphs()
     story.delete()

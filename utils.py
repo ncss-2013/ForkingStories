@@ -11,5 +11,5 @@ def get_error(response, dest):
 def set_error(response, k_v):
     for key, value in k_v.items():
         response.set_secure_cookie(key, value)
-        assert response.get_secure_cookie(key) == value
+        # assert (response.get_secure_cookie(key)).decode() == value
     return response

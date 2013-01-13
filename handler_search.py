@@ -50,19 +50,11 @@ def search_results(response):
 
     cursor = conn.cursor()
 
-    if response.get_arguments('storyquery') == []:
-        context['stories'] = stories
-        context['story'] = None
-        html = template.render_file('templates/storylist.html', context)
-        # raise Exception('BAH')
-        response.write(html)
-
-    else:
+    if response.get_arguments('storyquery') != []:
         query = response.get_argument('storyquery')
         results = search(cursor, conn, query)
         stories = []
         for result in results:
-            # response.write('{}<br/>\n'.format(result))
             stories.append(Story.find('id', int(result[0]))[0])
 
         context['stories'] = stories
@@ -74,3 +66,15 @@ def search_results(response):
         html = template.render_file('templates/storylist.html', context)
         # html = template.render_file('templates/minimal.html', context)
         response.write(html)
+
+    elif response.get_arguments('sort') != []:
+        # filter logic here
+        pass
+    else:
+        context['stories'] = stories
+        context['story'] = None
+        html = template.render_file('templates/storylist.html', context)
+        response.write(html)
+
+
+

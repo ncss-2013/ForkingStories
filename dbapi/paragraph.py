@@ -67,6 +67,8 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
                   self.id))
         # Commit data
         conn.commit()
+        # Return this object
+        return self
 
     def delete(self):
         cur = conn.cursor()

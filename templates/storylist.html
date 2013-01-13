@@ -44,7 +44,7 @@
     {% for story in stories %}
         <tr id='story_row'>
             <td>
-                <a href="view_story/{{ story.id }}">{{ story.title }}</a>
+                {{ story.title }}
             </td>
             <td>
                 {# story.likes #}
@@ -54,15 +54,15 @@
             </td>
             <td>
                 {% if current_user is None %}
-                <a href="/story/view?id={#story.id#}">
+                <a href="view_story/{{ story.id }}">
                 View Story
                 </a>
                 {% else %}
-                <a href="/story/contribute?id={#story.id#}">
+                <!--<a href="/story/contribute?id={#story.id#}">
                 Add to story
                 </a>
-                <br>
-                <a href="/story/view?id={#story.id#}">
+                <br>-->
+                <a href="view_story/{{ story.id }}">
                 View Story
                 </a>
                 {% endif %}                

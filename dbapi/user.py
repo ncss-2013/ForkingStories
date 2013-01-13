@@ -1,18 +1,24 @@
+#!/usr/bin/env python3
+"""User package"""
+##fix dob function (import alex's thing) and check stories table
+
 import __importfix__; __package__ = 'dbapi'
 from .__init__ import *
+import math
 import dbapi.dbtime as dbtime
+from dbapi.paragraph import Paragraph as Paragraph
+#from dbapi.story import Story
+import dbapi.story
 
 def nuke():
     conn.execute("DROP TABLE IF EXISTS users;")
 
-class RecordNotFound(Exception):
-    pass
 
 class UsernameAlreadyExists(Exception):
     pass
 
 class User(object):
-    def __init__(self, uid, fname, lname, username, password, dob, email, joindate):
+    def __init__(self, uid, fname, lname, username, password, dob, email, joindate, location, bio, image):
         self.uid = uid
         self.fname = fname
         self.lname = lname
@@ -21,35 +27,33 @@ class User(object):
         self.dob = dob
         self.email = email
         self.joindate = joindate
+        self.location = location
+        self.bio = bio
+        self.image = image
 
     @classmethod
-    def get(cls, field_name:str, query:str=""):
+    def find(cls, field_name:str, query:str):
         """
         Arguments required, in order: the query (what the user is searching for), and the field name of the field they are searching in.
         """
         cur = conn.cursor()
         if field_name == "all":
-            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate FROM users")
+            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio, image FROM users")
         else:
-            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate FROM users WHERE " + field_name + " = ?",
+            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio, image FROM users WHERE " + field_name + " = ?",
                     (query,))
         rows = cur.fetchall()
         results = []
         for row in rows:
             results.append(User(*row))
         print(str(len(results)) + " result(s) found.")
-        if len(results) == 1:
-            return User(*row)
-        elif len(results) == 0:
-            raise RecordNotFound
-        else:
-            return results
+        return results
     #You can't edit the results of this query unless there is only 1 unique result, so if you search username or uid
 
-    def create(fname, lname, username, password, dob, email):
-        joindate = 0.3253
-        #TODO put method for date here
-        return User(None, fname, lname, username, password, dob, email, joindate)
+    def create(fname, lname, username, password, year, month, day, email, location, bio, image):
+        joindate = dbtime.make_time_float()
+        dob = make_time_float((year, month, day))
+        return User(None, fname, lname, username, password, dob, email, joindate, location, bio, image)
         
     #Don't use update, but don't delete it either!!!
     def update(self, fieldname, value):
@@ -68,13 +72,18 @@ class User(object):
             if results:
                 raise UsernameAlreadyExists()
             else:
-                cur.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (self.uid, self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate))
+                cur.execute("""INSERT INTO users
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (self.uid, self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio, self.image))
+                self.uid = cur.lastrowid
         else:
             self.update('fname', self.fname)
             self.update('lname', self.lname)
             self.update('password', self.password)
-            self.update('id', self.uid)
             self.update('email', self.email)
+            self.update('location', self.location)
+            self.update('bio', self.bio)
+            self.update('image', self.image)
         conn.commit()
         #User name and id can't change
 
@@ -84,19 +93,42 @@ class User(object):
                     WHERE id = ?''', (self.uid,))
         conn.commit()
 
+    def get_contributed_stories(self):
+        cur = conn.cursor()
+        cur.execute("""SELECT s.id
+            FROM stories s JOIN paragraph p ON s.id = p.story_id JOIN users u ON p.author_id = u.id
+            WHERE u.id = ?""",
+            (self.uid,))
+        rows = cur.fetchall()
+        results = []
+        for row in rows:
+            results += dbapi.story.Story.find("id", *row)
+        return results
 
+    def get_stories(self):
+        cur = conn.cursor()
+        cur.execute("""SELECT s.id
+            FROM stories s JOIN users u ON s.author_id = u.id
+            WHERE u.id = ?""",
+            (self.uid,))
+        rows = cur.fetchall()
+        results = []
+        for row in rows:
+            results += dbapi.story.Story.find("id", *row)
+        return results
+        
 
 if __name__ == "__main__":
-    s = User.get('username', 'Melogh24')
+    s = User.find('username', 'barry_1233')[0]
     previous_name = s.fname
-    if s.fname == "Melissa":
-        s.fname = "SZam"
-    else:
+    if s.fname == "Barry":
         s.fname = "Melissa"
+    else:
+        s.fname = "Barry"
     s.save()
-    s2 = User.get('username', 'Melogh24')
+    s2 = User.find('username', 'barry_1233')[0]
     assert s2.fname != previous_name, "Name didn't change :("        
 
-    #help(User.get)
+    stories = s2.get_stories()
+    assert len(stories), "Should have some stories"
 
-   

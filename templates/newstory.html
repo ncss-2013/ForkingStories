@@ -1,20 +1,17 @@
 {% include "header.html"%}
 {% if current_user is not None %}
     <div class="main-single">
-       <h2> 
-            Create a Story! 
-        </h2>
-        <form action="/process_new_story" method="POST">
-            <div>
-                <label id='storytitle'>
-                    Title:
-                    <input type='text' placeholder='Enter your title' name='title' maxlength='30' required>
-                    <br>
-                </label>
-                <label>
-                    <textarea id="story" placeholder='Start your story here!' name='story' required></textarea>
-                    <button id="check-story">Check Spelling</button>
-                    <div id="spelling-result"></div>
+       <h2>Create a Story!</h2>
+       <section>
+         <form action="/process_new_story" method="POST">
+           <label id='storytitle'>
+             <input type='text' placeholder='Title' name='title' maxlength='30' required>
+           </label>
+           <label>
+             <textarea id="story" placeholder='Start your story here!' name='story' required></textarea>
+             <button id="check-story">Check Spelling</button>
+             <div id="spelling-result"></div>
+           </label>
 <script type="text/javascript">
 var button = $('#check-story');
 button.click(function() {
@@ -29,14 +26,18 @@ button.click(function() {
                 if (typeof value == 'string') {
                     value = JSON.parse(value);
                 }
-                var html = "<dl class='spelling'>";
+                var html = "";
                 for (var k in value) {
                     html += '<dt>' + k + '</dt><dd>';
                     for (var i in value[k]) {
                         html += "<a href='#'>" + value[k][i] + "</a>";
                     }
                 }
-                html += "</dl>";
+                if (!html) {
+                  html = "<p>Your spelling is correct!</p>";
+                } else {
+                  html = "<dl class='spelling'>" + html + "</dl>";
+                }
                 $('#spelling-result').html(html);
             }
     });
@@ -55,8 +56,6 @@ $(document).on('click', '.spelling dd a', function(event) {
     $(event.target).closest('dd').prev().hide();
 });
 </script>
-                    <br>
-                </label>
                 <label>
                     Challenge Rules:
                     <select name='rule'>

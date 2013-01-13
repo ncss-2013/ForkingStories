@@ -17,6 +17,7 @@
     </form>
     </div>
     <div class='main-right'>
+        <h2>Comments</h2>
         <input type='button' id='hidecomment' value='Leave a comment'>
         <script src='/static/js/hidecomment.js'></script>
         <form id='comment' style='display:none;' action="/add_comment/{{ story.id }}" method="POST">
@@ -24,7 +25,6 @@
             <br>
             <input type='submit' value='Post'>
         </form>
-        <h2>Comments</h2>
         <table border='1'>
         {% for comment in story.get_comments() %}
             <tr>

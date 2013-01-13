@@ -4,6 +4,15 @@ import __importfix__; __package__ = 'dbapi'
 
 from .__init__ import *
 
+"""
+get_rules() --> returns a list of tuples describing all rules [(id, name, description),...].
+
+get_rules_params(story_id) --> returns a list of tuples
+    with name and parameters of rules applied on that story_id [("name", "params"),...]
+
+add_rule(story_id, rule_def_id, params) --> creates a new rule in the table "rules"
+with the given data: story_id, rule_def_id, params.
+"""
 
 def list2str (data:list, separator:str='||'):
     """
@@ -37,6 +46,13 @@ WHERE r.story_id = ?;""", (story_id,))
 SELECT *
 FROM ruleDefs;""")
         return cur.fetchall()
+
+    def add_rule(story_id, rule_def_id, params):
+        cur = conn.cursor()
+        cur.execute("""
+INSERT INTO rules (id, story_id, rule_def_id, params)
+VALUES (NULL, ?, ?, ?)
+""", (story_id, rule_def_id, params))
 
 
 
@@ -147,8 +163,10 @@ if __name__=="__main__":
 
     assert Rules.check("hello world", 0)
 
-    #print(RulesTable.get_rules_params(0))
-    #print(RulesTable.get_rules())
+    #Rules.add_rule(0, 3, "100")
+
+    print(Rules.get_rules_params(0))
+    #print(Rules.get_rules())
 
     #need to fix method so this assert passes
     #assert Rules.forced_words("cats.", "cats")

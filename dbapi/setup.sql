@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS stories (
     PRIMARY KEY (id)
 );
 
-REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', '22/22/22',
+REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', 958953600.0,
     'barry.sucks@gmail.com', 2.9, 'Sydney', "Hi, I'm Barry!", '<img src="vjeiwo".jpg>');
 
 REPLACE INTO paragraphs VALUES (0, '"You shall not pass!"', -1, 10, 0,

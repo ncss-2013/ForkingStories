@@ -23,7 +23,7 @@ class User(object):
         self.lname = lname
         self.username = username
         self.password = password
-        self.dob = dob
+        self.dob = dbtime.create_datetime(dob)
         self.email = email
         self.joindate = joindate
         self.location = location
@@ -31,7 +31,7 @@ class User(object):
         self.image = image
 
     @classmethod
-    def find(cls, field_name:str, query:str):
+    def find(cls, field_name:str, query:str = ""):
         """
         Arguments required, in order: the query (what the user is searching for), and the field name of the field they are searching in.
         """

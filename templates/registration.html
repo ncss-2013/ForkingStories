@@ -5,21 +5,6 @@
     </h2>
 </div>
 <div class="main-left">
-    <script>
-    $(function() {
-        $('#form_filler').click(function() {
-            $('input[name="fname"]').val('Shannon');
-            $('input[name="lname"]').val('Rothe');
-            $('input[name="username"]').val('srothe');
-            $('input[name="password"]').val('shannon');
-            $('input[name="rpassword"]').val('shannon');
-            $('input[name="email"]').val('shannon.michael.rothe@gmail.com');
-            $('input[name="location"]').val('Mudgee');
-            $('input[name="bio"]').val('Test');
-        });
-    });
-    </script>
-    <button id="form_filler">Fill form</button>
     <form action="/process_register" method="POST" autocomplete="off" id="register-form">  
         <label>
             First Name:

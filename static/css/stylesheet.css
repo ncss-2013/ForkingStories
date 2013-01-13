@@ -42,7 +42,7 @@ table, td, th {
     border:1px solid #3a3a3a;
     border-collapse:collapse;
     }
-    
+
 table {
         width: 95%
     }
@@ -443,9 +443,8 @@ input[type="submit"]:active
     border-radius: 5px;
     background-color: whitesmoke;
     padding: 15px;
-    
-}
 
+}
 
 /* spelling suggestions */
 .spelling {
@@ -469,3 +468,22 @@ input[type="submit"]:active
 .spelling dd a {
     margin-right: 10px;
 }
+
+
+
+.error_slidedown{
+  color: red;
+  border: 2px solid #ff0300;
+  cursor: help;
+  -webkit-animation: notice 2s infinite alternate;
+}
+
+@-webkit-keyframes notice /* Safari and Chrome */
+{
+    from {background: transparent;}
+    to {
+      background: #990200;
+      box-shadow: 0 0 200px #ff0300;
+    }
+}
+

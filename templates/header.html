@@ -6,6 +6,7 @@
         <link rel='stylesheet' href='/static/css/stylesheet.css' type='text/css'>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+        <script src="/static/js/spec_error.js"></script>
         <script src="/static/js/utility.js"></script>
         <title>
             Forking Stories
@@ -47,3 +48,4 @@
         {% endif %}
    </div>
    <div id="main"><!-- this is opening the main div that is closed in footer -->
+        {% ifdef error %}{% if error %}<div class="error_slidedown">{% safe error %}</div>{% endif %}{% endif %}

@@ -119,6 +119,9 @@ class ForNode(Node):
 		del variables['___iterator']
 		return output
 
+	def __repr__(self):
+		return 'ForNode (\n{}\n)'.format(repr(self.enclosed))
+
 # Node for remapping variables when including files:
 class IncludeNode(Node):
 	def __init__(self, child, remappings):
@@ -129,6 +132,24 @@ class IncludeNode(Node):
 	def render(self, variables):
 		new_vars = dict((variable.strip(), eval(expression, {}, variables)) for variable, expression in self.remap)
 		return self.child.render(new_vars)
+
+	def __repr__(self):
+		return 'IncludeNode ({}) (\n{}\n)'.format(self.remappings, repr(self.child))
+
+# Node for handling ifdefs and ifndefs:
+class IfDefNode(Node):
+	def __init__(self, variable, istrue, isfalse, reverse):
+		self.variable = variable
+		self.istrue = istrue
+		self.isfalse = isfalse
+		self.reverse = reverse
+
+	# Check if variable is/isn't defined and if so execute inner expression:
+	def render(self, variables):
+		if (self.variable.strip() in variables) != self.reverse:
+			return self.istrue.render(variables)
+		else:
+			return self.isfalse.render(variables)
 
 
 # Abstract class for parsing exceptions:
@@ -169,8 +190,15 @@ def lex(text):
 	else {%\s*else\s*%}
 	endif {%\s*endif\s*%}
 
-	iif_else {%\s*iif\s(.*?)\s%then%\s(.*?)\s%else%\s(.*?)%}
-	iif {%\s*iif\s(.*?)\s%then%\s(.*?)\s%}
+	iif_else {%\s*iif\s(.*?)\sthen\s(.*?)\selse\s(.*?)%}
+	iif {%\s*iif\s(.*?)\sthen\s(.*?)\s%}
+
+	ifdef {%\s*ifdef\s(.*?)\sthen\s(.*?)\selse\s(.*?)%}
+	ifndef {%\s*ifndef\s(.*?)\sthen\s(.*?)\selse\s(.*?)%}
+	ifdef {%\s*ifdef\s(.*?)\sthen\s(.*?)%}
+	ifndef {%\s*ifndef\s(.*?)\sthen\s(.*?)%}
+	ifdef2 {%\s*ifdef\s(.*?)%}
+	ifndef2 {%\s*ifndef\s(.*?)%}
 
 	for {%\s*for\s(.*?)\s*in\s*(.*?)\s*%}
 	endfor {%\s*endfor\s*%}
@@ -305,6 +333,20 @@ def parse_template(iterator, last=None, template=None):
 			condition, istrue, isfalse = parameters
 			result.add(IfNode(condition, PythonNode(istrue), PythonNode(isfalse)))
 
+		# If an ifdef or ifndef, add a corresponding node:
+		elif tok_type in ('ifdef', 'ifndef'):
+			if len(parameters) == 2:
+				variable, istrue = parameters
+				isfalse = TextNode('')
+			else:
+				variable, istrue, isfalse = parameters
+			result.add(IfDefNode(variable, ExecNode(istrue), ExecNode(isfalse), tok_type == 'ifndef'))
+
+		# If an expanded ifdef or ifndef, add a corresponding node:
+		elif tok_type in ('ifdef2', 'ifndef2'):
+			istrue, isfalse = parse_template(iterator, 'if')
+			result.add(IfDefNode(parameters, istrue, isfalse, tok_type == 'ifndef2'))
+
 		# If an include, recursively parse the file:
 		elif tok_type == 'include':
 			result.add(parse_file(parameters))
@@ -359,15 +401,7 @@ if __name__ == '__main__':
 		'age': 17
 	}
 	
-	result = """Bob's Page:
- 				0  1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40  41  42  43  44  45  46  47  48  49 
-				I have 4:
-				<ul>	<li>		James			(poor effort of a name)			</li>	<li>		Dom			(poor effort of a name)		
-				</li>	<li>		Who			(poor effort of a name)	</li>	<li>		The Doctor 		(that's a really long name!)
-				</li></ul><img src="http://www.gravatar.com/avatar/5730cd5627b5cbed1c4b7b5f89fa9bd2"/>"""
-	
-	template = """{{ user }}'s Page:{% for i in range(50) %} {{i}} {% endfor %}I have {{ len(friends) }}:<ul>	{% for friend in friends %}	<li>
-				{{friend}}		{% if len(friend) > (1000//160) %}			(that's a really long name!)		{% else %}			(poor effort of a name)
-				{% endif %}	</li>	{% endfor %}</ul><img src="{% gravatar 'jack.thatch@gmail.com' %}"/>{# this is a comment! #}{# I could {% include "footer.html" %} if I wanted to! #}""".replace('\n','')
+	result = r"""Bob'sPage:Ihave4:<ul><li>James(pooreffortofaname)</li><li>Dom(pooreffortofaname)</li><li>Who(pooreffortofaname)</li><li>TheDoctor(that'sareallylongname!)</li></ul><imgsrc="http://www.gravatar.com/avatar/5730cd5627b5cbed1c4b7b5f89fa9bd2"/>Thisis&lt;b&gt;escaped&lt;/b&gt;htmlbydefault.<marquee>Thisisunescapedhtml!</marquee>I&#x27;mavariable!RIGHTRIGHTRIGHT"""
+	template = r"""{{ user }}'s Page: I have {{ len(friends) }}:<ul>	{% for friend in friends %}	<li>		{{friend}}		{% if len(friend) > (1000//160) %}			(that's a really long name!)		{% else %}		(poor effort of a name)		{% endif %}	</li>{% endfor %}</ul><img src="{% gravatar 'jack.thatch@gmail.com' %}"/>{{ "This is <b> escaped </b> html by default." }}{% safe "<marquee> This is unescaped html! </marquee>" %}{% exec myvar = 'I exist!' %}{% ifdef myvar then myvar = "I'm a variable!" %}{{myvar}}{% ifndef myvar then myvar = "I don't exist!" else myvar = "I exist!" %}{% ifdef im_not_defined %}	WRONG{% else %}	RIGHT{% endif %}{% ifdef myvar %}	RIGHT{% endif %}{% ifndef myvar %}	WRONG{% else %}	RIGHT{% endif %} {# this is a comment! #} {# I could {% include "footer.html" %} if I wanted to! #}"""
 
 	assert render(template, context).replace('\n','').replace(' ','').replace('\t','') == result.replace('\n','').replace(' ','').replace('\t','')

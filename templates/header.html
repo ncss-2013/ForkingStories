@@ -20,6 +20,11 @@
                 </form>
                 <a href='/register'>Create an account</a>
             </div>
+        {% else %}
+            <div class='loginbox'>
+                <p>Welcome {{"<a href='/user/{}'>{}</a>!".format(current_user.username,current_user.username)}}</p>
+                <p><a href='/logout'>Logout</a> </p>
+            </div>
         {% endif %}
         <h1>Forking Stories</h1>
     </div>

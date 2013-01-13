@@ -1,6 +1,7 @@
 import re
 import os
 import hashlib
+from html import escape
 
 __version__ = '0.05'
 
@@ -43,12 +44,13 @@ class GroupNode(Node):
 
 # Node for holding python code to evaluate:
 class PythonNode(Node):
-	def __init__(self, code):
+	def __init__(self, code, safe=True):
 		self.code = code
+		self.escape = (lambda s: escape(str(s), quote=True)) if safe else (lambda s: str(s))
 
 	# Evaluate and stringify the expression:
 	def render(self, variables):
-		return str(eval(self.code, {}, variables))
+		return self.escape(eval(self.code, {}, variables))
 
 	def __repr__(self):
 		return 'PythonNode: {}'.format(self.code)
@@ -161,6 +163,7 @@ def lex(text):
 
 	eval {{(.*?)}}
 	exec {%\s*exec\s(.*?)%}
+	safe {%\s*safe\s(.*?)%}
 
 	if {%\s*if\s(.*?)%}
 	else {%\s*else\s*%}
@@ -252,6 +255,10 @@ def parse_template(iterator, last=None, template=None):
 		# If an expression, add a PythonNode:
 		elif tok_type == 'eval':
 			result.add(PythonNode(parameters))
+
+		# If a safe expression, add a PythonNode that won't html escape the result:
+		elif tok_type == 'safe':
+			result.add(PythonNode(parameters, safe=False))
 
 		# If an executed expression, add an ExecNode:
 		elif tok_type == 'exec':

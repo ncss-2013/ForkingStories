@@ -14,4 +14,3 @@ def index(response):
 
     html = template.render_file('templates/index.html', context)
     response.write(html)
-

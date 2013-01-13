@@ -377,17 +377,19 @@ button:active {
     -webkit-margin-start: 0px;
 }
 .spelling dd a { margin-right: 10px }
+
 .error_slidedown {
-    color: red;
-    border: 2px solid #ff0300;
-    cursor: help;
-    -webkit-animation: notice 2s infinite alternate;
+        color: #7C7373;
+        border: 2px solid #727272;
+        cursor: help;
+        -webkit-animation: notice 2s infinite alternate;
 }
-@-webkit-keyframes notice /* Safari and Chrome */ { 
+
+@-webkit-keyframes notice /* Safari and Chrome */ {
 	from { background: transparent }
 	to {
-	    background: #990200;
-	    box-shadow: 0 0 200px #ff0300;
+	    background: #303030;
+	    box-shadow: 0 0 200px #303030;
 	}
 }
 /* Support for displaying story trees. */

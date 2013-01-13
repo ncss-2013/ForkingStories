@@ -22,14 +22,14 @@ class Story(object):
 
         find(field_name,field_value) --> returns a list of story objects
                                Valid field_names: 'id', 'created_time',
-                                           'title', 'author_id',
+                                           'title', 'author',
                                            'author_init_comment', 'all'
-        create(author_id, title, author_init_comment) --> returns a new story object,
+        create(author_obj, title, author_init_comment) --> returns a new story object,
                                                         author_init_comment is optional and
                                                         defults to an empty string
         get_accepted_paragraphs() --> returns paragraph objects that are acccepted
                                         by having required number of votes
-
+        add_paragraph(userObj, content) --> returns a paragraph object for the story
     '''
     def __init__(self, story_id:int,author_id:int,title:str,created_time:str,author_init_comment:str):
         self.id = story_id
@@ -66,17 +66,20 @@ class Story(object):
         cur = conn.cursor()
         return User.find('id', self.author_id)
 
-    def add_paragraph(self, paragraph):
-        user_id = paragraph.author_id
+    def add_paragraph(self, userObj:object, content:str):
         # --- Alex Mueller wrote this ---
+        paragraph = Paragraph.create(content, None, userObj.id, None, self.id)
         paragraphs = Paragraph.find('story_id', self.id)
-        paragraph.parent_id = max(
-            [p.parent_id for p in paragraphs if p.approved])
-        paragraph.save()
+        parent_ids = [p.parent_id for p in paragraphs if p.approved]
+        paragraph.parent_id = max(parent_ids) if parent_ids else -1
+        return paragraph
         # --- End the part that Alex Mueller wrote ---
     
     @classmethod
     def find(cls, field_name, field_value):
+        if field_name == 'author':
+            field_name = 'author_id'
+            field_value = field_value.id
         cur = conn.cursor()
         if field_name == 'all':
             cur.execute("SELECT * FROM stories")
@@ -91,13 +94,21 @@ class Story(object):
         return stories
                     
     @classmethod
-    def create(cls, author_id:int, title:str, author_init_comment:str=''):
+    def create(cls, author_obj:object, title:str, author_init_comment:str=''):
+        author_id = author_obj.id
         return Story(None, author_id, title, None, author_init_comment)
 
 if __name__ == "__main__":
-    story = Story.create(12,'hello')
+    user=User.find('username','barry_1233')
+    story = Story.create(user[0],'hello')
     story.save()
-    stories = Story.find('author_id',12)
+    p = story.add_paragraph(user[0], 'Hey! Where\'s my hobbit?')
+    assert p.content == 'Hey! Where\'s my hobbit?'
+    p.save()
+    p.approve()
+    story.get_approved_paragraphs()
+    p.delete()
+    stories = Story.find('author',user[0])
     author = story.get_author()
     assert len(stories) > 0, 'stroies should have at least 1 story'
     count = len(stories)
@@ -106,6 +117,7 @@ if __name__ == "__main__":
     story.find('author_id',12)
     stories = Story.find('author_id',12)
     assert len(stories) < count, 'should now have fewer stories'
+    
 
         
         

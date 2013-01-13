@@ -67,8 +67,14 @@ REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, sto
     VALUES (1, '"But you can dance!"', 0, 10,  0, 1, 0, "2013-01-13 14:14:09.884000");
 REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
     VALUES (2, 'Wizard Gandalf style!', 1, 10, 0, 1, 0, "2013-01-13 14:14:27.044000");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (3, 'Wizard Gandalf style 2!', 1, 10, 0, 1, 0, "2013-01-13 14:24:27.000000");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (4, "It's a cave troll! Save the hobbits!", 0, 10, 0, 1, 0, "2013-01-13 16:24:27.000000");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (5, "Aragorn!", 2, 10, 0, 1, 0, "2013-01-13 16:24:27.000000");
 REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)
-    VALUES (0, 0, "This is such a cool story", "2013-01-13 13:14:27.044000", "Comment", 0);
+    VALUES (0, 0, "Wizard Gandalf Style", "2013-01-13 13:14:27.044000", "Comment", 0);
 
 REPLACE INTO rules (id, story_id, rule_def_id, params)
     VALUES (0, 0, 1, "0||6");

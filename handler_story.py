@@ -47,7 +47,7 @@ def process_new_story(response):
     rule = response.get_argument('rule')
     comment = response.get_argument('comment')
 
-    story = Story.create(user.uid, title, story)
+    story = Story.create(user, title, story)
     story.save()
 
 def new_story(response):

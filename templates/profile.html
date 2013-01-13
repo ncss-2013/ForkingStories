@@ -14,9 +14,8 @@
 </div>
 <div class="main-left">
     <div>
-        
         <strong>Name: </strong> {{ user.fname }} {{ user.lname }}<br />
-        <strong>DOB: </strong> {{ user.dob }}<br />
+        <strong>DOB: </strong> {{ '/'.join(user.dob.split(' ',1)[0].split('-')[::-1]) }}<br />
         <strong>Email: </strong> {{ user.email }}<br />
         <strong>Location: </strong> {{ user.location }}<br/>
         <strong>Bio: </strong> {{ user.bio }}<br />

@@ -293,17 +293,36 @@ a:hover, a:active {
     /*box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);*/
     }
 
-        
 .error-message {
     border: 0px solid red;
     }
     
+.main-left  {
+	overflow: hidden;
+    float:left;
+    width:570px;
+    padding: 5px 5px;
+}
+
+.main-right {
+    overflow: hidden;
+    float:right;
+    width:300px;
+    padding: 5px 5px;
+} 
+
+label{
+    width:560px;
+    display:block;
+    }
     
 /* form elements - text entry */
 input[type="text"],
 input[type="password"],
 input[type="search"]
 textarea {
+    float:right;
+    clear:both;
     width:400px;
     border-radius:2px;
     border: solid 1px #ccc;
@@ -401,4 +420,14 @@ input[type="submit"]:active
 }
 .valid-input {
     border-color: green !important;
+}
+
+/* tooltip css
+   TODO: delete old tooltip stuff */
+.tooltip {
+    position: absolute;
+    border: 3px solid red;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    padding: 29px;
 }

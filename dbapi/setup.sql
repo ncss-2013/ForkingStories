@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS stories (
     title TEXT NOT NULL,
     created_time TEXT NOT NULL,
     author_init_comment TEXT NOT NULL,
+    votes INTEGER NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -47,6 +48,14 @@ CREATE TABLE IF NOT EXISTS ruleDefs (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    story_id INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    PRIMARY KEY (id)
+) ;
+
 REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', "2000-11-16 00:00:00.00000",
     'barry.sucks@gmail.com', "2000-11-16 00:00:00.00000", 'Sydney', "Hi, I'm Barry!");
 
@@ -56,4 +65,4 @@ REPLACE INTO paragraphs VALUES (1, '"But you can dance!"', 0, 10,  0,
     1, 0, "2013-01-13 14:14:09.884000");
 REPLACE INTO paragraphs VALUES (2, 'Wizard Gandalf style!', 1, 10, 1,
     1, 0, "2013-01-13 14:14:27.044000");
-REPLACE INTO stories VALUES (0, 0, "This is such a cool story", "2013-01-13 13:14:27.044000", "Comment");
+REPLACE INTO stories VALUES (0, 0, "This is such a cool story", "2013-01-13 13:14:27.044000", "Comment", 0);

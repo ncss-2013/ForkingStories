@@ -31,19 +31,20 @@ class Story(object):
                                         by having required number of votes
         add_paragraph(userObj, content) --> returns a paragraph object for the story
     '''
-    def __init__(self, story_id:int,author_id:int,title:str,created_time:str,author_init_comment:str):
+    def __init__(self, story_id:int,author_id:int,title:str,created_time:str,author_init_comment:str, votes:int):
         self.id = story_id
         self.author_id = author_id
         self.title = title
         self.author_init_comment = author_init_comment
+        self.votes = votes
 
     def save(self):
         cur = conn.cursor()
         if self.id is None:
             time = dbtime.make_time_str()
             self.created_time = dbtime.get_time_from_str(time)
-            cur.execute("INSERT INTO stories VALUES (NULL, ?, ?, ?, ?);",
-                        (self.author_id,self.title,time,self.author_init_comment))
+            cur.execute("INSERT INTO stories VALUES (NULL, ?, ?, ?, ?, ?);",
+                        (self.author_id,self.title,time,self.author_init_comment, self.votes))
             self.id = cur.lastrowid
         else:
             cur.execute('''UPDATE stories SET
@@ -61,6 +62,9 @@ class Story(object):
 
     def get_approved_paragraphs(self):
         return Paragraph.get_approved_paragraphs(self.id)
+
+    def up_vote():
+        self.votes += 1
 
     def get_author(self):
         cur = conn.cursor()
@@ -96,7 +100,7 @@ class Story(object):
     @classmethod
     def create(cls, author_obj:object, title:str, author_init_comment:str=''):
         author_id = author_obj.id
-        return Story(None, author_id, title, None, author_init_comment)
+        return Story(None, author_id, title, None, author_init_comment, 0)
 
 if __name__ == "__main__":
     user=User.find('username','barry_1233')

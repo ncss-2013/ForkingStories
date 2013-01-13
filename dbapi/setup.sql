@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
   password TEXT NOT NULL,
   dob TEXT NOT NULL,
   email TEXT NOT NULL,
-  joindate REAL NOT NULL,
+  joindate TEXT NOT NULL,
   location TEXT NOT NULL,
   bio TEXT,
   image TEXT
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS paragraphs (
     author_id INT NOT NULL,
     approved INT NOT NULL,
     story_id INT NOT NULL,
-    created REAL NOT NULL,
+    created TEXT NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -28,18 +28,18 @@ CREATE TABLE IF NOT EXISTS stories (
     id INTEGER NOT NULL,
     author_id INTEGER NOT NULL,
     title TEXT NOT NULL,
-    created_time REAL NOT NULL,
+    created_time TEXT NOT NULL,
     author_init_comment TEXT NOT NULL,
     PRIMARY KEY (id)
 );
 
-REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', 958953600.0,
-    'barry.sucks@gmail.com', 2.9, 'Sydney', "Hi, I'm Barry!", '<img src="vjeiwo".jpg>');
+REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', "2000-11-16 00:00:00",
+    'barry.sucks@gmail.com', "2000-11-16 00:00:00", 'Sydney', "Hi, I'm Barry!", '<img src="vjeiwo".jpg>');
 
 REPLACE INTO paragraphs VALUES (0, '"You shall not pass!"', -1, 10, 0,
-    1, 0, 1357962807.106);
+    1, 0, "2000-11-16 00:00:00");
 REPLACE INTO paragraphs VALUES (1, '"But you can dance!"', 0, 10,  0,
-    1, 0, 1357962831.219);
+    1, 0, "2000-11-16 00:00:00");
 REPLACE INTO paragraphs VALUES (2, 'Wizard Gandalf style!', 1, 10, 0,
-    1, 0, 1357962841.213);
-REPLACE INTO stories VALUES (0, 0, "This is such a cool story", 1357962841.213, "Comment");
+    1, 0, "2000-11-16 00:00:00");
+REPLACE INTO stories VALUES (0, 0, "This is such a cool story", "2000-11-16 00:00:00", "Comment");

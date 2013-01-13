@@ -8,11 +8,23 @@ def spellcheck(response):
         fixed = {}
         words = set(text.split())
         for word in words:
-            word = word.lower()
-            word = word.strip(string.punctuation)
-            result = spell.suggest_corrections(word)
-            if result is not None:
-                fixed[word] = result
+            if word[0] in string.ascii_uppercase:
+                word = word.lower()
+                word = word.strip(string.punctuation)
+                result = spell.suggest_corrections(word)
+                if result is not None:
+                    result_2 = list()
+                    for word_2 in result:
+                        word_2 = word_2[0].upper() + word_2[1:]
+                        result_2.append(word_2)
+                    word = word[0].upper() + word[1:]
+                    fixed[word] = result_2
+            else:
+                word = word.lower()
+                word = word.strip(string.punctuation)
+                result = spell.suggest_corrections(word)
+                if result is not None:
+                    fixed[word] = result
         response.write(json.dumps(fixed))
 
     else:

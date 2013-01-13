@@ -49,6 +49,7 @@ def process_new_story(response):
 
     story = Story.create(user, title, story)
     story.save()
+    response.redirect('/view_story/{}'.format(story.id))
 
 def new_story(response):
     user = response.get_secure_cookie('username')

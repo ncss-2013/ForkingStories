@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 
 PYTHON="python3.3"
 FILES=$(find ./ -iname \*\*.py | grep -v " ")
-TESTS=$(grep -l __main__ $FILES | grep -v tornado)
+TESTS=$(grep -l __main__ $FILES | grep -v tornado | grep -v bs4)
 
 STATUS=0
 
@@ -17,9 +17,9 @@ for TEST in $TESTS; do
   if [ "$?" == "0" ]; then
     PKG=$(echo $TEST | grep -o -E "[^\.]*")
     PKG=$(echo $PKG | sed "s/\//./g")
-    $PYTHON -m $PKG >/dev/null
+    $PYTHON -m $PKG >/dev/null < empty_file
   else
-    $PYTHON $TEST >/dev/null
+    $PYTHON $TEST >/dev/null < empty_file
   fi
 
   if [ "$?" != "0" ]; then

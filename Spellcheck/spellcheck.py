@@ -1,10 +1,10 @@
 import string
 import os
 
-if __name__ == "__main__":
-    basepath = "."
-else:
+if '__file__' in globals():
     basepath = os.path.dirname(__file__)
+else:
+    basepath = "."
 
 file = open(basepath+'/words.txt')
 dictionary = set()

@@ -3,6 +3,7 @@ import __importfix__; __package__ = 'dbapi'
 from .__init__ import *
 from dbapi.paragraph import Paragraph as Paragraph
 from dbapi.user import *
+from dbapi.comment import *
 import dbapi.dbtime as dbtime
 
 import sqlite3
@@ -73,12 +74,16 @@ class Story(object):
 
     def add_paragraph(self, userObj:object, content:str):
         # --- Alex Mueller wrote this ---
-        paragraph = Paragraph.create(content, None, userObj.id, None, self.id)
+        paragraph = Paragraph.create(content, None, 1, userObj.id, True, self.id)
         paragraphs = Paragraph.find('story_id', self.id)
         parent_ids = [p.parent_id for p in paragraphs if p.approved]
         paragraph.parent_id = max(parent_ids) if parent_ids else -1
         return paragraph
         # --- End the part that Alex Mueller wrote ---
+
+    def add_comment(self, userObj:object, content:str):
+        comment = Comment.create()
+        
     
     @classmethod
     def find(cls, field_name, field_value):
@@ -110,7 +115,6 @@ if __name__ == "__main__":
     p = story.add_paragraph(user[0], 'Hey! Where\'s my hobbit?')
     assert p.content == 'Hey! Where\'s my hobbit?'
     p.save()
-    p.approve()
     story.get_approved_paragraphs()
     p.delete()
     stories = Story.find('author',user[0])

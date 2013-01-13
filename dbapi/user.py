@@ -17,6 +17,8 @@ import dbapi.story
 
 def nuke():
     conn.execute("DROP TABLE IF EXISTS users;")
+    conn.execute("DROP TABLE IF EXISTS stories;")
+    conn.execute("DROP TABLE IF EXISTS paragraphs;")
 
 class UsernameAlreadyExists(Exception):
     pass
@@ -102,9 +104,9 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
             if results:
                 raise UsernameAlreadyExists()
             else:
-                cur.execute("""INSERT INTO users
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (self.id, self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio))
+                cur.execute("""INSERT INTO users (fname, lname, username, password, dob, email, joindate, location, bio)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio))
                 self.id = cur.lastrowid
         else:
             self.update('fname', self.fname)

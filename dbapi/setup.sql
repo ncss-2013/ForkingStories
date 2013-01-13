@@ -56,13 +56,15 @@ CREATE TABLE IF NOT EXISTS comments (
     PRIMARY KEY (id)
 ) ;
 
-REPLACE INTO users VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', "2000-11-16 00:00:00.00000",
+REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
+    VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', "2000-11-16 00:00:00.00000",
     'barry.sucks@gmail.com', "2000-11-16 00:00:00.00000", 'Sydney', "Hi, I'm Barry!");
 
-REPLACE INTO paragraphs VALUES (0, '"You shall not pass!"', -1, 10, 0,
-    1, 0, "2013-01-13 14:13:29.324000");
-REPLACE INTO paragraphs VALUES (1, '"But you can dance!"', 0, 10,  0,
-    1, 0, "2013-01-13 14:14:09.884000");
-REPLACE INTO paragraphs VALUES (2, 'Wizard Gandalf style!', 1, 10, 0,
-    1, 0, "2013-01-13 14:14:27.044000");
-REPLACE INTO stories VALUES (0, 0, "This is such a cool story", "2013-01-13 13:14:27.044000", "Comment", 0);
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (0, '"You shall not pass!"', -1, 10, 0, 1, 0, "2013-01-13 14:13:29.324000");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (1, '"But you can dance!"', 0, 10,  0, 1, 0, "2013-01-13 14:14:09.884000");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (2, 'Wizard Gandalf style!', 1, 10, 0, 1, 0, "2013-01-13 14:14:27.044000");
+REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)
+    VALUES (0, 0, "This is such a cool story", "2013-01-13 13:14:27.044000", "Comment", 0);

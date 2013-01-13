@@ -73,7 +73,7 @@ REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, 
 REPLACE INTO rules (id, story_id, rule_def_id, params)
     VALUES (0, 0, 1, "0||6");
 REPLACE INTO rules (id, story_id, rule_def_id, params)
-    VALUES (0, 0, 2, "cat||dog");
+    VALUES (1, 0, 2, "cat||dog");
     
 REPLACE INTO ruleDefs (id, name, description)
     VALUES (0, "forced_words", "User's text must include the words host submits");

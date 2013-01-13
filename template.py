@@ -2,7 +2,7 @@ import re
 import os
 import hashlib
 
-__version__ = '0.001'
+__version__ = '0.05'
 
 # TODO:
 #  - pretty=True (automatic prettification of html - i.e. call someone else's prettifier)
@@ -89,7 +89,7 @@ class GravatarNode(Node):
 		self.email = email
 
 	def render(self, variables):
-		hashed = hashlib.md5(self.email.lower().strip().encode('ascii')).hexdigest()
+		hashed = hashlib.md5(str(eval(self.email)).lower().strip().encode('ascii')).hexdigest()
 		return 'http://www.gravatar.com/avatar/' + hashed
 
 	def __repr__(self):
@@ -361,6 +361,6 @@ if __name__ == '__main__':
 	
 	template = """{{ user }}'s Page:{% for i in range(50) %} {{i}} {% endfor %}I have {{ len(friends) }}:<ul>	{% for friend in friends %}	<li>
 				{{friend}}		{% if len(friend) > (1000//160) %}			(that's a really long name!)		{% else %}			(poor effort of a name)
-				{% endif %}	</li>	{% endfor %}</ul><img src="{% gravatar jack.thatch@gmail.com %}"/>{# this is a comment! #}{# I could {% include "footer.html" %} if I wanted to! #}""".replace('\n','')
+				{% endif %}	</li>	{% endfor %}</ul><img src="{% gravatar 'jack.thatch@gmail.com' %}"/>{# this is a comment! #}{# I could {% include "footer.html" %} if I wanted to! #}""".replace('\n','')
 
 	assert render(template, context).replace('\n','').replace(' ','').replace('\t','') == result.replace('\n','').replace(' ','').replace('\t','')

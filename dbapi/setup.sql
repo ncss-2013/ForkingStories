@@ -76,7 +76,11 @@ REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, 
 REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)
     VALUES (0, 0, "Wizard Gandalf Style", "2013-01-13 13:14:27.044000", "Comment", 0);
 REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)
-    VALUES (1, 2, "Harry Potter and the Philosopher's Stone", "2013-01-13 13:14:27.044000", "Joint autobiography", 0);
+    VALUES (1, 2, "Harry Potter and the Philosopher's Stone", "2013-01-13 13:14:27.044000",
+    "Joint autobiography", 0);
+REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)
+    VALUES (5, 0, "Alex's old forum roleplay", "2013-01-13 16:14:27.044000",
+    "This is an old online roleplay I participated in.", 0);
 
    
 REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
@@ -110,6 +114,29 @@ REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, sto
 REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
     VALUES (8, "Mrs. Pot", 
     6, 10, 2, 1, 1, "2013-01-13 16:24:27.000000");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (9, "The Gate Keeper had been having a long day.
+    But then, most days were long. In his entire life, nothing very exciting had ever happened,
+    and he had never let in any important assembly of any kind. Maybe it was because none had come
+    to visit this land for a good couple of centuries, but the Keeper felt sure it was some kind of evil
+    trick that life was playing on him.", 
+    -1, 0, 0, 1, 5, "2013-01-13 16:50:27.000001");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (10, "It was then he saw this man covered in filthy rags walking up to the gate.
+    This was strange, there were very rarely any men this badly off in Protonia, as the rulers were very
+    kind, and there was always work at the massive farms of the kingdom. It was very possible that 
+    was an outsider to the kingdom. The Keeper thought for a moment. If this was a stranger from another
+    ..land.. that would make him the one who started contact with another race! This could be his big
+    chance! It was very strange that the watch towers hadn't spotted him from afar though. Either
+    they were slacking off, or this man was very stealthy. It was more likely they were slacking off.", 
+    9, 0, 0, 1, 5, "2013-01-13 16:51:27.000001");
+REPLACE INTO paragraphs (id, content, parent_id, votes, author_id, approved, story_id, created) 
+    VALUES (11, "'Hail! Welcome to the kingdom of Protonia. You seem to be a stranger of this land.
+    How may I ..um.. help you?', the Gate Keeper had never needed to say anything in that manner
+    that wasn't written on a script for him to announce before.", 
+    10, 0, 0, 1, 5, "2013-01-13 17:00:01.000099");
+ 
+
 
 REPLACE INTO rules (id, story_id, rule_def_id, params)
     VALUES (0, 0, 0, "0||6");

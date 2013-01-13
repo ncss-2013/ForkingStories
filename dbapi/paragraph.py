@@ -89,10 +89,17 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
         except IndexError:
             raise Exception('This paragraph does not belong to any exsiting'
                             ' story in the datebase.')
+    def up_vote(self):
+        self.votes += 1
+        return self.votes
+
+    def approve(self):
+        self.approved = 1
+    
     @classmethod
-    def create (clf, content:str, parent_id:int, votes:int,
+    def create (clf, content:str, parent_id:int,
                  author_id:int, approved:bool, story_id:int):
-        return Paragraph(None, content, parent_id, votes, author_id,
+        return Paragraph(None, content, parent_id, 0, author_id,
                          1 if approved else 0,
                          story_id, -1)
         
@@ -127,8 +134,10 @@ ORDER BY parent_id;''')
 
 if __name__ == '__main__':
     p = Paragraph.create('It\'s a cave troll! Save the hobbits! Aragorn!',
-                  1, 10, 0,
+                  0, 10, 0,
                   False, 0)
+    p.upvote()
+    assert p.votes == 11, 'p should have 11 votes'
     p.save()
 
     q = Paragraph.find('id', p.id, 'story_id')

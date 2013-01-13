@@ -91,6 +91,13 @@ WHERE id = ?''', (self.content, self.parent_id, self.votes,
     def up_vote(self):
         self.votes += 1
 
+    def chain_paragraph(self, userObj, content):
+        '''Returns a Paragraph object, that when saved, is the child
+of this paragraph.'''
+        from dbapi.story import Story
+        return Story.find('id', self.story_id
+                         )[0].add_paragraph(userObj, content, self.id)
+
     def approve(self):
         '''This method is currently obsolete and has no function. All paragraphs
 are approved by default.'''
@@ -146,6 +153,11 @@ if __name__ == '__main__':
     print(q[0].content)
     print('Author:', p.get_author())
     print('Story:', p.get_story())
+    p2 = p.chain_paragraph(p.get_author(), 'Hello World!')
+    p2.save()
+    print('id of p', p.id)
+    print('parent_id of p2', p2.parent_id)
     p.delete()
+    p2.delete()
             
             

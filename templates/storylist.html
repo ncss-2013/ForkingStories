@@ -3,29 +3,6 @@
     <h2>
         Current Stories
     </h2>
-    <div>
-        <form id='storysortbox'>
-            <select name='sort'>
-                <option>
-                    Title: A-Z
-                </option>
-                <option>
-                    Title: Z-A
-                </option>
-                <option>
-                    Most Likes
-                </option>
-                <option>
-                    Most Views
-                </option>
-            </select>
-            <input type='submit' value='Sort'>
-        </form>
-        <form id='storysearchbox' method="POST">
-            <input type ='search' name='storyquery' placeholder='Search'>
-            <input type='submit' value='Search'>
-        </form>
-    </div>
     <table id='storytable'>
         <tr>
             <th>
@@ -61,26 +38,28 @@
     </table>
 </div>
 <div class="main-right">
-    <form id='storysortbox'>
-        <select name='sort'>
-            <option>
-                Title: A-Z
-            </option>
-            <option>
-                Title: Z-A
-            </option>
-            <option>
-                Most Likes
-            </option>
-            <option>
-                Most Views
-            </option>
-        </select>
-        <input type='submit' value='Sort'>
-    </form>
-    <form id='searchbox' method="POST">
-        <input type ='search' name='storyquery' placeholder='Search'>
-        <input type='submit' value='Search'>
-    </form>
+    <div>
+        <form id='storysortbox'>
+            <select name='sort'>
+                <option>
+                    Title: A-Z
+                </option>
+                <option>
+                    Title: Z-A
+                </option>
+                <option>
+                    Most Likes
+                </option>
+                <option>
+                    Most Views
+                </option>
+            </select>
+            <input type='submit' value='Sort'>
+        </form>
+        <form id='storysearchbox' method="POST">
+            <input type ='search' name='storyquery' placeholder='Search'>
+            <input type='submit' value='Search'>
+        </form>
+    </div>
 </div>
 {% include "footer.html"%}

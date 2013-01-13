@@ -6,7 +6,7 @@
 <!-- This is where the rules for the story should go -->
     {% for paragraph in story.get_approved_paragraphs() %}
         {% exec pauthor = paragraph.get_author() %}
-        <p>{{ paragraph.content }} {% if pauthor %}<span class='authorname'> &mdash; {{ pauthor.username }} </span> {% endif %}</p>
+        <p>{{ paragraph.content }} {% if pauthor %}<span class='authorname'> &mdash; <a href="/user/{{ pauthor.username }}>{{ pauthor.username }}</a> </span> {% endif %}</p>
     {% endfor %}
     {% if current_user is not None %}
     <form id='storyadd' action="/add_to_story/{{ story.id }}" method="POST">

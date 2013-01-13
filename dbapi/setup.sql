@@ -58,19 +58,19 @@ CREATE TABLE IF NOT EXISTS comments (
 ) ;
 
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
-    VALUES (0, 'Barry', 'Schultz', 'barry_1233', '1234', "2000-11-16 00:00:00.00000",
+    VALUES (0, 'Barry', 'Schultz', 'barry_1233', "261da58a9c89ca6e5840cc9a65d9968a15a8b52599df61ef770210b5c2c8d09a", "2000-11-16 00:00:00.00000",
     'barry.sucks@gmail.com', "2000-11-16", 'Sydney', "Hi, I'm Barry!");
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
-    VALUES (1, 'Larry', 'Schultz', 'larry', '1234', "2000-11-16",
+    VALUES (1, 'Larry', 'Schultz', 'larry', '\x03\xacgB\x16\xf3\xe1\\v\x1e\xe1\xa5\xe2U\xf0g\x956#\xc8\xb3\x88\xb4E\x9e\x13\xf9x\xd7\xc8F\xf4', "2000-11-16",
     'larry.rocks@gmail.com', "2000-11-16", 'Sydney', "Hi, I'm not Barry!");    
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
-    VALUES (2, 'Harry', 'Potter', 'chosenone', 'voldemort', "31-7-1980",
+    VALUES (2, 'Harry', 'Potter', 'chosenone', '\x03\xacgB\x16\xf3\xe1\\v\x1e\xe1\xa5\xe2U\xf0g\x956#\xc8\xb3\x88\xb4E\x9e\x13\xf9x\xd7\xc8F\xf4', "31-7-1980",
     'killvoldemort@hogwarts.net.uk', "2000-11-16", 'London', "Hi, I defeated Voldy, suckers!");  
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
-    VALUES (3, 'Carry', 'Schultz', 'carry', '1234', "1998-09-22",
+    VALUES (3, 'Carry', 'Schultz', 'carry', '\x03\xacgB\x16\xf3\xe1\\v\x1e\xe1\xa5\xe2U\xf0g\x956#\xc8\xb3\x88\xb4E\x9e\x13\xf9x\xd7\xc8F\xf4', "1998-09-22",
     'carry@gmail.com', "2000-11-16", 'Sydney', "My brothers are twins.");
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, bio)
-    VALUES (4, 'Dominic', 'May', 'Lord_DeathMatch', '20133', "1996-08-07",
+    VALUES (4, 'Dominic', 'May', 'Lord_DeathMatch', '\x03\xacgB\x16\xf3\xe1\\v\x1e\xe1\xa5\xe2U\xf0g\x956#\xc8\xb3\x88\xb4E\x9e\x13\xf9x\xd7\xc8F\xf4', "1996-08-07",
     'jack.thatch@gmail.com', "2000-11-16", 'Sydney', "Hi, I'm Dom!!");
      
 REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)

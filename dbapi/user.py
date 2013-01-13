@@ -14,7 +14,7 @@ import dbapi.dbtime as dbtime
 from dbapi.paragraph import Paragraph as Paragraph
 #from dbapi.story import Story
 import dbapi.story
-import hashlib
+from hashlib import sha256 as sha_hash
 
 def nuke():
     conn.execute("DROP TABLE IF EXISTS users;")
@@ -86,7 +86,11 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
     @classmethod
     def login(cls, username, password):
         cur = conn.cursor()
-        #password = sha_hash(password)
+        s = sha_hash()
+        unhashed = username+password
+        unhashed = bytes(unhashed, encoding='utf8')
+        s.update(unhashed)
+        password = s.hexdigest()
         cur.execute("SELECT * FROM users WHERE password = ? AND username = ?",(password,username))
         user = cur.fetchone()
         if user == None:
@@ -95,7 +99,11 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
             return User.find('username',username)
 
     def create(fname, lname, username, password, dob, email, location, bio):
-        #password 
+        s = sha_hash()
+        unhashed = username+password
+        unhashed = bytes(unhashed, encoding='utf8')
+        s.update(unhashed)
+        password = s.hexdigest()
         joindate = dbtime.make_time_str()
         return User(None, fname, lname, username, password, dob, email, joindate, location, bio)
         
@@ -117,7 +125,6 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
             if len(results) != 0:
                 raise UsernameAlreadyExists()
             else:
-                print(self.username)
                 cur.execute("""INSERT INTO users (fname, lname, username, password, dob, email, joindate, location, bio)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio))

@@ -320,7 +320,7 @@ label{
 input[type="text"],
 input[type="password"],
 input[type="search"]
-textarea {
+    {
     float:right;
     clear:both;
     width:400px;
@@ -328,12 +328,21 @@ textarea {
     border: solid 1px #ccc;
 	padding: 6px 10px;
     background-color: #f5f5f5;
-    /*box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);*/
+    box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);
     }
 
-input[type="select"],
+input[type="select"]{
+    min-width:350px;
+    border-radius:2px;
+    border: solid 1px #ccc;
+	padding: 6px 6px;
+    background-color: #f5f5f5;
+    box-shadow: inset 0 2px 3px rgba(0,0,0,0.2);
+    }
+    
 textarea {
-    min-width:100px;
+    min-width:450px;
+    min-height: 100px;
     border-radius:2px;
     border: solid 1px #ccc;
 	padding: 6px 6px;

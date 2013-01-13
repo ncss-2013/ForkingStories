@@ -113,6 +113,17 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         cur.execute("UPDATE users SET "+ fieldname +" = ? WHERE id = ?",
                     (value, self.id))
 
+    def update_password(self,password):
+        s = sha_hash()
+        unhashed = self.username+password
+        unhashed = bytes(unhashed, encoding='utf8')
+        s.update(unhashed)
+        password = s.hexdigest()
+        cur = conn.cursor()
+        cur.execute("UPDATE users SET password = ? WHERE id = ?",
+                    (password, self.id))
+        
+
     def save(self):
         if self.id is None:
             cur = conn.cursor()

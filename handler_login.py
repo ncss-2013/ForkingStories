@@ -57,9 +57,9 @@ def changepassword(response):
     new_password_2 = response.get_field('new password 2')
     username = str(response.get_secure_cookie('username'), 'utf-8')
     if new_password_1 == new_password_2:
-        user = check_login(username, old_password)
+        user = check_login(username, old_password)[0]
         if user is not None:
-            user.update('password', new_password_1)
+            user.update_password(new_password_1)
             response.write('''
                 <!doctype html>
                 <html>

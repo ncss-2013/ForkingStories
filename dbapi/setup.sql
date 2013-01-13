@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS stories (
     author_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     created_time REAL NOT NULL,
+    author_init_comment TEXT NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -41,4 +42,4 @@ REPLACE INTO paragraphs VALUES (1, '"But you can dance!"', 0, 10,  0,
     1, 0, 1357962831.219);
 REPLACE INTO paragraphs VALUES (2, 'Wizard Gandalf style!', 1, 10, 0,
     1, 0, 1357962841.213);
-REPLACE INTO stories VALUES (0, 0, "This is such a cool story", 1357962841.213);
+REPLACE INTO stories VALUES (0, 0, "This is such a cool story", 1357962841.213, "Comment");

@@ -1,10 +1,8 @@
-#!/usr/bin/env python3
-"""Story package"""
 import __importfix__; __package__ = 'dbapi'
 
 from .__init__ import *
 from dbapi.paragraph import Paragraph as Paragraph
-import dbapi.user
+from dbapi.user import *
 import dbapi.dbtime as dbtime
 
 import sqlite3
@@ -19,26 +17,31 @@ class Story(object):
         delete() --> removes the story object from the database
         get_paragraphs() --> returns a list of paragraphs
                                 that belong to the story
-        get_author() --> returns author object that made the story
+        get_author() --> returns author object in a list that
+                            made the story
 
         find(field_name,field_value) --> returns a list of story objects
                                Valid field_names: 'id', 'created_time',
-                                           'title', 'author_id', 'all'
+                                           'title', 'author_id',
+                                           'author_init_comment', 'all'
         create(author_id, title) --> returns a new story object
+        get_accepted_paragraphs() --> returns paragraph objects that are acccepted
+                                        by having required number of votes
 
     '''
-    def __init__(self, story_id:int,author_id:int,title:str,created_time:float):
+    def __init__(self, story_id:int,author_id:int,title:str,created_time:float,author_init_comment:str):
         self.id = story_id
         self.author_id = author_id
         self.title = title
+        self.author_init_comment = author_init_comment
 
     def save(self):
         cur = conn.cursor()
         if self.id is None:
             time = dbtime.make_time_float()
             self.created_time = dbtime.create_datetime(time)
-            cur.execute("INSERT INTO stories VALUES (NULL, ?, ?, ?);",
-                        (self.author_id,self.title,time))
+            cur.execute("INSERT INTO stories VALUES (NULL, ?, ?, ?, ?);",
+                        (self.author_id,self.title,time,self.author_init_comment))
             self.id = cur.lastrowid
         else:
             cur.execute('''UPDATE stories SET
@@ -54,14 +57,12 @@ class Story(object):
             self.id = None
             conn.commit()
 
-    def get_paragraphs(self):
-        # TODO: Integrate with Paragraph stuff.
-        return Paragraph.get_approved_content(self.id)
+    def get_approved_paragraphs(self):
+        return Paragraph.get_approved_paragraphs(self.id)
 
     def get_author(self):
-        # TODO: Integrate with User stuff.
         cur = conn.cursor()
-        return dbapi.user.User.find('id', self.author_id)
+        return User.find('id', self.author_id)
     
     @classmethod
     def find(cls, field_name, field_value):
@@ -79,17 +80,17 @@ class Story(object):
         return stories
                     
     @classmethod
-    def create(cls, author_id:int, title:str):
-        return Story(None, author_id, title, None)
+    def create(cls, author_id:int, title:str, author_init_comment:str=''):
+        return Story(None, author_id, title, None, author_init_comment)
 
 if __name__ == "__main__":
     story = Story.create(12,'hello')
     story.save()
     stories = Story.find('author_id',12)
     author = story.get_author()
-    assert len(stories) > 0, 'stories should have at least 1 story'
+    assert len(stories) > 0, 'stroies should have at leats 1 story'
     count = len(stories)
-    stories[0].get_paragraphs()
+    stories[0].get_approved_paragraphs()
     story.delete()
     story.find('author_id',12)
     stories = Story.find('author_id',12)

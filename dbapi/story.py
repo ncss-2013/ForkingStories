@@ -24,13 +24,16 @@ class Story(object):
         find(field_name,field_value) --> returns a list of story objects
                                Valid field_names: 'id', 'created_time',
                                            'title', 'author',
-                                           'author_init_comment', 'all'
+                                           'author_init_comment', 'all', 'votes'
         create(author_obj, title, author_init_comment) --> returns a new story object,
                                                         author_init_comment is optional and
                                                         defults to an empty string
         get_accepted_paragraphs() --> returns paragraph objects that are acccepted
                                         by having required number of votes
-        add_paragraph(userObj, content) --> returns a paragraph object for the story
+        add_paragraph(userObj, content) --> returns a list of paragraph objects for the story
+        get_comments() --> returns a list of comment objects for the story
+        up_vote() --> increments the votes for the story
+        
     '''
     def __init__(self, story_id:int,author_id:int,title:str,created_time:str,author_init_comment:str, votes:int):
         self.id = story_id
@@ -65,6 +68,9 @@ class Story(object):
     def get_approved_paragraphs(self):
         return Paragraph.get_approved_paragraphs(self.id)
 
+    def get_comments(self):
+        return Comment.find('story_id', self.id)
+
     def up_vote():
         self.votes += 1
 
@@ -82,7 +88,7 @@ class Story(object):
         # --- End the part that Alex Mueller wrote ---
 
     def add_comment(self, userObj:object, content:str):
-        comment = Comment.create()
+        return Comment.create(userObj, self, content)
         
     
     @classmethod
@@ -122,6 +128,10 @@ if __name__ == "__main__":
     assert len(stories) > 0, 'stroies should have at least 1 story'
     count = len(stories)
     stories[0].get_approved_paragraphs()
+    comment=story.add_comment(user[0],'That was a cool read!')
+    comment.save()
+    story.get_comments()
+    comment.delete()
     story.delete()
     story.find('author_id',12)
     stories = Story.find('author_id',12)

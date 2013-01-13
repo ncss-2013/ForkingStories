@@ -15,8 +15,6 @@ def user(response, username):
 	    'requested_user': username
 	}
 
-	print(user)
-
 	html = template.render_file('templates/profile.html', context)
 	response.write(html)
 

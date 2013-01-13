@@ -14,6 +14,7 @@ import dbapi.dbtime as dbtime
 from dbapi.paragraph import Paragraph as Paragraph
 #from dbapi.story import Story
 import dbapi.story
+import hashlib
 
 def nuke():
     conn.execute("DROP TABLE IF EXISTS users;")
@@ -82,7 +83,19 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         return results
     #When you edit, use User.find()[0] (you can't edit multiple results, it will just edit the first one)
 
+    @classmethod
+    def login(cls, username, password):
+        cur = conn.cursor()
+        #password = sha_hash(password)
+        cur.execute("SELECT * FROM users WHERE password = ? AND username = ?",(password,username))
+        user = cur.fetchone()
+        if user == None:
+            return None
+        else:
+            return User.find('username',username)
+
     def create(fname, lname, username, password, dob, email, location, bio):
+        #password 
         joindate = dbtime.make_time_str()
         return User(None, fname, lname, username, password, dob, email, joindate, location, bio)
         
@@ -187,7 +200,11 @@ if __name__ == "__main__":
     s.save()
     s2 = User.find('username', 'barry_1233')[0]
     assert s2.fname != previous_name, "Name didn't change :("        
-
+    assert User.login('bill','hjtf') == None
+    assert User.login('barry_1233','1234') != None
     stories = s2.get_stories()
     assert len(stories), "Should have some stories"
+
+    #user = User.create('Shannon', 'Rothe', 'srothe', 'shannon', '11996', 'shannon.michael.rothe@gmail.com', 'Mudgee', 'Test')
+    #user.save()
 

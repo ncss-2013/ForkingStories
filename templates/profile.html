@@ -1,6 +1,6 @@
 {% include "templates/header.html" %}
 {% if user is not None %}
-<div>
+<div class="main-right">
     <a href='http://en.gravatar.com/'>
         <span id='profileimg'>
             <img src='{% gravatar user.email %}'>
@@ -12,7 +12,7 @@
         </h2>
     </span>
 </div>
-<div>
+<div class="main-left">
     <div>
         
         <strong>Name: </strong> {{ user.fname }} {{ user.lname }}<br />

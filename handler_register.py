@@ -37,7 +37,7 @@ def process_register(response):
 
     # Check username fits criteria (regex) and password matches the repeated password
     if username_pat.match(username) and password == repeat_password and not user_exists:
-        user = User.create(firstname, lastname, username, password, int(birthyear), int(birthmonth), int(birthday), email, location, bio, None)
+        user = User.create(firstname, lastname, username, password, int(birthyear), int(birthmonth), int(birthday), email, location, bio)
         user.save()
 
         response.redirect('/')

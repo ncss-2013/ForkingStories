@@ -2,6 +2,7 @@ import re
 import os
 import hashlib
 from html import escape
+from bs4 import BeautifulSoup
 
 __version__ = '0.05'
 
@@ -249,11 +250,11 @@ def parse_file(filename):
 
 	with open(filename) as f:
 		text = f.read()
-
 	return parse(text)
 
 # Lexes the template string and runs the parser, returning a parse tree:
 def parse(template):
+	template = re.sub(r'\s+',' ',template)
 	return parse_template(iter(lex(template)), template=template)
 
 # Recursive template parser, returning a parse tree:
@@ -384,15 +385,18 @@ def render(template, variables={}):
 	>>> render("{{string}}", variables={'string': 'this is a string'})
 	'this is a string'
 	"""
-	return parse(template).render(dict(variables.items()))
-
+	return prettify( parse(template).render(dict(variables.items())) )
 
 def render_file(filename, variables={}):
 	"""
 	Call with the relative path of the template as filename, and the list of variables as variables
 	"""
-	return parse_file(filename).render(dict(variables.items()))
+	return prettify( parse_file(filename).render(dict(variables.items())) )
 
+def prettify(rendered):
+	rendered = re.sub(r'\s+', ' ', rendered)
+	rendered = BeautifulSoup(rendered).prettify()
+	return '\n'.join(re.sub(r'^(\s+)', r'\1'*3, line) for line in rendered.splitlines())
 
 if __name__ == '__main__':
 	context = {
@@ -401,7 +405,6 @@ if __name__ == '__main__':
 		'age': 17
 	}
 	
-	result = r"""Bob'sPage:Ihave4:<ul><li>James(pooreffortofaname)</li><li>Dom(pooreffortofaname)</li><li>Who(pooreffortofaname)</li><li>TheDoctor(that'sareallylongname!)</li></ul><imgsrc="http://www.gravatar.com/avatar/5730cd5627b5cbed1c4b7b5f89fa9bd2"/>Thisis&lt;b&gt;escaped&lt;/b&gt;htmlbydefault.<marquee>Thisisunescapedhtml!</marquee>I&#x27;mavariable!RIGHTRIGHTRIGHT"""
+	result = r"""Bob'sPage:Ihave4:<ul><li>James(pooreffortofaname)</li><li>Dom(pooreffortofaname)</li><li>Who(pooreffortofaname)</li><li>TheDoctor(that'sareallylongname!)</li></ul><imgsrc="http://www.gravatar.com/avatar/5730cd5627b5cbed1c4b7b5f89fa9bd2"/>Thisis&lt;b&gt;escaped&lt;/b&gt;htmlbydefault.<marquee>Thisisunescapedhtml!</marquee>I'mavariable!RIGHTRIGHTRIGHT"""
 	template = r"""{{ user }}'s Page: I have {{ len(friends) }}:<ul>	{% for friend in friends %}	<li>		{{friend}}		{% if len(friend) > (1000//160) %}			(that's a really long name!)		{% else %}		(poor effort of a name)		{% endif %}	</li>{% endfor %}</ul><img src="{% gravatar 'jack.thatch@gmail.com' %}"/>{{ "This is <b> escaped </b> html by default." }}{% safe "<marquee> This is unescaped html! </marquee>" %}{% exec myvar = 'I exist!' %}{% ifdef myvar then myvar = "I'm a variable!" %}{{myvar}}{% ifndef myvar then myvar = "I don't exist!" else myvar = "I exist!" %}{% ifdef im_not_defined %}	WRONG{% else %}	RIGHT{% endif %}{% ifdef myvar %}	RIGHT{% endif %}{% ifndef myvar %}	WRONG{% else %}	RIGHT{% endif %} {# this is a comment! #} {# I could {% include "footer.html" %} if I wanted to! #}"""
-
 	assert render(template, context).replace('\n','').replace(' ','').replace('\t','') == result.replace('\n','').replace(' ','').replace('\t','')

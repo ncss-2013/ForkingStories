@@ -218,11 +218,11 @@ def lex(text):
 		end = match.end()
 		matches.append((matches[-1][1], start))
 		matches.append((start, end))
+	matches.append((matches[-1][1],len(text)))
 
 	# For each relevant block:
 	for block in (text[start:end] for start,end in matches if start < end):
-	
-#	for block in re.split(r'({{.*?}}|{%.*?%}|{#.*?#})', text, re.S | re.M):
+
 		# Try matching each of the tokens:
 		label = None
 		for token, regex in token_reg:

@@ -27,7 +27,7 @@
         {% else %}
             <div class='loginbox'>
                 <img src='{% gravatar current_user.email %}'>
-                <p>Welcome <a href='/user/{{current_user.username}}'>{{current_user.username}}</a>!</p>
+                <p>Welcome <a href='/user/{{current_user.username}}'>{{current_user.username}}</a></p>
                 <p><a href='/logout'>Logout</a> </p>
             </div>
         {% endif %}

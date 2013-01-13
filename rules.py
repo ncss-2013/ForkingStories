@@ -1,5 +1,6 @@
 import re
 
+
 class Rules(object):
 
     def letters_per_word(original:str, minimum:int=0, maximum:int=999):
@@ -76,24 +77,7 @@ every ___ words
 if __name__=="__main__":
     
     #these are tests for this function
-    assert Rules.max_num_words("hello", 5)
-    assert not Rules.max_num_words("hello hello hello", 2)
-    assert Rules.max_num_words("hello hello", 2)
-    assert Rules.max_num_words("", 3)
-    assert not Rules.max_num_words("hello blah", -3)
 
-    assert not Rules.include_words("banana", "c")
-    assert Rules.include_words("hello banana apple", "apple")
-    assert not Rules.include_words("hello banana apple", "ban")
-    assert Rules.include_words("hello banana apple", "")
-    assert Rules.include_words("hello banana apple", "hello banana")
-    assert not Rules.include_words("hello banana apple", "hello train")
-    assert Rules.include_words("hello banana apple", ["hello", "apple"])
-    
-
-    
-    # Waseem - letters_per_word and ban_on_words
-    
     assert not Rules.letters_per_word("cat it's", maximum = 3)
     assert Rules.letters_per_word("c-d", minimum = 3)
     assert Rules.letters_per_word("", minimum = 2)
@@ -103,3 +87,18 @@ if __name__=="__main__":
     assert Rules.ban_on_words("fjkalsd", [])
     assert not Rules.ban_on_words("blah blah blah", ['abc', 'blah'])
 
+    assert Rules.max_num_words("hello", 5)
+    assert not Rules.max_num_words("hello hello hello", 2)
+    assert Rules.max_num_words("hello hello", 2)
+    assert Rules.max_num_words("", 3)
+    assert not Rules.max_num_words("hello blah", -3)
+    
+
+
+    assert not Rules.include_words("banana", "c")
+    assert Rules.include_words("hello banana apple", "apple")
+    assert not Rules.include_words("hello banana apple", "ban")
+    assert Rules.include_words("hello banana apple", "")
+    assert Rules.include_words("hello banana apple", "hello banana")
+    assert not Rules.include_words("hello banana apple", "hello train")
+    assert Rules.include_words("hello banana apple", ["hello", "apple"])

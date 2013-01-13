@@ -4,14 +4,7 @@ from utils import set_error
 
 
 def check_login(username, password):
-    result = User.find('username', username)
-    if not result:
-        return None
-    else:
-        user = result[0]
-    if user is not None and username == user.username and password == user.password:
-        return user
-    return None
+    return User.login(username, password)
 
 
 def login(response):

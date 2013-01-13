@@ -5,7 +5,16 @@ import __importfix__; __package__ = 'dbapi'
 from .__init__ import *
 
 """
-get_rules() --> returns a list of tuples describing all rules [(id, name, description),...].
+
+letters_per_word
+banned_words
+max_num_words
+forced_words
+include_number_words
+
+
+get_rules() --> returns a dictionary where the key is a rule_def_name and
+                value is a description string
 
 get_rules_params(story_id) --> returns a list of tuples
     with name and parameters of rules applied on that story_id [("name", "params"),...]
@@ -22,7 +31,7 @@ This takes a list and inserts the seperator in to return a string.
 
 
 def str2list (data:str, seperator:str='||'):
-    """
+    """.
 This takes a list that is represented as a string with the given seperator '||'.
 And returns a list of strings.
     """
@@ -45,16 +54,23 @@ WHERE r.story_id = ?;""", (story_id,))
         cur.execute("""
 SELECT *
 FROM ruleDefs;""")
-        return cur.fetchall()
+        rulesDict = {}
+        for rule in cur.fetchall():
+            rulesDict[rule[1]] = rule[2]
+        return rulesDict
 
-    def add_rule(story_id, rule_def_id, params):
+    def add_rule(story_id:int, rule_def_name:str, params:str):
         cur = conn.cursor()
+        cur.execute("""
+SELECT id
+FROM ruleDefs
+WHERE name = ?
+""", (rule_def_name,))
+        rule_def_id = cur.fetchone()[0]
         cur.execute("""
 INSERT INTO rules (id, story_id, rule_def_id, params)
 VALUES (NULL, ?, ?, ?)
 """, (story_id, rule_def_id, params))
-
-
 
     def letters_per_word(original:str, minimum:str, maximum:str):
         """
@@ -165,8 +181,8 @@ if __name__=="__main__":
 
     #Rules.add_rule(0, 3, "100")
 
-    print(Rules.get_rules_params(0))
-    #print(Rules.get_rules())
+    #print(Rules.get_rules_params(0))
+    assert type({}) == type(Rules.get_rules())
 
     #need to fix method so this assert passes
-    #assert Rules.forced_words("cats.", "cats")
+    assert Rules.forced_words("cats.", "cats")

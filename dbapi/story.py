@@ -5,6 +5,7 @@ from dbapi.paragraph import Paragraph as Paragraph
 from dbapi.user import *
 from dbapi.comment import *
 import dbapi.dbtime as dbtime
+from dbapi.rules import *
 
 import sqlite3
 
@@ -41,6 +42,12 @@ class Story(object):
 
         up_vote() --> increments the votes for the story
 
+        set_rule(rule_def_name, parameter) --> gives the story a rule of type specified
+                                                with the parameter
+                                                Valid rule_def_names; 'letters_per_word',
+                                                'banned_words', 'max_num_words', 'forced_words',
+                                                'include_number_words'
+
         .created_time --> a time object from the time of first save to database
         .votes --> votes of the object
         
@@ -74,6 +81,7 @@ class Story(object):
             cur.execute("DELETE FROM stories WHERE id = ?",(self.id,))
             self.id = None
             conn.commit()
+            cur.execute("DELETE FROM rules WHERE story_id = ?",(self.id,))
 
     def get_approved_paragraphs(self):
         return Paragraph.get_approved_paragraphs(self.id)
@@ -103,14 +111,11 @@ class Story(object):
     def add_comment(self, userObj:object, content:str):
         return Comment.create(userObj, self, content)
 
-    def set_rule(self):
-        #TODO
-        pass
+    def set_rule(self, rule_def_name:str, params:str):
+        Rules.add_rule(self.id, rule_def_name, params)
 
-    def get_rules(self):
-        #cur = conn.cursor()
-        #cur.execute
-        pass
+    def check_rules(self, content:str):
+        return Rules.check(content, self.id)
         
     @classmethod
     def find(cls, field_name, field_value):
@@ -153,6 +158,8 @@ if __name__ == "__main__":
     comment.save()
     story.get_comments()
     comment.delete()
+    story.set_rule('banned_words','cat')
+    assert False == story.check_rules('the cat sat on the mat')
     story.delete()
     story.find('author_id',12)
     stories = Story.find('author_id',12)

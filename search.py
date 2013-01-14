@@ -35,7 +35,7 @@ from dbapi.story import Story
 class Document(object):
     with open(os.path.join('resources', 'stopwords.json')) as fh:
         stopwords = set(json.load(fh))
-    TOKEN_RE = re.compile(r"\w+", flags=re.UNICODE)
+    TOKEN_RE = re.compile(r"\W+", flags=re.UNICODE)
 
     def __init__(self, raw, name=None):
         self.name = name
@@ -125,7 +125,7 @@ def load_index(cursor, conn):
         save_index(cursor, conn, index)
         logging.debug('Saved to db. Took {} seconds'.format(time.time() - start))
 
-    pprint(index)
+    # pprint(index)
     return index
 
 
@@ -185,13 +185,12 @@ def search(cursor, conn, query):
 
     words = [x.lower() for x in Document.TOKEN_RE.split(query)]
 
-    logging.debug('End query;', [x for x in words if x not in Document.stopwords])
+    logging.debug('End query;', words)
 
-    words = (list(set(chain.from_iterable([x.keys() for x in index.values()]))))
     # logging.debug('Unique indexed words;', len(list(set(chain.from_iterable([x.keys() for x in index.values()])))))
-    logging.debug('Unique indexed words;', len(words))
+    logging.debug('Unique indexed words;', len(list(set(chain.from_iterable([x.keys() for x in index.values()])))))
 
-    scores = defaultdict(lambda: 0)
+    scores = defaultdict(float)
     for page in index:
         for word in words:
             if word in index[page]:
@@ -200,7 +199,7 @@ def search(cursor, conn, query):
     logging.debug('Relevant pages;', len(scores))
 
     scores = sorted(scores.items(), key=lambda x: x[1])[::-1]
-    pprint(scores)
+
     return scores
 
 

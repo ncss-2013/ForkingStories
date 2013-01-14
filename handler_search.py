@@ -1,4 +1,4 @@
-import logging
+# import logging
 import template
 from dbapi import conn
 from dbapi.story import Story
@@ -79,7 +79,7 @@ def search_results(response):
 
 def debug(response):
     # query = response.get_argument('storyquery')
-    query = 'hello world'
+    query = 'gandalf'
     response.write('{}<br/>'.format(search(conn.cursor(), conn, query)))
     index = load_index(conn.cursor(), conn)
     for doc in index:

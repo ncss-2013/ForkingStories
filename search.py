@@ -35,7 +35,7 @@ from dbapi.story import Story
 class Document(object):
     with open(os.path.join('resources', 'stopwords.json')) as fh:
         stopwords = set(json.load(fh))
-    TOKEN_RE = re.compile(r"\W+", flags=re.UNICODE)
+    TOKEN_RE = re.compile(r"\w+", flags=re.UNICODE)
 
     def __init__(self, raw, name=None):
         self.name = name
@@ -183,7 +183,7 @@ def search(cursor, conn, query):
 
     logging.debug('Docs;', len(index))
 
-    words = [x.lower() for x in Document.TOKEN_RE.split(query)]
+    words = [x.lower() for x in query.split()]
 
     logging.debug('End query;', words)
 

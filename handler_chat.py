@@ -3,7 +3,7 @@
 from collections import defaultdict
 from tornado import websocket
 import template
-from html import escape
+from html import escape 
 
 class ConnectionHandler(object):
 	

@@ -1,4 +1,5 @@
 #!/usr/local/bin/python3
+import os
 from tornado import Server
 
 # Handlers:
@@ -13,7 +14,7 @@ import handler_register
 import handler_search
 import handler_spellcheck
 
-server = Server()
+server = Server(port=int(os.environ.get('PORT', 8888)))
 server.register('/', handler_main.index)
 
 server.register('/login', handler_login.login)

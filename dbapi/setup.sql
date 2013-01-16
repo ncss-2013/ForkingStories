@@ -71,7 +71,7 @@ REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, 
     VALUES (3, 'Carry', 'Schultz', 'carry', '42c0386aedba0ad607852945a9ab3854055fe41f721989b8954f8993f829a8ce', "1998-09-22",
     'carry@gmail.com', "2000-11-16", 'Sydney', 0, "My brothers are twins.");
 REPLACE INTO users (id, fname, lname, username, password, dob, email, joindate, location, admin_level, bio)
-    VALUES (4, 'Dominic', 'May', 'Lord_DeathMatch', 'a83f7e6ceaed302344233980c22fb8ac72d5215564be2b9734e62e88a5fc367a', "1996-08-07",
+    VALUES (4, 'Dominic', 'May', 'Lord_DeathMatch', '2cce3767941bb4bb3368bc6a70eba2fa53d4431213a4f4a25010c04f79a4cb5d', "1996-08-07",
     'jack.thatch@gmail.com', "2000-11-16", 'Sydney', 10, "Hi, I'm Dom!!");
      
 REPLACE INTO stories (id,  author_id, title, created_time, author_init_comment, votes)

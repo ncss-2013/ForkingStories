@@ -21,7 +21,7 @@
         <strong>Bio: </strong> {{ user.bio }}<br/>
         <strong>Paragraphs Written: </strong> {{user.get_number_of_paragraphs_approved()}} <br />
         <strong>Stories Started: </strong> {% if not user.get_stories() %}no stories submitted{% endif %}
-	{% if current_user is not None and current_user.username == user.username %}
+	{% if current_user is not None and current_user.username == user.username and current_user.admin_level != 0 %}
         <br/><strong>Admin level:</strong> {{ user.admin_level }}
 	{% endif %}
 	<ul>

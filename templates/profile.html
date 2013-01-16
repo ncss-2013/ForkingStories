@@ -20,11 +20,15 @@
         <strong>Location: </strong> {{ user.location }}<br/>
         <strong>Bio: </strong> {{ user.bio }}<br/>
         <strong>Paragraphs Written: </strong> {{user.get_number_of_paragraphs_approved()}} <br />
-        <strong>Stories Started: </strong> {% if not user.get_stories() %}no stories submitted{% endif %}<ul>
+        <strong>Stories Started: </strong> {% if not user.get_stories() %}no stories submitted{% endif %}
+	{% if current_user is not None and current_user.username == user.username %}
+        <br/><strong>Admin level:</strong> {{ user.admin_level }}
+	{% endif %}
+	<ul>
         {% for story in user.get_stories() %} 
            <li><a href="/view_story/{{story.id}}">{{story.title}}</a></li>
         {% endfor %}
-         </ul>
+        </ul>
         {% if current_user is not None and current_user.username == user.username %}
         <input type='button' id='hidepass' value='Change Password'>
         <script src='/static/js/hidepasswordchange.js'></script>

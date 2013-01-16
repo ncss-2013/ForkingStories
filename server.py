@@ -13,6 +13,7 @@ import handler_user
 import handler_register
 import handler_search
 import handler_spellcheck
+import handler_misc
 
 server = Server(port=int(os.environ.get('PORT', 8888)))
 server.register('/', handler_main.index)
@@ -39,5 +40,9 @@ server.register('/process_register', handler_register.process_register)
 
 server.register('/search', handler_search.search_results)
 server.register('/spellcheck', handler_spellcheck.spellcheck)
+
+
+# this is something we forgot. add yourself if i forgot someone
+server.register('/credits', handler_misc.credits)
 
 server.run()

@@ -20,7 +20,7 @@
         <strong>Location: </strong> {{ user.location }}<br/>
         <strong>Bio: </strong> {{ user.bio }}<br/>
         <strong>Paragraphs Written: </strong> {{user.get_number_of_paragraphs_approved()}} <br />
-        <strong>Stories Started: {% if not user.get_stories() %}no stories submitted{% endif %}</strong> <ul>
+        <strong>Stories Started: </strong> {% if not user.get_stories() %}no stories submitted{% endif %}<ul>
         {% for story in user.get_stories() %} 
            <li><a href="/view_story/{{story.id}}">{{story.title}}</a></li>
         {% endfor %}

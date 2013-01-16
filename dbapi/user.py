@@ -176,9 +176,9 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
     def get_stories(self):
         cur = conn.cursor()
         cur.execute(
-            "SELECT s.id"
-            "FROM stories s JOIN users u ON s.author_id = u.id"
-            "WHERE u.id = ?",
+            """SELECT s.id
+            FROM stories s JOIN users u ON s.author_id = u.id
+            WHERE u.id = ?""",
             (self.id,))
         rows = cur.fetchall()
         results = []
@@ -205,9 +205,9 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
     def get_number_of_paragraphs_approved(self):
         cur = conn.cursor()
         cur.execute(
-            "SELECT id"
-            "FROM paragraphs"
-            "WHERE author_id = ? AND approved = 1",
+            """SELECT id
+            FROM paragraphs
+            WHERE author_id = ? AND approved = 1""",
             (self.id,))
         rows = cur.fetchall()
         results = []

@@ -30,7 +30,7 @@ class User(object):
 Use User.find(<fieldname for query>, <some query>) to fetch a list
 of User objects representing rows in the user table.
 
-Use User.create(fname, lname, username, password, dob, email, location, bio) to create a new User object.
+Use User.create(fname, lname, username, password, dob, email, location, bio, admin_level) to create a new User object.
 Id, joindate are created automatically. 
 
 Use User.save() to add the user row to the database.
@@ -53,7 +53,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
 
 '''
     
-    def __init__(self, uid, fname, lname, username, password, dob, email, joindate, location, bio):
+    def __init__(self, uid, fname, lname, username, password, dob, email, joindate, location, bio, admin_level):
         self.id = uid
         self.fname = fname
         self.lname = lname
@@ -64,6 +64,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         self.joindate = joindate
         self.location = location
         self.bio = bio
+        self.admin_level = admin_level
 
     @classmethod
     def find(cls, field_name:str, query:str = ""):
@@ -72,9 +73,9 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         """
         cur = conn.cursor()
         if field_name == "all":
-            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio FROM users")
+            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio, admin_level FROM users")
         else:
-            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio FROM users WHERE " + field_name + " = ?",
+            cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio, admin_level FROM users WHERE " + field_name + " = ?",
                     (query,))
         rows = cur.fetchall()
         results = []
@@ -105,7 +106,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         s.update(unhashed)
         password = s.hexdigest()
         joindate = dbtime.make_time_str()
-        return User(None, fname, lname, username, password, dob, email, joindate, location, bio)
+        return User(None, fname, lname, username, password, dob, email, joindate, location, bio, admin_level)
         
     #Don't use update, but don't delete it either!!!
     def update(self, fieldname, value):
@@ -136,9 +137,10 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
             if len(results) != 0:
                 raise UsernameAlreadyExists()
             else:
-                cur.execute("""INSERT INTO users (fname, lname, username, password, dob, email, joindate, location, bio)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                    (self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio))
+                cur.execute(
+                    "INSERT INTO users (fname, lname, username, password, dob, email, joindate, location, bio, admin_level)"
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio, self.admin_level))
                 self.id = cur.lastrowid
         else:
             self.update('fname', self.fname)
@@ -147,6 +149,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
             self.update('email', self.email)
             self.update('location', self.location)
             self.update('bio', self.bio)
+            self.update('admin_level', self.admin_level)
         conn.commit()
         #User name and id can't change
         return self
@@ -159,9 +162,10 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
 
     def get_contributed_stories(self):
         cur = conn.cursor()
-        cur.execute("""SELECT s.id
-            FROM stories s JOIN paragraphs p ON s.id = p.story_id JOIN users u ON p.author_id = u.id
-            WHERE u.id = ?""",
+        cur.execute(
+            "SELECT s.id"
+            "FROM stories s JOIN paragraphs p ON s.id = p.story_id JOIN users u ON p.author_id = u.id"
+            "WHERE u.id = ?",
             (self.id,))
         rows = cur.fetchall()
         results = []
@@ -171,9 +175,10 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
 
     def get_stories(self):
         cur = conn.cursor()
-        cur.execute("""SELECT s.id
-            FROM stories s JOIN users u ON s.author_id = u.id
-            WHERE u.id = ?""",
+        cur.execute(
+            "SELECT s.id"
+            "FROM stories s JOIN users u ON s.author_id = u.id"
+            "WHERE u.id = ?",
             (self.id,))
         rows = cur.fetchall()
         results = []
@@ -186,9 +191,10 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
 
     def get_number_of_paragraphs(self):
         cur = conn.cursor()
-        cur.execute("""SELECT id
-            FROM paragraphs
-            WHERE author_id = ?""",
+        cur.execute(
+            "SELECT id"
+            "FROM paragraphs"
+            "WHERE author_id = ?",
             (self.id,))
         rows = cur.fetchall()
         results = []
@@ -198,9 +204,10 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
 
     def get_number_of_paragraphs_approved(self):
         cur = conn.cursor()
-        cur.execute("""SELECT id
-            FROM paragraphs
-            WHERE author_id = ? AND approved = 1""",
+        cur.execute(
+            "SELECT id"
+            "FROM paragraphs"
+            "WHERE author_id = ? AND approved = 1",
             (self.id,))
         rows = cur.fetchall()
         results = []

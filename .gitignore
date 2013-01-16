@@ -37,3 +37,7 @@ nosetests.xml
 
 # python 3
 __pycache__
+
+
+# application specific
+database.db

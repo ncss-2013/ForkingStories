@@ -43,6 +43,9 @@
 			<!-- <a href='/add_to_stories'>Add to a Story</a>
             <a href="/view_story">View Story</a>  -->
             <a href='{{"/user/{}".format(current_user.username)}}'>My Profile</a>
+	    {% if current_user.admin_level != 0 %}
+		<a href="/admin">Admin Interface</a>
+	    {% endif %}
         {% endif %}
    </div>
    <div id="main"><!-- this is opening the main div that is closed in footer -->

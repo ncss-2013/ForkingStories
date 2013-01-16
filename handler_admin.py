@@ -15,7 +15,7 @@ class BaseAdmin(tornado.web.RequestHandler):
         if context['current_user'] and context['current_user'].admin_level >= 1:
             context['error'] = (response.get_secure_cookie('error_msg') or b'').decode()
             response.clear_cookie('error_msg')
-            response.actual_get(self, response, *args, **kwargs)
+            response.actual_get(context, *args, **kwargs)
         else:
             response.redirect('/')
 
@@ -23,6 +23,6 @@ class BaseAdmin(tornado.web.RequestHandler):
         raise NotImplementedError()
 
 class AdminIndex(BaseAdmin):
-    def actual_get(response):
-        response.write(html)
+    def actual_get(response, context, *args, **kwargs):
         html = template.render_file('templates/admin_index.html', context)
+        response.write(html)

@@ -6,4 +6,78 @@
     You are one of Group 2 of the National Computer Science School 2013.<br/>
     Congratulations<br/>
 </p>
+
+<h3>What this page allows</h3>
+<p>
+    This page allows someone with privelidges to change certain things on the website, such as;
+    <ul>
+	<li>Delete users</li>
+	<li>Delete stories/Paragraphs (to come)</li>
+    </ul>
+</p>
+
+<p>
+    <a href="javascript: $('#usertable').toggle()">Show users</a>
+    <table id='usertable' style="display:none;">
+        <tr>
+            <th>
+                Profile Pic
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                Paragraphs Written
+            </th>
+            <th>
+                Stories Started
+            </th>
+        </tr>
+        {% for user in users %}
+        <tr id="user_row" data-user-id="{{user.id}}">
+            <td>
+                <a href="/user/{{ user.username }}">
+                    <span id='profileimg'>
+                        <img height="30" width="30" src='{% gravatar user.email %}'>
+                    </span>
+                </a>
+            </td>
+            <td>
+                <a href="/user/{{ user.username }}">
+                    {{ user.username }}
+                </a>
+            </td>
+            <td>
+                {{user.get_number_of_paragraphs_approved()}}
+            </td>
+            <td>
+                {{user.get_number_of_stories()}}
+            </td>
+            <td>
+		<a href="javascript:delete_user({{user.id}})">Del</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script>
+        function delete_user(user_id){
+            $.getJSON('/admin/user/delete/' + user_id,
+                function(data){
+                    var element = $('[data-user-id="' + user_id +'"]');
+                    if (data.success) {
+                         $(element).hide()
+                         console.log('Deleted; ' + user_id);
+                    } else {
+                        if (data.msg != null) {
+                            if (data.msg == 'not_administrator') {
+                                 window.location.pathname = 'http://forking/'
+                            }
+                        }
+                   }
+                });
+        }            
+    </script>
+
+</div>
+
 {% include "footer.html" %}

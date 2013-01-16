@@ -44,7 +44,7 @@ server.register('/spellcheck', handler_spellcheck.spellcheck)
 
 # we need an admin/moderator interface
 server.register('/admin', handler_admin.AdminIndex)
-
+server.register(r'/admin/user/delete/(?P<user_id>\d+)', handler_admin.DeleteUser)
 
 
 # this is something we forgot. add yourself if i forgot someone

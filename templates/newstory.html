@@ -5,6 +5,7 @@
        <section>
          <form action="/process_new_story" method="POST" encoding='utf-8'>
            <label id='storytitle'>
+             Title:
              <input type='text' placeholder='Title' name='title' maxlength='30' required>
            </label>
            <label>
@@ -59,6 +60,9 @@ $(document).on('click', '.spelling dd a', function(event) {
                 <label>
                     Challenge Rules:
                     <select name='rule'>
+                        <option value='no_rules'>
+                            No Rules
+                        </option>
                         <option value='max_num_words'>
                             Maximum of 'X' words per submission.
                         </option>

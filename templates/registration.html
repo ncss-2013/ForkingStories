@@ -16,8 +16,8 @@
         </label>
         <label>
             Username:
-            <input type='text' name='username' required id='uname' maxlength='20'> 
-        </label> The username must be at least three letters or numbers.
+            <input type='text' name='username' required id='uname' maxlength='15'> 
+        </label> The username must be at least three letters or numbers and no more than 15.
         <label>
             Password:
             <input type='password' name='password' required id='password-initial' title='Passwords do not match!'>
@@ -36,11 +36,11 @@
         </label>
         <label>
             Location:
-            <input type='text' name='location'>
+            <input type='text' name='location' maxlength='30'>
         </label>
         <label>
             Tell us about yourself:<br>
-            <textarea name='bio'></textarea>
+            <textarea name='bio' maxlength='500'></textarea>
         </label>
         <label>
             <input type="submit" value="Register">

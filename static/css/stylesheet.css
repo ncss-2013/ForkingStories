@@ -97,8 +97,7 @@ a:hover, a:active {
 	padding: 5px;
     letter-spacing: 1px;
 	margin-bottom: 0;
-    color: #DDDDDD;
-	background-image: linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
+    color: #DDDDDD; background-image: linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
 	background-image: -o-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
 	background-image: -moz-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
 	background-image: -webkit-linear-gradient(bottom, rgb(0,102,51) 39%, rgb(58,58,58) 70%, rgb(58,58,58) 85%);
@@ -498,8 +497,7 @@ button:active
 
 .spelling dt {
     width: 100px;
-    font-weight: bold;
-    }
+    font-weight: bold; }
 
 .spelling dd {
     width: 450px;
@@ -549,3 +547,11 @@ button:active
 	text-align: center;
 	display: inline-block;
 }
+
+#inner-footer {
+    margin-top: 5px;
+    background-color: #2E2A2A;
+    padding-left: 5px;
+    width: 700px;
+}
+

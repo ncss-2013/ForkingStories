@@ -1,4 +1,4 @@
- #  File: search.py 
+ #  File: search.py
  #  Project: Forking Stories
  #  Component: Search engine
  #
@@ -15,10 +15,8 @@ import os
 import math
 import json
 import time
-import pickle
 import sqlite3
 import logging
-from pprint import pprint
 from itertools import chain
 from collections import defaultdict, Counter
 
@@ -137,23 +135,23 @@ def save_index(cursor, conn, index):
 class SearchIndex(object):
     def __init__(self, identifier, index=None):
         self.identifier = identifier
-        self.un_pickled_index = index if type(index) == dict else None
-        self.pickled_index = pickle.dumps(index) if type(index) == dict else index
+        self.non_json_index = index if type(index) == dict else None
+        self.json_index = json.dumps(index) if type(index) == dict else index
 
     @property
     def index(self):
-        if not self.un_pickled_index:
-            return pickle.loads(self.pickled_index)
+        if not self.non_json_index:
+            return json.loads(self.json_index)
         else:
-            return self.un_pickled_index
+            return self.non_json_index
 
     @index.setter
     def index_setter(self, index):
         if type(index) == dict:
-            self.un_pickled_index = index
+            self.non_json_index = index
         else:
-            self.un_pickled_index = pickle.loads(index)
-            self.pickled_index = index
+            self.non_json_index = json.loads(index)
+            self.json_index = index
 
     @classmethod
     def create(*args):
@@ -167,11 +165,11 @@ class SearchIndex(object):
         return index_models
 
     def put(self, cursor, conn):
-        if not self.pickled_index:
-            self.pickled_index = pickle.dumps(self.un_pickled_index)
+        if not self.json_index:
+            self.json_index = json.dumps(self.non_json_index)
         cursor.execute(
             'INSERT INTO SearchIndex VALUES (?, ?)',
-            (self.identifier, self.pickled_index))
+            (self.identifier, self.json_index))
         conn.commit()
 
 
@@ -194,7 +192,8 @@ def search(cursor, conn, query):
     logging.debug('Relevant pages; {}'.format(len(scores)))
     scores = sorted(scores.items(), key=lambda x: x[1])[::-1]
 
-    return scores 
+    return scores
+
 
 def create_table(conn, if_exists=False):
     if if_exists:
@@ -211,7 +210,7 @@ def main():
     create_table(conn)
 
     # do the search function
-    result = search(cursor, conn, input('Q? '))
+    search(cursor, conn, input('Q? '))
 
     # these are crap unit tests
 #    assert result, 'bad result; {}'.format(result)

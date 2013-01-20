@@ -1,5 +1,4 @@
- #  File: search.py
- #
+ #  File: search.py 
  #  Project: Forking Stories
  #  Component: Search engine
  #
@@ -24,7 +23,8 @@ from itertools import chain
 from collections import defaultdict, Counter
 
 # un-comment this line for debugging stuff
-logging.debug = print
+#logging.debug = print
+logging.debug = logging.info
 
 # project imports
 from dbapi.story import Story
@@ -89,9 +89,7 @@ def build_index(directory):
 
     for story in stories:
         logging.debug('\t *', story.title)
-        content = ''.join([
-            para.content + ' '
-            for para in story.get_approved_paragraphs()])
+        content = story.title + ' ' + ' '.join(story.get_approved_paragraphs())
         all_documents.append(Document(content, name=story.id))
 
     logging.debug('Ended after {}'.format(time.time() - start))
@@ -181,41 +179,32 @@ def search(cursor, conn, query):
 
     index = load_index(cursor, conn)
 
-    logging.debug('Docs;', len(index))
-
+    logging.debug('Docs; {}'.format(len(index)))
     words = [x.lower() for x in query.split()]
 
-    logging.debug('End query;', words)
-
+    logging.debug('End query; {}'.format(words))
     # logging.debug('Unique indexed words;', len(list(set(chain.from_iterable([x.keys() for x in index.values()])))))
-    logging.debug('Unique indexed words;', len(list(set(chain.from_iterable([x.keys() for x in index.values()])))))
-
+    logging.debug('Unique indexed words; {}'.format(len(list(set(chain.from_iterable([x.keys() for x in index.values()]))))))
     scores = defaultdict(float)
     for page in index:
         for word in words:
             if word in index[page]:
                 scores[page] += index[page][word]
 
-    logging.debug('Relevant pages;', len(scores))
-
+    logging.debug('Relevant pages; {}'.format(len(scores)))
     scores = sorted(scores.items(), key=lambda x: x[1])[::-1]
 
-    return scores
-
+    return scores 
 
 def create_table(conn, if_exists=False):
     if if_exists:
         conn.execute('DROP TABLE IF EXISTS SearchIndex')
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS SearchIndex (
-            identifier TEXT NOT NULL,
-            index_dict BLOB NOT NULL,
-            PRIMARY KEY(identifier)
-        );''')
+    conn.execute(open(os.path.join('dbapi', 'setup_commands', 'searchindex.sql')).read())
     conn.commit()
 
 
 def main():
+    # this is only for testing purposes; it should never be used outside of development >.>
     conn = sqlite3.connect(os.path.join('dbapi', 'database.db'))
     cursor = conn.cursor()
 
@@ -224,9 +213,10 @@ def main():
     # do the search function
     result = search(cursor, conn, input('Q? '))
 
-    assert result, 'bad result; {}'.format(result)
-    assert len(result) > 0, 'no results were returned'
-    assert len(load_index(conn.cursor(), conn)) >= 2, 'too few documents'
+    # these are crap unit tests
+#    assert result, 'bad result; {}'.format(result)
+#    assert len(result) > 0, 'no results were returned'
+#    assert len(load_index(conn.cursor(), conn)) >= 2, 'too few documents'
 
     conn.close()
 

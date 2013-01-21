@@ -7,6 +7,7 @@
  #              Mause
  #
  #  Description: uses the tf-idf algorithm to search the stories
+from __future__ import print_function
 
 
 # stlid imports
@@ -15,14 +16,13 @@ import os
 import math
 import json
 import time
-import sqlite3
 import logging
 from itertools import chain
 from collections import defaultdict, Counter
 
 # un-comment this line for debugging stuff
 #logging.debug = print
-logging.debug = logging.info
+#logging.debug = logging.info
 
 # project imports
 from dbapi.story import Story
@@ -66,39 +66,37 @@ def inverse_document_freq(word, document, all_documents):
     return math.log(len(all_documents) / instances_in_all)
 
 
-def build_index_for_doc(document, all_documents):
-    for word in document.tokens:
-        yield (
-            word,
-            (
-                term_freq(word, document, all_documents) *
-                inverse_document_freq(word, document, all_documents)
-            ))
-
-
 def build_index(directory):
 
     # read in the documents
     start = time.time()
     logging.debug('Reading in and tokenising the documents started at {}'.format(start))
 
-    all_documents = []
+    # grab the stories (headers for the stories anyway)
     stories = Story.find('all', '')
 
+    # load in the documents
+    all_documents = []
     for story in stories:
         logging.debug('\t *', story.title)
-        content = story.title + ' ' + ' '.join(story.get_approved_paragraphs())
+        content = story.title + ' ' + ' '.join([paragraph.content for paragraph in story.get_approved_paragraphs()])
         all_documents.append(Document(content, name=story.id))
 
-    logging.debug('Ended after {}'.format(time.time() - start))
+    logging.debug('Ended after {} seconds'.format(time.time() - start))
 
     start = time.time()
     logging.debug('Computing the word relevancy values started at {}'.format(start))
+
     # compute the index
     index = defaultdict(defaultdict)
     for document in all_documents:
-        index[document.name] = dict(build_index_for_doc(document, all_documents))
-    logging.debug('Ended after {}'.format(time.time() - start))
+        for word in document.tokens:
+            index[document.name][word] = (
+                term_freq(word, document, all_documents) *
+                inverse_document_freq(word, document, all_documents)
+            )
+
+    logging.debug('Ended after {} seconds'.format(time.time() - start))
     return index
 
 ############ Index storage code ############
@@ -135,13 +133,14 @@ def save_index(cursor, conn, index):
 class SearchIndex(object):
     def __init__(self, identifier, index=None):
         self.identifier = identifier
-        self.non_json_index = index if type(index) == dict else None
+        self.non_json_index = index if type(index) in [dict, defaultdict] else None
         self.json_index = json.dumps(index) if type(index) == dict else index
 
     @property
     def index(self):
         if not self.non_json_index:
-            return json.loads(self.json_index)
+            self.non_json_index = json.loads(self.json_index)
+            return self.non_json_index
         else:
             return self.non_json_index
 
@@ -165,12 +164,20 @@ class SearchIndex(object):
         return index_models
 
     def put(self, cursor, conn):
-        if not self.json_index:
+        if type(self.json_index) != str:
             self.json_index = json.dumps(self.non_json_index)
+
         cursor.execute(
             'INSERT INTO SearchIndex VALUES (?, ?)',
             (self.identifier, self.json_index))
         conn.commit()
+
+
+def create_table(conn, if_exists=False):
+    if if_exists:
+        conn.execute('DROP TABLE IF EXISTS SearchIndex')
+    conn.execute(open(os.path.join('dbapi', 'setup_tables', 'searchindex.sql')).read())
+    conn.commit()
 
 
 def search(cursor, conn, query):
@@ -195,27 +202,17 @@ def search(cursor, conn, query):
     return scores
 
 
-def create_table(conn, if_exists=False):
-    if if_exists:
-        conn.execute('DROP TABLE IF EXISTS SearchIndex')
-    conn.execute(open(os.path.join('dbapi', 'setup_tables', 'searchindex.sql')).read())
-    conn.commit()
-
-
 def main():
-    # this is only for testing purposes; it should never be used outside of development >.>
-    conn = sqlite3.connect(os.path.join('dbapi', 'database.db'))
+    from dbapi import conn
     cursor = conn.cursor()
 
-    create_table(conn)
+    create_table(conn, True)
 
     # do the search function
-    search(cursor, conn, input('Q? '))
-
-    # these are crap unit tests
-#    assert result, 'bad result; {}'.format(result)
-#    assert len(result) > 0, 'no results were returned'
-#    assert len(load_index(conn.cursor(), conn)) >= 2, 'too few documents'
+    results = search(cursor, conn, input('Q? '))
+    print()
+    for result in results:
+        print(Story.find('id', result[0])[0].title, '-->', result[1])
 
     conn.close()
 

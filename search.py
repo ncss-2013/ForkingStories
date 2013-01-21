@@ -198,7 +198,7 @@ def search(cursor, conn, query):
 def create_table(conn, if_exists=False):
     if if_exists:
         conn.execute('DROP TABLE IF EXISTS SearchIndex')
-    conn.execute(open(os.path.join('dbapi', 'setup_commands', 'searchindex.sql')).read())
+    conn.execute(open(os.path.join('dbapi', 'setup_tables', 'searchindex.sql')).read())
     conn.commit()
 
 

@@ -16,7 +16,12 @@ def authenticated(response):
          return (False, context)
 
 class EnsureAdmin(tornado.web.RequestHandler):
-    def get(response, *args, **kwargs):
+    def __new__(self, *args, **kwargs):
+        self.actual_get = self.get  # keep a reference to the child get
+        self.get = self.check_get   # overwrite the child's get method with one that checks if the user has the required privelidges
+        return super(EnsureAdmin, self).__new__(self, *args, **kwargs)
+
+    def check_get(response, *args, **kwargs):
         is_admin, context = authenticated(response)
 
         if is_admin:
@@ -26,11 +31,11 @@ class EnsureAdmin(tornado.web.RequestHandler):
         else:
             response.redirect('/')
 
-    def actual_get(self, *args, **kwargs):
+    def get(self, *args, **kwargs):
         raise NotImplementedError()
 
 class AdminIndex(EnsureAdmin):
-    def actual_get(response, context, *args, **kwargs):
+    def get(response, context, *args, **kwargs):
         context['users'] = User.find('all', '')
         html = template.render_file('templates/admin_index.html', context)
         response.write(html)

@@ -99,7 +99,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         else:
             return User.find('username',username)[0]
 
-    def create(fname, lname, username, password, dob, email, location, bio):
+    def create(fname, lname, username, password, dob, email, location, bio, admin_level=0):
         s = sha_hash()
         unhashed = username+password
         unhashed = bytes(unhashed, encoding='utf8')

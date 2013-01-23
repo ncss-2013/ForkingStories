@@ -44,6 +44,7 @@ def changepassword(response):
         response.write("<p>New password repeat not entered.</p>")
         return
 
+    # this line might error out if the user logged out while on the password change page
     username = str(response.get_secure_cookie('username'), 'utf-8')
     if new_password_1 == new_password_2:
         user = check_login(username, old_password)

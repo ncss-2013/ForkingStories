@@ -39,7 +39,7 @@ server.register('/process_new_story', handler_story.process_new_story)
 server.register('/register', handler_register.register)
 server.register('/process_register', handler_register.process_register)
 
-server.register('/search', handler_search.search_results)
+server.register('/search', handler_search.SearchStories)
 server.register('/spellcheck', handler_spellcheck.spellcheck)
 
 # we need an admin/moderator interface

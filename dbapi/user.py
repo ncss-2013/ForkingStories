@@ -31,7 +31,7 @@ Use User.find(<fieldname for query>, <some query>) to fetch a list
 of User objects representing rows in the user table.
 
 Use User.create(fname, lname, username, password, dob, email, location, bio, admin_level) to create a new User object.
-Id, joindate are created automatically. 
+Id, joindate are created automatically.
 
 Use User.save() to add the user row to the database.
 
@@ -52,7 +52,7 @@ Use u.get_number_of_paragraphs() to return an integer representing the number of
 Use u.get_number_of_paragraphs_approved() to return an integer representing the number of paragraphs the User has contributed that have been approved.
 
 '''
-    
+
     def __init__(self, uid, fname, lname, username, password, dob, email, joindate, location, bio, admin_level):
         self.id = uid
         self.fname = fname
@@ -107,7 +107,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         password = s.hexdigest()
         joindate = dbtime.make_time_str()
         return User(None, fname, lname, username, password, dob, email, joindate, location, bio, admin_level)
-        
+
     #Don't use update, but don't delete it either!!!
     def update(self, fieldname, value):
         cur = conn.cursor()
@@ -123,7 +123,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         cur = conn.cursor()
         cur.execute("UPDATE users SET password = ? WHERE id = ?",
                     (password, self.id))
-        
+
 
     def save(self):
         if self.id is None:
@@ -133,13 +133,13 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
 
             results = []
             for row in rows:
-                results += User(*row) 
+                results += User(*row)
             if len(results) != 0:
                 raise UsernameAlreadyExists()
             else:
                 cur.execute(
                     "INSERT INTO users (fname, lname, username, password, dob, email, joindate, location, bio, admin_level)"
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     (self.fname, self.lname, self.username, self.password, self.dob, self.email, self.joindate, self.location, self.bio, self.admin_level))
                 self.id = cur.lastrowid
         else:
@@ -214,7 +214,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         for row in rows:
             results += Paragraph.find("id", *row)
         return len(results)
-    
+
 
 if __name__ == "__main__":
     s = User.find('username', 'barry_1233')[0]
@@ -225,7 +225,7 @@ if __name__ == "__main__":
         s.fname = "Barry"
     s.save()
     s2 = User.find('username', 'barry_1233')[0]
-    assert s2.fname != previous_name, "Name didn't change :("        
+    assert s2.fname != previous_name, "Name didn't change :("
     assert User.login('bill','hjtf') == None
     assert User.login('barry_1233','1234') != None
     stories = s2.get_stories()

@@ -1,15 +1,12 @@
 #!/usr/bin/env python
+import tornado.web
 
 
-# def get_error(response, dest):
-#     r = (
-#         response.get_secure_cookie(dest) or b'').decode()
-#     response.clear_cookie(dest)
-#     return r
+class BaseRequestHandler(tornado.web.RequestHandler):
+    def __new__(self, *args, **kwargs):
+        # self.actual_get = self.get  # keep a reference to the child get
+        # self.get = self.check_get   # overwrite the child's get method with one that checks if the user has the required privelidges
+        return super(BaseRequestHandler, self).__new__(self, *args, **kwargs)
 
-
-# def set_error(response, k_v):
-#     for key, value in k_v.items():
-#         response.set_secure_cookie(key, value)
-#         # assert (response.get_secure_cookie(key)).decode() == value
-#     return response
+    def get(self, *args, **kwargs):
+        raise NotImplementedError()

@@ -3,6 +3,7 @@ import template
 import tornado.web
 from dbapi.user import User
 
+
 def authenticated(response):
     username = response.get_secure_cookie('username')
     context = {}
@@ -11,9 +12,10 @@ def authenticated(response):
     else:
         context['current_user'] = None
     if context['current_user'] and context['current_user'].admin_level >= 1:
-         return (True, context)
+        return (True, context)
     else:
-         return (False, context)
+        return (False, context)
+
 
 class EnsureAdmin(tornado.web.RequestHandler):
     def __new__(self, *args, **kwargs):
@@ -33,6 +35,7 @@ class EnsureAdmin(tornado.web.RequestHandler):
 
     def get(self, *args, **kwargs):
         raise NotImplementedError()
+
 
 class AdminIndex(EnsureAdmin):
     def get(response, context, *args, **kwargs):
@@ -54,10 +57,5 @@ class DeleteUser(tornado.web.RequestHandler):
                 output['success'] = False
         else:
             output['success'] = False
-            output['msg'] = 'not_administrator'            
-        response.write(output)
-
-
-
-
-
+            output['msg'] = 'not_administrator'
+        response.write(json.dumps(output))

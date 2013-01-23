@@ -7,7 +7,8 @@ Written by Melissa McKeogh and Jessica Zhang
 
 '''
 
-import __importfix__; __package__ = 'dbapi'
+import __importfix__
+__package__ = 'dbapi'
 from .__init__ import *
 import math
 import dbapi.dbtime as dbtime
@@ -16,13 +17,16 @@ from dbapi.paragraph import Paragraph as Paragraph
 import dbapi.story
 from hashlib import sha256 as sha_hash
 
+
 def nuke():
     conn.execute("DROP TABLE IF EXISTS users;")
     conn.execute("DROP TABLE IF EXISTS stories;")
     conn.execute("DROP TABLE IF EXISTS paragraphs;")
 
+
 class UsernameAlreadyExists(Exception):
     pass
+
 
 class User(object):
     '''This class represents a row in the user table.
@@ -67,7 +71,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         self.admin_level = admin_level
 
     @classmethod
-    def find(cls, field_name:str, query:str = ""):
+    def find(cls, field_name:str, query:str=""):
         """
         Arguments required, in order: the query (what the user is searching for), and the field name of the field they are searching in.
         """
@@ -84,51 +88,45 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
         return results
     #When you edit, use User.find()[0] (you can't edit multiple results, it will just edit the first one)
 
+    def _hash(self, username, password):
+        s = sha_hash()
+        unhashed = username + password
+        unhashed = bytes(unhashed, encoding='utf8')
+        s.update(unhashed)
+        return s.hexdigest()
+
     @classmethod
     def login(cls, username, password):
         cur = conn.cursor()
-        s = sha_hash()
-        unhashed = username+password
-        unhashed = bytes(unhashed, encoding='utf8')
-        s.update(unhashed)
-        password = s.hexdigest()
-        cur.execute("SELECT * FROM users WHERE password = ? AND username = ?",(password,username))
+        password = self._hash(username, password)
+        cur.execute("SELECT * FROM users WHERE password = ? AND username = ?", (password, username))
         user = cur.fetchone()
         if user == None:
             return None
         else:
-            return User.find('username',username)[0]
+            return User.find('username', username)[0]
 
     def create(fname, lname, username, password, dob, email, location, bio, admin_level=0):
-        s = sha_hash()
-        unhashed = username+password
-        unhashed = bytes(unhashed, encoding='utf8')
-        s.update(unhashed)
-        password = s.hexdigest()
+        password = self._hash(username, password)
         joindate = dbtime.make_time_str()
         return User(None, fname, lname, username, password, dob, email, joindate, location, bio, admin_level)
 
     #Don't use update, but don't delete it either!!!
     def update(self, fieldname, value):
         cur = conn.cursor()
-        cur.execute("UPDATE users SET "+ fieldname +" = ? WHERE id = ?",
+        cur.execute("UPDATE users SET {} = ? WHERE id = ?".format(fieldname),
                     (value, self.id))
 
-    def update_password(self,password):
-        s = sha_hash()
-        unhashed = self.username+password
-        unhashed = bytes(unhashed, encoding='utf8')
-        s.update(unhashed)
-        password = s.hexdigest()
+    def update_password(self, password):
+        password = self._hash(username, password)
         cur = conn.cursor()
         cur.execute("UPDATE users SET password = ? WHERE id = ?",
                     (password, self.id))
 
-
     def save(self):
         if self.id is None:
             cur = conn.cursor()
-            cur.execute("SELECT * FROM users WHERE username = ?",(self.username,))
+            cur.execute("SELECT * FROM users WHERE username = ?", (self.username,))
             rows = cur.fetchall()
 
             results = []
@@ -163,9 +161,9 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
     def get_contributed_stories(self):
         cur = conn.cursor()
         cur.execute(
-            "SELECT s.id"
-            "FROM stories s JOIN paragraphs p ON s.id = p.story_id JOIN users u ON p.author_id = u.id"
-            "WHERE u.id = ?",
+            """SELECT s.id
+            FROM stories s JOIN paragraphs p ON s.id = p.story_id JOIN users u ON p.author_id = u.id
+            WHERE u.id = ?""",
             (self.id,))
         rows = cur.fetchall()
         results = []
@@ -192,9 +190,9 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
     def get_number_of_paragraphs(self):
         cur = conn.cursor()
         cur.execute(
-            "SELECT id"
-            "FROM paragraphs"
-            "WHERE author_id = ?",
+            """SELECT id
+            FROM paragraphs
+            WHERE author_id = ?""",
             (self.id,))
         rows = cur.fetchall()
         results = []
@@ -226,11 +224,10 @@ if __name__ == "__main__":
     s.save()
     s2 = User.find('username', 'barry_1233')[0]
     assert s2.fname != previous_name, "Name didn't change :("
-    assert User.login('bill','hjtf') == None
-    assert User.login('barry_1233','1234') != None
+    assert User.login('bill', 'hjtf') == None
+    assert User.login('barry_1233', '1234') != None
     stories = s2.get_stories()
     assert len(stories), "Should have some stories"
 
     #user = User.create('Shannon', 'Rothe', 'srothe', 'shannon', '11996', 'shannon.michael.rothe@gmail.com', 'Mudgee', 'Test')
     #user.save()
-

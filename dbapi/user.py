@@ -7,6 +7,7 @@ Written by Melissa McKeogh and Jessica Zhang
 
 '''
 
+import logging
 import __importfix__
 __package__ = 'dbapi'
 from .__init__ import *
@@ -82,32 +83,30 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
             cur.execute("SELECT id, fname, lname, username, password, dob, email, joindate, location, bio, admin_level FROM users WHERE " + field_name + " = ?",
                     (query,))
         rows = cur.fetchall()
-        results = []
-        for row in rows:
-            results.append(User(*row))
-        return results
+        return [User(*row) for row in rows]
     #When you edit, use User.find()[0] (you can't edit multiple results, it will just edit the first one)
 
+    @classmethod
     def _hash(self, username, password):
-        s = sha_hash()
-        unhashed = username + password
-        unhashed = bytes(unhashed, encoding='utf8')
-        s.update(unhashed)
-        return s.hexdigest()
+        return sha_hash(bytes(username + password, encoding='utf8')).hexdigest()
 
     @classmethod
     def login(cls, username, password):
         cur = conn.cursor()
-        password = self._hash(username, password)
-        cur.execute("SELECT * FROM users WHERE password = ? AND username = ?", (password, username))
+
+        up_hash = cls._hash(username, password)
+
+        logging.info('{}:{} -> {}'.format(username, password, up_hash))
+        cur.execute("SELECT * FROM users WHERE password = ? AND username = ?", (up_hash, username))
         user = cur.fetchone()
         if user == None:
             return None
         else:
             return User.find('username', username)[0]
 
-    def create(fname, lname, username, password, dob, email, location, bio, admin_level=0):
-        password = self._hash(username, password)
+    @classmethod
+    def create(cls, fname, lname, username, password, dob, email, location, bio, admin_level=0):
+        password = cls._hash(username, password)
         joindate = dbtime.make_time_str()
         return User(None, fname, lname, username, password, dob, email, joindate, location, bio, admin_level)
 
@@ -118,7 +117,7 @@ Use u.get_number_of_paragraphs_approved() to return an integer representing the 
                     (value, self.id))
 
     def update_password(self, password):
-        password = self._hash(username, password)
+        password = self._hash(self.username, password)
         cur = conn.cursor()
         cur.execute("UPDATE users SET password = ? WHERE id = ?",
                     (password, self.id))

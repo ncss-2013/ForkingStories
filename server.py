@@ -17,9 +17,9 @@ import handler_misc
 import handler_admin
 
 server = Server(port=int(os.environ.get('PORT', 8888)))
+
 server.register('/', handler_main.index)
 
-server.register('/login', handler_login.login)
 server.register('/authenticate', handler_login.authenticate)
 server.register('/logout', handler_login.logout)
 server.register('/changepassword', handler_login.changepassword)
@@ -40,12 +40,12 @@ server.register('/register', handler_register.register)
 server.register('/process_register', handler_register.process_register)
 
 server.register('/search', handler_search.SearchStories)
+
 server.register('/spellcheck', handler_spellcheck.spellcheck)
 
 # we need an admin/moderator interface
 server.register('/admin', handler_admin.AdminIndex)
 server.register(r'/admin/user/delete/(?P<user_id>\d+)', handler_admin.DeleteUser)
-
 
 # this is something we forgot. add yourself if i forgot someone
 server.register('/credits', handler_misc.credits)

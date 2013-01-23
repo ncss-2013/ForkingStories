@@ -13,9 +13,9 @@ def authenticated(response):
     else:
         context['current_user'] = None
     if context['current_user'] and context['current_user'].admin_level >= 1:
-        return (True, context)
+        return (True, context, context['current_user'].admin_level)
     else:
-        return (False, context)
+        return (False, context, 0)
 
 
 class EnsureAdmin(tornado.web.RequestHandler):
@@ -34,9 +34,12 @@ class EnsureAdmin(tornado.web.RequestHandler):
         return super(EnsureAdmin, self).__new__(self, *args, **kwargs)
 
     def check_get(response, *args, **kwargs):
-        is_admin, context = authenticated(response)
+        is_admin, context, admin_level = authenticated(response)
 
-        if is_admin:
+        # determine the minimum required admin level to access this page
+        minimum_al = response.minimum if hasattr(response, 'minimum') else 1
+
+        if is_admin and admin_level > minimum_al:
             context['error'] = (response.get_secure_cookie('error_msg') or b'').decode()
             response.clear_cookie('error_msg')
             # print('passg')
@@ -52,6 +55,9 @@ class EnsureAdmin(tornado.web.RequestHandler):
 
 
 class AdminIndex(EnsureAdmin):
+    # minimum admin level required to access this page
+    minimum = 1
+
     def get(response, context, *args, **kwargs):
         context['users'] = User.find('all', '')
         html = template.render_file('templates/admin_index.html', context)

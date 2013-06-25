@@ -1,8 +1,8 @@
 #!/bin/bash
 
-cd "$(dirname "$0")"
+cd "$0"
 
-PYTHON="python3.3"
+#PYTHON="python3.3"
 FILES=$(find ./ -iname \*\*.py | grep -v " ")
 TESTS=$(grep -l __main__ $FILES | grep -v tornado | grep -v bs4)
 

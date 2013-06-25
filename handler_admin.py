@@ -31,7 +31,7 @@ class EnsureAdmin(tornado.web.RequestHandler):
         else:
             logging.info('I am setup')
 
-        return super(EnsureAdmin, self).__new__(self, *args, **kwargs)
+        return super(EnsureAdmin, self).__new__(self)  # , *args, **kwargs)
 
     def check_get(response, *args, **kwargs):
         is_admin, context, admin_level = authenticated(response)

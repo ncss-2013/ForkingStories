@@ -7,3 +7,6 @@ Hosts submit a story beginning, and sets some rules to make the task more challe
 creating forks, (diverging paths) to whole new stories.
 
 Not feeling inspired today? Make your mark by voting for the best submissions submitted, and help build the story!
+
+Credits can be viewed in the templates/credits.html file or at http://forkingstories.com/credits
+

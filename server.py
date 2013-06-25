@@ -16,7 +16,7 @@ import handler_spellcheck
 import handler_misc
 import handler_admin
 
-server = Server(port=int(os.environ.get('PORT', 8888)))
+server = Server(port=int(os.environ.get('PORT', 8080)))
 
 server.register('/', handler_main.index)
 
